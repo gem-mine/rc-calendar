@@ -180,7 +180,7 @@ const Picker = React.createClass({
   },
 
   focusCalendar() {
-    if (this.state.open && this.calendarInstance !== null) {
+    if (this.state.open && !!this.calendarInstance) {
       this.calendarInstance.focus();
     }
   },
