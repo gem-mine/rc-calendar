@@ -1,6 +1,6 @@
 {
   "name": "@sdp.nd/rc-calendar",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Calendar",
   "keywords": [
     "react",
@@ -70,6 +70,6 @@
     "classnames": "2.x",
     "moment": "2.x",
     "rc-trigger": "1.x",
-    "rc-util": "3.x"
+    "rc-util": "^4.0.1"
   }
 }
