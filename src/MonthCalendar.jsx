@@ -57,17 +57,21 @@ const MonthCalendar = React.createClass({
 
   render() {
     const props = this.props;
-    const children = (<MonthPanel
-      locale={props.locale}
-      disabledDate={props.disabledDate}
-      style={{ position: 'relative' }}
-      value={this.state.value}
-      cellRender={props.monthCellRender}
-      contentRender={props.monthCellContentRender}
-      rootPrefixCls={props.prefixCls}
-      onChange={this.setValue}
-      onSelect={this.onSelect}
-    />);
+    const children = [
+      props.renderSidebar(),
+      <MonthPanel
+        key="panel"
+        locale={props.locale}
+        disabledDate={props.disabledDate}
+        style={{ position: 'relative' }}
+        value={this.state.value}
+        cellRender={props.monthCellRender}
+        contentRender={props.monthCellContentRender}
+        rootPrefixCls={props.prefixCls}
+        onChange={this.setValue}
+        onSelect={this.onSelect}
+      />
+    ];
     return this.renderRoot({
       children,
     });
