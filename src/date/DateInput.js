@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
+import {browser} from '../util/index'
+
+const browserUa = typeof window !== 'undefined' ? browser(window.navigator) : '';
 
 const DateInput = React.createClass({
   propTypes: {
@@ -96,7 +99,9 @@ const DateInput = React.createClass({
   focus() {
     this.refs.dateInput.focus();
   },
-
+  onPlaceholderClick() {
+    this.focus();
+  },
   render() {
     const props = this.props;
     const { invalid, str } = this.state;
@@ -104,6 +109,8 @@ const DateInput = React.createClass({
     const invalidClass = invalid ? `${prefixCls}-input-invalid` : '';
     return (<div className={`${prefixCls}-input-wrap`}>
       <div className={`${prefixCls}-date-input-wrap`}>
+        {((browserUa === 'MSIE 8' || browserUa === 'MSIE 9') && str.length === 0) ?
+          <span className={`${prefixCls}-input-placeholder`} onClick={this.onPlaceholderClick}>{placeholder}</span> : null}
         <input
           ref="dateInput"
           className={`${prefixCls}-input ${invalidClass}`}

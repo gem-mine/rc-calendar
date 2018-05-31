@@ -11,6 +11,10 @@
 
   &-date-input-wrap {
     overflow: hidden;
+    position: relative;
+    .@{prefixClass}-input-placeholder {
+      left: 8px;
+    }
   }
   &-time-picker {
     position: absolute;
@@ -60,6 +64,13 @@
         display: none;
       }
     }
+  }
+
+  &-input-placeholder {
+    color: #bfbfbf;
+    position: absolute;
+    line-height: 22px;
+    left: 4px;
   }
 
   &-input {
