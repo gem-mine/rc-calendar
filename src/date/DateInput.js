@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
+import NdInput from '@sdp.nd/nd-input'
 
 const DateInput = React.createClass({
   propTypes: {
@@ -94,7 +95,14 @@ const DateInput = React.createClass({
   },
 
   focus() {
-    this.refs.dateInput.focus();
+    this.dateInput.focus();
+  },
+
+  saveNdInput(node) {
+    this.dateInput = node && node.inputRef;
+    // 兼容this.refs引用
+    this.refs = Object.assign({}, this.refs);
+    this.refs.dateInput = node && node.inputRef;
   },
 
   render() {
@@ -104,8 +112,9 @@ const DateInput = React.createClass({
     const invalidClass = invalid ? `${prefixCls}-input-invalid` : '';
     return (<div className={`${prefixCls}-input-wrap`}>
       <div className={`${prefixCls}-date-input-wrap`}>
-        <input
-          ref="dateInput"
+        <NdInput
+          ref={this.saveNdInput}
+          prefixCls={`${prefixCls}`}
           className={`${prefixCls}-input ${invalidClass}`}
           value={str}
           disabled={props.disabled}
