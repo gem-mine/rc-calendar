@@ -1,84 +1,84 @@
-import moment from 'moment';
+import moment from 'moment'
 
 const defaultDisabledTime = {
-  disabledHours() {
-    return [];
+  disabledHours () {
+    return []
   },
-  disabledMinutes() {
-    return [];
+  disabledMinutes () {
+    return []
   },
-  disabledSeconds() {
-    return [];
-  },
-};
-
-export function getTodayTime(value) {
-  const today = moment();
-  today.locale(value.locale()).utcOffset(value.utcOffset());
-  return today;
+  disabledSeconds () {
+    return []
+  }
 }
 
-export function getTitleString(value) {
-  return `${value.year()}-${value.month() + 1}-${value.date()}`;
+export function getTodayTime (value) {
+  const today = moment()
+  today.locale(value.locale()).utcOffset(value.utcOffset())
+  return today
 }
 
-export function getTodayTimeStr(value) {
-  const today = getTodayTime(value);
-  return getTitleString(today);
+export function getTitleString (value) {
+  return `${value.year()}-${value.month() + 1}-${value.date()}`
 }
 
-export function syncTime(from, to) {
-  to.hour(from.hour());
-  to.minute(from.minute());
-  to.second(from.second());
+export function getTodayTimeStr (value) {
+  const today = getTodayTime(value)
+  return getTitleString(today)
 }
 
-export function getTimeConfig(value, disabledTime) {
-  let disabledTimeConfig = disabledTime ? disabledTime(value) : {};
+export function syncTime (from, to) {
+  to.hour(from.hour())
+  to.minute(from.minute())
+  to.second(from.second())
+}
+
+export function getTimeConfig (value, disabledTime) {
+  let disabledTimeConfig = disabledTime ? disabledTime(value) : {}
   disabledTimeConfig = {
     ...defaultDisabledTime,
-    ...disabledTimeConfig,
-  };
-  return disabledTimeConfig;
+    ...disabledTimeConfig
+  }
+  return disabledTimeConfig
 }
 
-export function isTimeValidByConfig(value, disabledTimeConfig) {
-  let invalidTime = false;
+export function isTimeValidByConfig (value, disabledTimeConfig) {
+  let invalidTime = false
   if (value) {
-    const hour = value.hour();
-    const minutes = value.minute();
-    const seconds = value.second();
-    const disabledHours = disabledTimeConfig.disabledHours();
+    const hour = value.hour()
+    const minutes = value.minute()
+    const seconds = value.second()
+    const disabledHours = disabledTimeConfig.disabledHours()
     if (disabledHours.indexOf(hour) === -1) {
-      const disabledMinutes = disabledTimeConfig.disabledMinutes(hour);
+      const disabledMinutes = disabledTimeConfig.disabledMinutes(hour)
       if (disabledMinutes.indexOf(minutes) === -1) {
-        const disabledSeconds = disabledTimeConfig.disabledSeconds(hour, minutes);
-        invalidTime = disabledSeconds.indexOf(seconds) !== -1;
+        const disabledSeconds = disabledTimeConfig.disabledSeconds(hour, minutes)
+        invalidTime = disabledSeconds.indexOf(seconds) !== -1
       } else {
-        invalidTime = true;
+        invalidTime = true
       }
     } else {
-      invalidTime = true;
+      invalidTime = true
     }
   }
-  return !invalidTime;
+  return !invalidTime
 }
 
-export function isTimeValid(value, disabledTime) {
-  const disabledTimeConfig = getTimeConfig(value, disabledTime);
-  return isTimeValidByConfig(value, disabledTimeConfig);
+export function isTimeValid (value, disabledTime) {
+  const disabledTimeConfig = getTimeConfig(value, disabledTime)
+  return isTimeValidByConfig(value, disabledTimeConfig)
 }
 
-export function isAllowedDate(value, disabledDate, disabledTime) {
+export function isAllowedDate (value, disabledDate, disabledTime) {
   if (disabledDate) {
     if (disabledDate(value)) {
-      return false;
+      return false
     }
   }
   if (disabledTime) {
     if (!isTimeValid(value, disabledTime)) {
-      return false;
+      return false
     }
   }
-  return true;
+  return true
 }

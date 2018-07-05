@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
-import DateTable from './date/DateTable';
-import MonthTable from './month/MonthTable';
-import CalendarMixin from './mixin/CalendarMixin';
-import CommonMixin from './mixin/CommonMixin';
-import CalendarHeader from './full-calendar/CalendarHeader';
+import React, { PropTypes } from 'react'
+import DateTable from './date/DateTable'
+import MonthTable from './month/MonthTable'
+import CalendarMixin from './mixin/CalendarMixin'
+import CommonMixin from './mixin/CommonMixin'
+import CalendarHeader from './full-calendar/CalendarHeader'
 
 const FullCalendar = React.createClass({
   propTypes: {
@@ -21,52 +21,52 @@ const FullCalendar = React.createClass({
     headerComponent: PropTypes.object, // The whole header component
     headerRender: PropTypes.func,
     showHeader: PropTypes.bool,
-    disabledDate: PropTypes.func,
+    disabledDate: PropTypes.func
   },
   mixins: [CommonMixin, CalendarMixin],
-  getDefaultProps() {
+  getDefaultProps () {
     return {
       defaultType: 'date',
       fullscreen: false,
       showTypeSwitch: true,
       showHeader: true,
-      onTypeChange() {
-      },
-    };
+      onTypeChange () {
+      }
+    }
   },
-  getInitialState() {
-    let type;
+  getInitialState () {
+    let type
     if ('type' in this.props) {
-      type = this.props.type;
+      type = this.props.type
     } else {
-      type = this.props.defaultType;
+      type = this.props.defaultType
     }
     return {
-      type,
-    };
+      type
+    }
   },
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if ('type' in nextProps) {
       this.setState({
-        type: nextProps.type,
-      });
+        type: nextProps.type
+      })
     }
   },
-  onMonthSelect(value) {
+  onMonthSelect (value) {
     this.onSelect(value, {
-      target: 'month',
-    });
+      target: 'month'
+    })
   },
-  setType(type) {
+  setType (type) {
     if (!('type' in this.props)) {
       this.setState({
-        type,
-      });
+        type
+      })
     }
-    this.props.onTypeChange(type);
+    this.props.onTypeChange(type)
   },
-  render() {
-    const props = this.props;
+  render () {
+    const props = this.props
     const {
       locale,
       prefixCls,
@@ -74,19 +74,19 @@ const FullCalendar = React.createClass({
       showHeader,
       headerComponent,
       headerRender,
-      disabledDate,
-    } = props;
-    const { value, type } = this.state;
+      disabledDate
+    } = props
+    const { value, type } = this.state
 
-    let header = null;
+    let header = null
     if (showHeader) {
       if (headerRender) {
-        header = headerRender(value, type, locale);
+        header = headerRender(value, type, locale)
       } else {
-        const TheHeader = headerComponent || CalendarHeader;
+        const TheHeader = headerComponent || CalendarHeader
         header = (
           <TheHeader
-            key="calendar-header"
+            key='calendar-header'
             {...props}
             prefixCls={`${prefixCls}-full`}
             type={type}
@@ -94,7 +94,7 @@ const FullCalendar = React.createClass({
             onTypeChange={this.setType}
             onValueChange={this.setValue}
           />
-        );
+        )
       }
     }
 
@@ -118,27 +118,26 @@ const FullCalendar = React.createClass({
         value={value}
         disabledDate={disabledDate}
       />
-    );
+    )
 
     const children = [
       header,
-      (<div key="calendar-body" className={`${prefixCls}-calendar-body`}>
-        { table }
-      </div>),
-    ];
+      (<div key='calendar-body' className={`${prefixCls}-calendar-body`}>
+        {table}
+      </div>)
+    ]
 
-
-    const className = [`${prefixCls}-full`];
+    const className = [`${prefixCls}-full`]
 
     if (fullscreen) {
-      className.push(`${prefixCls}-fullscreen`);
+      className.push(`${prefixCls}-fullscreen`)
     }
 
     return this.renderRoot({
       children,
-      className: className.join(' '),
-    });
-  },
-});
+      className: className.join(' ')
+    })
+  }
+})
 
-export default FullCalendar;
+export default FullCalendar
