@@ -1,7 +1,7 @@
-import { PropTypes } from 'react'
-import enUs from '../locale/en_US'
+import { PropTypes } from 'react';
+import enUs from '../locale/en_US';
 
-function noop () {
+function noop() {
 }
 
 export default {
@@ -13,10 +13,10 @@ export default {
     onSelect: PropTypes.func,
     prefixCls: PropTypes.string,
     onChange: PropTypes.func,
-    onOk: PropTypes.func
+    onOk: PropTypes.func,
   },
 
-  getDefaultProps () {
+  getDefaultProps() {
     return {
       locale: enUs,
       style: {},
@@ -26,35 +26,35 @@ export default {
       onSelect: noop,
       onChange: noop,
       onClear: noop,
-      renderFooter () {
-        return null
+      renderFooter() {
+        return null;
       },
-      renderSidebar () {
-        return null
-      }
-    }
+      renderSidebar() {
+        return null;
+      },
+    };
   },
 
-  shouldComponentUpdate (nextProps) {
-    return this.props.visible || nextProps.visible
+  shouldComponentUpdate(nextProps) {
+    return this.props.visible || nextProps.visible;
   },
 
-  getFormat () {
-    let { format } = this.props
-    const { locale, timePicker } = this.props
+  getFormat() {
+    let { format } = this.props;
+    const { locale, timePicker } = this.props;
     if (!format) {
       if (timePicker) {
-        format = locale.dateTimeFormat
+        format = locale.dateTimeFormat;
       } else {
-        format = locale.dateFormat
+        format = locale.dateFormat;
       }
     }
-    return format
+    return format;
   },
 
-  focus () {
+  focus() {
     if (this.refs.root) {
-      this.refs.root.focus()
+      this.refs.root.focus();
     }
-  }
-}
+  },
+};

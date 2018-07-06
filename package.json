@@ -33,12 +33,11 @@
     "port": 8002
   },
   "scripts": {
-    "lint": "stylelint \"src/**/*.css\" & stylelint \"src/**/*.scss\" & stylelint \"src/**/*.less\" & eslint --ext .js,.jsx src",
-    "fix": "stylelint --fix \"src/**/*.css\" & stylelint --fix \"src/**/*.scss\" & stylelint --fix \"src/**/*.less\" & eslint --ext .js,.jsx --fix src",
     "build": "rc-tools run compile",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
     "pub": "rc-tools run pub --babel-runtime",
+    "lint": "rc-tools run lint",
     "karma": "rc-tools run karma",
     "saucelabs": "rc-tools run saucelabs",
     "test": "jest",
@@ -50,17 +49,7 @@
       "src/*"
     ]
   },
-  "pre-commit": [
-    "lint"
-  ],
   "devDependencies": {
-    "pre-commit": "1.x",
-    "@sdp.nd/eslint-config-react": "^2.0.0",
-    "eslint": "^4.14.0",
-    "eslint-loader": "^1.6.3",
-    "eslint-plugin-promise": "^3.5.0",
-    "stylelint": "^8.4.0",
-    "stylelint-config-standard": "^18.0.0",
     "async": "~0.9.0",
     "bootstrap": "~3.3.2",
     "coveralls": "^2.11.15",

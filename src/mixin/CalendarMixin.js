@@ -1,124 +1,124 @@
-import React, { PropTypes } from 'react'
-import classnames from 'classnames'
-import moment from 'moment'
-import { isAllowedDate, getTodayTime } from '../util/index'
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
+import moment from 'moment';
+import { isAllowedDate, getTodayTime } from '../util/index';
 
-function noop () {
+function noop() {
 }
 
-function getNow () {
-  return moment()
+function getNow() {
+  return moment();
 }
 
-function getNowByCurrentStateValue (value) {
-  let ret
+function getNowByCurrentStateValue(value) {
+  let ret;
   if (value) {
-    ret = getTodayTime(value)
+    ret = getTodayTime(value);
   } else {
-    ret = getNow()
+    ret = getNow();
   }
-  return ret
+  return ret;
 }
 
 const CalendarMixin = {
   propTypes: {
     value: PropTypes.object,
     defaultValue: PropTypes.object,
-    onKeyDown: PropTypes.func
+    onKeyDown: PropTypes.func,
   },
 
-  getDefaultProps () {
+  getDefaultProps() {
     return {
-      onKeyDown: noop
-    }
+      onKeyDown: noop,
+    };
   },
 
-  getInitialState () {
-    const props = this.props
-    const value = props.value || props.defaultValue || getNow()
+  getInitialState() {
+    const props = this.props;
+    const value = props.value || props.defaultValue || getNow();
     return {
       value,
-      selectedValue: props.selectedValue || props.defaultSelectedValue
-    }
+      selectedValue: props.selectedValue || props.defaultSelectedValue,
+    };
   },
 
-  componentWillReceiveProps (nextProps) {
-    let { value } = nextProps
-    const { selectedValue } = nextProps
+  componentWillReceiveProps(nextProps) {
+    let { value } = nextProps;
+    const { selectedValue } = nextProps;
     if ('value' in nextProps) {
-      value = value || nextProps.defaultValue || getNowByCurrentStateValue(this.state.value)
+      value = value || nextProps.defaultValue || getNowByCurrentStateValue(this.state.value);
       this.setState({
-        value
-      })
+        value,
+      });
     }
     if ('selectedValue' in nextProps) {
       this.setState({
-        selectedValue
-      })
+        selectedValue,
+      });
     }
   },
 
-  onSelect (value, cause) {
+  onSelect(value, cause) {
     if (value) {
-      this.setValue(value)
+      this.setValue(value);
     }
-    this.setSelectedValue(value, cause)
+    this.setSelectedValue(value, cause);
   },
 
-  renderRoot (newProps) {
-    const props = this.props
-    const prefixCls = props.prefixCls
+  renderRoot(newProps) {
+    const props = this.props;
+    const prefixCls = props.prefixCls;
 
     const className = {
       [prefixCls]: 1,
       [`${prefixCls}-hidden`]: !props.visible,
       [props.className]: !!props.className,
-      [newProps.className]: !!newProps.className
-    }
+      [newProps.className]: !!newProps.className,
+    };
 
     return (
       <div
-        ref='root'
+        ref="root"
         className={`${classnames(className)}`}
         style={this.props.style}
-        tabIndex='0'
+        tabIndex="0"
         onKeyDown={this.onKeyDown}
       >
         {newProps.children}
       </div>
-    )
+    );
   },
 
-  setSelectedValue (selectedValue, cause) {
+  setSelectedValue(selectedValue, cause) {
     // if (this.isAllowedDate(selectedValue)) {
     if (!('selectedValue' in this.props)) {
       this.setState({
-        selectedValue
-      })
+        selectedValue,
+      });
     }
-    this.props.onSelect(selectedValue, cause)
+    this.props.onSelect(selectedValue, cause);
     // }
   },
 
-  setValue (value) {
-    const originalValue = this.state.value
+  setValue(value) {
+    const originalValue = this.state.value;
     if (!('value' in this.props)) {
       this.setState({
-        value
-      })
+        value,
+      });
     }
     if (originalValue && value && !originalValue.isSame(value) ||
       (!originalValue && value) ||
       (originalValue && !value)) {
-      this.props.onChange(value)
+      this.props.onChange(value);
     }
   },
 
-  isAllowedDate (value) {
-    const disabledDate = this.props.disabledDate
-    const disabledTime = this.props.disabledTime
-    return isAllowedDate(value, disabledDate, disabledTime)
-  }
-}
+  isAllowedDate(value) {
+    const disabledDate = this.props.disabledDate;
+    const disabledTime = this.props.disabledTime;
+    return isAllowedDate(value, disabledDate, disabledTime);
+  },
+};
 
-export default CalendarMixin
+export default CalendarMixin;

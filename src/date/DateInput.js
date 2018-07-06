@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
-import ReactDOM from 'react-dom'
-import moment from 'moment'
+import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
+import moment from 'moment';
 import NdInput from '@sdp.nd/nd-input'
 
 const DateInput = React.createClass({
@@ -16,100 +16,100 @@ const DateInput = React.createClass({
     onClear: PropTypes.func,
     placeholder: PropTypes.string,
     onSelect: PropTypes.func,
-    selectedValue: PropTypes.object
+    selectedValue: PropTypes.object,
   },
 
-  getInitialState () {
-    const selectedValue = this.props.selectedValue
+  getInitialState() {
+    const selectedValue = this.props.selectedValue;
     return {
       str: selectedValue && selectedValue.format(this.props.format) || '',
-      invalid: false
-    }
+      invalid: false,
+    };
   },
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     // when popup show, click body will call this, bug!
-    const selectedValue = nextProps.selectedValue
+    const selectedValue = nextProps.selectedValue;
     this.setState({
       str: selectedValue && selectedValue.format(nextProps.format) || '',
-      invalid: false
-    })
+      invalid: false,
+    });
   },
 
-  onInputChange (event) {
-    const str = event.target.value
+  onInputChange(event) {
+    const str = event.target.value;
     this.setState({
-      str
-    })
-    let value
-    const { disabledDate, format, onChange } = this.props
+      str,
+    });
+    let value;
+    const { disabledDate, format, onChange } = this.props;
     if (str) {
-      const parsed = moment(str, format, true)
+      const parsed = moment(str, format, true);
       if (!parsed.isValid()) {
         this.setState({
-          invalid: true
-        })
-        return
+          invalid: true,
+        });
+        return;
       }
-      value = this.props.value.clone()
+      value = this.props.value.clone();
       value
         .year(parsed.year())
         .month(parsed.month())
         .date(parsed.date())
         .hour(parsed.hour())
         .minute(parsed.minute())
-        .second(parsed.second())
+        .second(parsed.second());
 
       if (value && (!disabledDate || !disabledDate(value))) {
-        const originalValue = this.props.selectedValue
+        const originalValue = this.props.selectedValue;
         if (originalValue && value) {
           if (!originalValue.isSame(value)) {
-            onChange(value)
+            onChange(value);
           }
         } else if (originalValue !== value) {
-          onChange(value)
+          onChange(value);
         }
       } else {
         this.setState({
-          invalid: true
-        })
-        return
+          invalid: true,
+        });
+        return;
       }
     } else {
-      onChange(null)
+      onChange(null);
     }
     this.setState({
-      invalid: false
-    })
+      invalid: false,
+    });
   },
 
-  onClear () {
+  onClear() {
     this.setState({
-      str: ''
-    })
-    this.props.onClear(null)
+      str: '',
+    });
+    this.props.onClear(null);
   },
 
-  getRootDOMNode () {
-    return ReactDOM.findDOMNode(this)
+  getRootDOMNode() {
+    return ReactDOM.findDOMNode(this);
   },
 
-  focus () {
-    this.dateInput.focus()
+  focus() {
+    this.dateInput.focus();
   },
 
-  saveNdInput (node) {
-    this.dateInput = node && node.inputRef
+  saveNdInput(node) {
+    this.dateInput = node && node.inputRef;
     // 兼容this.refs引用
-    this.refs = Object.assign({}, this.refs)
-    this.refs.dateInput = node && node.inputRef
+    this.refs = Object.assign({}, this.refs);
+    this.refs.dateInput = node && node.inputRef;
   },
 
-  render () {
-    const props = this.props
-    const { invalid, str } = this.state
-    const { locale, prefixCls, placeholder } = props
-    const invalidClass = invalid ? `${prefixCls}-input-invalid` : ''
+  render() {
+    const props = this.props;
+    const { invalid, str } = this.state;
+    const { locale, prefixCls, placeholder } = props;
+    const invalidClass = invalid ? `${prefixCls}-input-invalid` : '';
     return (<div className={`${prefixCls}-input-wrap`}>
       <div className={`${prefixCls}-date-input-wrap`}>
         <NdInput
@@ -124,12 +124,12 @@ const DateInput = React.createClass({
       </div>
       {props.showClear ? <a
         className={`${prefixCls}-clear-btn`}
-        role='button'
+        role="button"
         title={locale.clear}
         onClick={this.onClear}
       /> : null}
-    </div>)
-  }
-})
+    </div>);
+  },
+});
 
-export default DateInput
+export default DateInput;

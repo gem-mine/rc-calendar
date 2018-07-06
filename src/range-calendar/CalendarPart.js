@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react'
-import CalendarHeader from '../calendar/CalendarHeader'
-import DateTable from '../date/DateTable'
-import DateInput from '../date/DateInput'
-import { getTimeConfig } from '../util/index'
+import React, { PropTypes } from 'react';
+import CalendarHeader from '../calendar/CalendarHeader';
+import DateTable from '../date/DateTable';
+import DateInput from '../date/DateInput';
+import { getTimeConfig } from '../util/index';
 
 const CalendarPart = React.createClass({
   propTypes: {
@@ -19,27 +19,27 @@ const CalendarPart = React.createClass({
     timePicker: PropTypes.any,
     disabledTime: PropTypes.any,
     onInputSelect: PropTypes.func,
-    timePickerDisabledTime: PropTypes.object
+    timePickerDisabledTime: PropTypes.object,
   },
-  render () {
-    const props = this.props
+  render() {
+    const props = this.props;
     const {
       value, direction, prefixCls,
       locale, selectedValue, format, placeholder,
       disabledDate, timePicker, disabledTime,
       timePickerDisabledTime, showTimePicker,
-      hoverValue, onInputSelect
-    } = props
-    const disabledTimeConfig = showTimePicker && disabledTime && timePicker
-      ? getTimeConfig(selectedValue, disabledTime) : null
-    const rangeClassName = `${prefixCls}-range`
+      hoverValue, onInputSelect,
+    } = props;
+    const disabledTimeConfig = showTimePicker && disabledTime && timePicker ?
+      getTimeConfig(selectedValue, disabledTime) : null;
+    const rangeClassName = `${prefixCls}-range`;
     const newProps = {
       locale,
       value,
       prefixCls,
-      showTimePicker
-    }
-    const index = direction === 'left' ? 0 : 1
+      showTimePicker,
+    };
+    const index = direction === 'left' ? 0 : 1;
     const timePickerEle = showTimePicker && timePicker &&
       React.cloneElement(timePicker, {
         showHour: true,
@@ -50,8 +50,8 @@ const CalendarPart = React.createClass({
         ...timePickerDisabledTime,
         onChange: onInputSelect,
         defaultOpenValue: value,
-        value: selectedValue[index]
-      })
+        value: selectedValue[index],
+      });
     return (
       <div className={`${rangeClassName}-part ${rangeClassName}-${direction}`}>
         <DateInput
@@ -92,8 +92,8 @@ const CalendarPart = React.createClass({
             />
           </div>
         </div>
-      </div>)
-  }
-})
+      </div>);
+  },
+});
 
-export default CalendarPart
+export default CalendarPart;
