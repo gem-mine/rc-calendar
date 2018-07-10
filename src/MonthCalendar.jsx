@@ -70,7 +70,7 @@ const MonthCalendar = React.createClass({
         rootPrefixCls={props.prefixCls}
         onChange={this.setValue}
         onSelect={this.onSelect}
-      />
+      />,
     ];
     return this.renderRoot({
       children,

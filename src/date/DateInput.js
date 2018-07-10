@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
-import NdInput from '@sdp.nd/nd-input'
+import NdInput from '@sdp.nd/nd-input';
 
 const DateInput = React.createClass({
   propTypes: {
