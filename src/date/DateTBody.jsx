@@ -29,6 +29,7 @@ function getIdFromDate(date) {
 
 const DateTBody = React.createClass({
   propTypes: {
+    mode: PropTypes.string,
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -50,7 +51,7 @@ const DateTBody = React.createClass({
     const {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
-      hoverValue,
+      hoverValue,mode
     } = props;
     let iIndex;
     let jIndex;
@@ -70,14 +71,15 @@ const DateTBody = React.createClass({
     const firstDisableClass = `${prefixCls}-disabled-cell-first-of-row`;
     const lastDisableClass = `${prefixCls}-disabled-cell-last-of-row`;
     const month1 = value.clone();
-    month1.date(1);
+    mode === 'week' ? month1 : month1.date(1);
     const day = month1.day();
     const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
     let passed = 0;
-    for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
+    const rowCount = mode === 'week' ? 1 : DateConstants.DATE_ROW_COUNT
+    for (iIndex = 0; iIndex < rowCount; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
         if (passed) {
@@ -91,7 +93,7 @@ const DateTBody = React.createClass({
     const tableHtml = [];
     passed = 0;
 
-    for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
+    for (iIndex = 0; iIndex < rowCount; iIndex++) {
       let isCurrentWeek;
       let weekNumberCell;
       let isActiveWeek = false;
