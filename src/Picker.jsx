@@ -82,8 +82,13 @@ const Picker = React.createClass({
 
   componentDidUpdate(_, prevState) {
     if (!prevState.open && this.state.open) {
-      this.focusCalendar();
+      // setTimeout is for making sure saveCalendarRef happen before focusCalendar
+      this.focusTimeout = setTimeout(this.focusCalendar, 0, this);
     }
+  },
+
+  componentWillUnmount() {
+    clearTimeout(this.focusTimeout);
   },
 
   onCalendarKeyDown(event) {
