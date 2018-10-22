@@ -25,6 +25,7 @@ const CalendarHeader = React.createClass({
     enableNext: PropTypes.any,
     prefixCls: PropTypes.string,
     showTimePicker: PropTypes.bool,
+    showYear: PropTypes.bool,
     locale: PropTypes.object,
     value: PropTypes.object,
     onValueChange: PropTypes.func,
@@ -58,16 +59,17 @@ const CalendarHeader = React.createClass({
     const prefixCls = props.prefixCls;
     const locale = props.locale;
     const value = props.value;
+    const showYear = props.showYear
     const monthBeforeYear = locale.monthBeforeYear;
     const selectClassName = `${prefixCls}-${monthBeforeYear ? 'my-select' : 'ym-select'}`;
-    const year = (<a
+    const year = showYear ? (<a
       className={`${prefixCls}-year-select`}
       role="button"
       onClick={showTimePicker ? null : this.showYearPanel}
       title={locale.yearSelect}
     >
       {value.format(locale.yearFormat)}
-    </a>);
+    </a>) : null;
     const month = (<a
       className={`${prefixCls}-month-select`}
       role="button"
@@ -112,7 +114,7 @@ const CalendarHeader = React.createClass({
 
   render() {
     const props = this.props;
-    const { enableNext, enablePrev, prefixCls, locale, value, showTimePicker } = props;
+    const { enableNext, enablePrev, prefixCls, locale, value, showTimePicker, showYear } = props;
     const state = this.state;
     let PanelClass = null;
     if (state.showMonthPanel) {
@@ -131,7 +133,7 @@ const CalendarHeader = React.createClass({
     }
     return (<div className={`${prefixCls}-header`}>
       <div style={{ position: 'relative' }}>
-        {showIf(enablePrev && !showTimePicker,
+        {showIf(enablePrev && !showTimePicker && showYear,
           <a
             className={`${prefixCls}-prev-year-btn`}
             role="button"
@@ -152,7 +154,7 @@ const CalendarHeader = React.createClass({
             onClick={this.nextMonth}
             title={locale.nextMonth}
           />)}
-        {showIf(enableNext && !showTimePicker,
+        {showIf(enableNext && !showTimePicker && showYear,
           <a
             className={`${prefixCls}-next-year-btn`}
             onClick={this.nextYear}
