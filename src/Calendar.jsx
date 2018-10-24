@@ -57,6 +57,7 @@ const Calendar = React.createClass({
     showWeekNumber: PropTypes.bool,
     style: PropTypes.object,
     showToday: PropTypes.bool,
+    showYear: PropTypes.bool,
     showDateInput: PropTypes.bool,
     visible: PropTypes.bool,
     onSelect: PropTypes.func,
@@ -76,6 +77,7 @@ const Calendar = React.createClass({
 
   getDefaultProps() {
     return {
+      showYear: true,
       showToday: true,
       showDateInput: true,
       timePicker: null,
@@ -199,7 +201,7 @@ const Calendar = React.createClass({
   },
   render() {
     const props = this.props;
-    const { locale, prefixCls, disabledDate,
+    const { locale, prefixCls, disabledDate, showYear,
        dateInputPlaceholder, timePicker, disabledTime } = props;
     const state = this.state;
     const { value, selectedValue,
@@ -254,6 +256,7 @@ const Calendar = React.createClass({
             onValueChange={this.setValue}
             value={value}
             showTimePicker={showTimePicker}
+            showYear={showYear}
             prefixCls={prefixCls}
           />
           {timePicker && showTimePicker ? (
