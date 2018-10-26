@@ -270,6 +270,7 @@ const Calendar = React.createClass({
               value={value}
               selectedValue={selectedValue}
               prefixCls={prefixCls}
+              showYear={showYear}
               dateRender={props.dateRender}
               onSelect={this.onDateTableSelect}
               disabledDate={disabledDate}

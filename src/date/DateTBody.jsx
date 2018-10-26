@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import DateConstants from './DateConstants';
-import { getTitleString, getTodayTime } from '../util/';
+import { getTitleString, getTodayTime, getTitleNoYearString } from '../util/';
 
 function isSameDay(one, two) {
   return one && two && one.isSame(two, 'day');
@@ -38,6 +38,7 @@ const DateTBody = React.createClass({
     value: PropTypes.object,
     hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
+    showYear: PropTypes.bool,
   },
 
   getDefaultProps() {
@@ -51,7 +52,7 @@ const DateTBody = React.createClass({
     const {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
-      hoverValue,mode
+      hoverValue,mode, showYear
     } = props;
     let iIndex;
     let jIndex;
@@ -214,7 +215,7 @@ const DateTBody = React.createClass({
             onMouseEnter={disabled ?
               undefined : props.onDayHover && props.onDayHover.bind(null, current) || undefined}
             role="gridcell"
-            title={getTitleString(current)} className={cls}
+            title={showYear ? getTitleString(current) : getTitleNoYearString(current)} className={cls}
           >
             {dateHtml}
           </td>);
