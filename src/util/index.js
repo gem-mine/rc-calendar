@@ -31,6 +31,11 @@ export function getTodayTimeStr(value) {
   return getTitleString(today);
 }
 
+export function getTodayTimeNoYearStr(value) {
+  const today = getTodayTime(value);
+  return getTitleNoYearString(today);
+}
+
 export function syncTime(from, to) {
   to.hour(from.hour());
   to.minute(from.minute());

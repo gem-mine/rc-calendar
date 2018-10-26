@@ -27,7 +27,7 @@ const CalendarPart = React.createClass({
       value, direction, prefixCls,
       locale, selectedValue, format, placeholder,
       disabledDate, timePicker, disabledTime,
-      timePickerDisabledTime, showTimePicker, showYear,
+      timePickerDisabledTime, showTimePicker,
       hoverValue, onInputSelect,
     } = props;
     const disabledTimeConfig = showTimePicker && disabledTime && timePicker ?
@@ -72,7 +72,6 @@ const CalendarPart = React.createClass({
             {...newProps}
             enableNext={direction === 'right'}
             enablePrev={direction === 'left'}
-            showYear={showYear}
             onValueChange={props.onValueChange}
           />
           {showTimePicker ? <div className={`${prefixCls}-time-picker`}>

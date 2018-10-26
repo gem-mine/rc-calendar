@@ -17,12 +17,14 @@ const MonthPanel = React.createClass({
     onChange: PropTypes.func,
     disabledDate: PropTypes.func,
     onSelect: PropTypes.func,
+    showYear: PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
       onChange: noop,
       onSelect: noop,
+      showYear: true,
     };
   },
 

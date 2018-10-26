@@ -1,9 +1,9 @@
 import React from 'react';
-import { getTodayTimeStr, getTodayTime, isAllowedDate } from '../util/';
+import { getTodayTimeStr, getTodayTimeNoYearStr, getTodayTime, isAllowedDate } from '../util/';
 
 export default function TodayButton({
   prefixCls, locale, value, timePicker, disabled,
-  disabledDate, onToday, text,
+  disabledDate, onToday, text, showYear
 }) {
   const localeNow = (!text && timePicker ? locale.now : text) || locale.today;
   const disabledToday =
@@ -16,7 +16,7 @@ export default function TodayButton({
       className={`${prefixCls}-today-btn ${disabledTodayClass}`}
       role="button"
       onClick={isDisabled ? null : onToday}
-      title={getTodayTimeStr(value)}
+      title={showYear ? getTodayTimeStr(value) : getTodayTimeNoYearStr(value)}
     >
       {localeNow}
     </a>
