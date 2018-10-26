@@ -35,6 +35,7 @@ const CalendarHeader = React.createClass({
     return {
       enableNext: 1,
       enablePrev: 1,
+      showYear: true,
     };
   },
 
@@ -126,6 +127,7 @@ const CalendarHeader = React.createClass({
     if (PanelClass) {
       panel = (<PanelClass
         locale={locale}
+        showYear={showYear}
         defaultValue={value}
         rootPrefixCls={prefixCls}
         onSelect={this.onSelect}
