@@ -22,9 +22,18 @@ export function getTitleString(value) {
   return `${value.year()}-${value.month() + 1}-${value.date()}`;
 }
 
+export function getTitleNoYearString(value) {
+  return `${value.month() + 1}-${value.date()}`;
+}
+
 export function getTodayTimeStr(value) {
   const today = getTodayTime(value);
   return getTitleString(today);
+}
+
+export function getTodayTimeNoYearStr(value) {
+  const today = getTodayTime(value);
+  return getTitleNoYearString(today);
 }
 
 export function syncTime(from, to) {

@@ -10,6 +10,7 @@ const CalendarFooter = React.createClass({
   propTypes: {
     prefixCls: PropTypes.string,
     showDateInput: PropTypes.bool,
+    showYear: PropTypes.bool,
     disabledTime: PropTypes.any,
     timePicker: PropTypes.element,
     selectedValue: PropTypes.any,
