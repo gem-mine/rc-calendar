@@ -34,6 +34,14 @@ class YearPanel extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if ('value' in nextProps) {
+      this.setState({
+        value: nextProps.value,
+      });
+    }
+  }
+
   onDecadePanelSelect(current) {
     this.setState({
       value: current,
@@ -125,7 +133,7 @@ class YearPanel extends React.Component {
     }
 
     return (
-      <div className={this.prefixCls}>
+      <div className={prefixCls} style={props.style}>
         <div>
           <div className={`${prefixCls}-header`}>
             <a
