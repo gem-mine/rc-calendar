@@ -2,7 +2,7 @@ import React, { PropTypes }from 'react';
 import YearPanel from './year/YearPanel';
 import CalendarMixin from './mixin/CalendarMixin';
 import CommonMixin from './mixin/CommonMixin';
-import KeyCode from 'rc-util/lib/KeyCode'
+import KeyCode from 'rc-util/lib/KeyCode';
 
 const YearCalendar = React.createClass({
   propTypes: {

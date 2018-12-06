@@ -1,5 +1,9 @@
 # History
 ----
+## 2.0.5 / 2018-12-05
+
+- 年选择器添加disabledDate
+
 ## 2.0.4 / 2018-11-28
 
 - 增加YearCalendar年选择器

@@ -90,8 +90,16 @@ class YearPanel extends React.Component {
 
     const yeasEls = years.map((row, index) => {
       const tds = row.map(yearData => {
+        let disabled = false;
+        if (props.disabledDate) {
+          const testValue = value.clone();
+          testValue.year(yearData.year);
+          disabled = props.disabledDate(testValue);
+        }
+
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
+          [`${prefixCls}-cell-disabled`]: disabled,
           [`${prefixCls}-selected-cell`]: yearData.year === currentYear,
           [`${prefixCls}-last-decade-cell`]: yearData.year < startYear,
           [`${prefixCls}-next-decade-cell`]: yearData.year > endYear,
@@ -109,7 +117,7 @@ class YearPanel extends React.Component {
             role="gridcell"
             title={yearData.title}
             key={yearData.content}
-            onClick={clickHandler}
+            onClick={disabled ? null : clickHandler}
             className={classnames(classNameMap)}
           >
             <a
