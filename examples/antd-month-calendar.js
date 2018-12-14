@@ -139,6 +139,7 @@ ReactDOM.render(
     }}
   >
     <MonthCalendar
+      renderSidebar={() => <div style={{ textAlign: 'center' }} key={'header'}>自定义头部</div>}
       locale={cn ? zhCN : enUS}
       style={{ zIndex: 1000 }}
       disabledDate={disabledDate}

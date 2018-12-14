@@ -74,8 +74,8 @@ const MonthCalendar = createReactClass({
   render() {
     const { props, state } = this;
     const { mode, value } = state;
-    const children = (
-      <div className={`${props.prefixCls}-month-calendar-content`}>
+    const children = [props.renderSidebar(),
+      <div className={`${props.prefixCls}-month-calendar-content`} key={'panel'}>
         <div className={`${props.prefixCls}-month-header-wrap`}>
           <CalendarHeader
             prefixCls={props.prefixCls}
@@ -94,8 +94,8 @@ const MonthCalendar = createReactClass({
           prefixCls={props.prefixCls}
           renderFooter={props.renderFooter}
         />
-      </div>
-    );
+      </div>,
+    ];
     return this.renderRoot({
       className: `${props.prefixCls}-month-calendar`,
       children,
