@@ -4,6 +4,7 @@ import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { formatDate } from '../util';
+import NdInput from '@sdp.nd/nd-input/lib/index';
 
 const DateInput = createReactClass({
   propTypes: {
@@ -120,7 +121,8 @@ const DateInput = createReactClass({
   },
 
   saveDateInput(dateInput) {
-    this.dateInputInstance = dateInput;
+    // 使用nd-input包了一层后，取ref也需要多一层
+    this.dateInputInstance = dateInput && dateInput.inputRef;
   },
 
   onFocus() {
@@ -142,8 +144,9 @@ const DateInput = createReactClass({
     return (
       <div className={`${prefixCls}-input-wrap`}>
         <div className={`${prefixCls}-date-input-wrap`}>
-          <input
+          <NdInput
             ref={this.saveDateInput}
+            prefixCls={`${prefixCls}`}
             className={`${prefixCls}-input ${invalidClass}`}
             value={str}
             disabled={props.disabled}
