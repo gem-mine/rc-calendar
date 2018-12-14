@@ -1,17 +1,20 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import CalendarHeader from '../calendar/CalendarHeader';
 import DateTable from '../date/DateTable';
 import DateInput from '../date/DateInput';
 import { getTimeConfig } from '../util/index';
 
-const CalendarPart = React.createClass({
+const CalendarPart = createReactClass({
   propTypes: {
+    prefixCls: PropTypes.string,
     value: PropTypes.any,
-    direction: PropTypes.any,
-    prefixCls: PropTypes.any,
-    locale: PropTypes.any,
-    selectedValue: PropTypes.any,
     hoverValue: PropTypes.any,
+    selectedValue: PropTypes.any,
+    direction: PropTypes.any,
+    locale: PropTypes.any,
+    showDateInput: PropTypes.bool,
     showTimePicker: PropTypes.bool,
     format: PropTypes.any,
     placeholder: PropTypes.any,
@@ -20,17 +23,27 @@ const CalendarPart = React.createClass({
     disabledTime: PropTypes.any,
     onInputSelect: PropTypes.func,
     timePickerDisabledTime: PropTypes.object,
+    enableNext: PropTypes.any,
+    enablePrev: PropTypes.any,
+    clearIcon: PropTypes.node,
   },
   render() {
     const props = this.props;
     const {
-      value, direction, prefixCls,
-      locale, selectedValue, format, placeholder,
+      prefixCls,
+      value,
+      hoverValue,
+      selectedValue,
+      mode,
+      direction,
+      locale, format, placeholder,
       disabledDate, timePicker, disabledTime,
       timePickerDisabledTime, showTimePicker,
-      hoverValue, onInputSelect,
+      onInputSelect, enablePrev, enableNext,
+      clearIcon,
     } = props;
-    const disabledTimeConfig = showTimePicker && disabledTime && timePicker ?
+    const shouldShowTimePicker = showTimePicker && timePicker;
+    const disabledTimeConfig = shouldShowTimePicker && disabledTime ?
       getTimeConfig(selectedValue, disabledTime) : null;
     const rangeClassName = `${prefixCls}-range`;
     const newProps = {
@@ -40,7 +53,7 @@ const CalendarPart = React.createClass({
       showTimePicker,
     };
     const index = direction === 'left' ? 0 : 1;
-    const timePickerEle = showTimePicker && timePicker &&
+    const timePickerEle = shouldShowTimePicker &&
       React.cloneElement(timePicker, {
         showHour: true,
         showMinute: true,
@@ -52,27 +65,37 @@ const CalendarPart = React.createClass({
         defaultOpenValue: value,
         value: selectedValue[index],
       });
+
+    const dateInputElement = props.showDateInput &&
+      <DateInput
+        format={format}
+        locale={locale}
+        prefixCls={prefixCls}
+        timePicker={timePicker}
+        disabledDate={disabledDate}
+        placeholder={placeholder}
+        disabledTime={disabledTime}
+        value={value}
+        showClear={false}
+        selectedValue={selectedValue[index]}
+        onChange={onInputSelect}
+        clearIcon={clearIcon}
+      />;
+
     return (
-      <div className={`${rangeClassName}-part ${rangeClassName}-${direction}`}>
-        <DateInput
-          format={format}
-          locale={locale}
-          prefixCls={prefixCls}
-          timePicker={timePicker}
-          disabledDate={disabledDate}
-          placeholder={placeholder}
-          disabledTime={disabledTime}
-          value={value}
-          showClear={false}
-          selectedValue={selectedValue[index]}
-          onChange={onInputSelect}
-        />
+      <div
+        className={`${rangeClassName}-part ${rangeClassName}-${direction}`}
+      >
+        {dateInputElement}
         <div style={{ outline: 'none' }}>
           <CalendarHeader
             {...newProps}
-            enableNext={direction === 'right'}
-            enablePrev={direction === 'left'}
+            mode={mode}
+            enableNext={enableNext}
+            enablePrev={enablePrev}
             onValueChange={props.onValueChange}
+            onPanelChange={props.onPanelChange}
+            disabledMonth={props.disabledMonth}
           />
           {showTimePicker ? <div className={`${prefixCls}-time-picker`}>
             <div className={`${prefixCls}-time-picker-panel`}>

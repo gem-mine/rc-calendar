@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
-import YearPanel from '../year/YearPanel';
+import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import MonthTable from './MonthTable';
 
 function goYear(direction) {
@@ -12,19 +13,17 @@ function noop() {
 
 }
 
-const MonthPanel = React.createClass({
+const MonthPanel = createReactClass({
   propTypes: {
     onChange: PropTypes.func,
     disabledDate: PropTypes.func,
     onSelect: PropTypes.func,
-    showYear: PropTypes.bool,
   },
 
   getDefaultProps() {
     return {
       onChange: noop,
       onSelect: noop,
-      showYear: true,
     };
   },
 
@@ -47,14 +46,6 @@ const MonthPanel = React.createClass({
     }
   },
 
-  onYearPanelSelect(current) {
-    this.setState({
-      showYearPanel: 0,
-    });
-    this.setAndChangeValue(current);
-  },
-
-
   setAndChangeValue(value) {
     this.setValue(value);
     this.props.onChange(value);
@@ -73,47 +64,30 @@ const MonthPanel = React.createClass({
     }
   },
 
-  showYearPanel() {
-    this.setState({
-      showYearPanel: 1,
-    });
-  },
-
   render() {
     const props = this.props;
     const value = this.state.value;
     const cellRender = props.cellRender;
-    const showYear = props.showYear;
     const contentRender = props.contentRender;
-    const locale = props.locale;
+    const { locale } = props;
     const year = value.year();
     const prefixCls = this.prefixCls;
-    let yearPanel;
-    if (this.state.showYearPanel) {
-      yearPanel = (<YearPanel
-        locale={locale}
-        value={value}
-        rootPrefixCls={props.rootPrefixCls}
-        onSelect={this.onYearPanelSelect}
-      />);
-    }
-    const disabledYearClass = showYear ?
-           '' : `${prefixCls}-year-disabled`;
+
     return (
       <div className={prefixCls} style={props.style}>
         <div>
           <div className={`${prefixCls}-header`}>
             <a
-              className={`${prefixCls}-prev-year-btn ${disabledYearClass}`}
+              className={`${prefixCls}-prev-year-btn`}
               role="button"
-              onClick={showYear ? this.previousYear : null}
+              onClick={this.previousYear}
               title={locale.previousYear}
             />
 
             <a
-              className={`${prefixCls}-year-select ${disabledYearClass}`}
+              className={`${prefixCls}-year-select`}
               role="button"
-              onClick={showYear ? this.showYearPanel : null}
+              onClick={props.onYearPanelShow}
               title={locale.yearSelect}
             >
               <span className={`${prefixCls}-year-select-content`}>{year}</span>
@@ -121,9 +95,9 @@ const MonthPanel = React.createClass({
             </a>
 
             <a
-              className={`${prefixCls}-next-year-btn ${disabledYearClass}`}
+              className={`${prefixCls}-next-year-btn`}
               role="button"
-              onClick={showYear ? this.nextYear : null}
+              onClick={this.nextYear}
               title={locale.nextYear}
             />
           </div>
@@ -139,7 +113,6 @@ const MonthPanel = React.createClass({
             />
           </div>
         </div>
-        {yearPanel}
       </div>);
   },
 });

@@ -1,15 +1,15 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
 
-import '@sdp.nd/rc-calendar/assets/index.less';
+import 'rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FullCalendar from '@sdp.nd/rc-calendar/src/FullCalendar';
+import FullCalendar from 'rc-calendar/src/FullCalendar';
 
 import 'rc-select/assets/index.css';
 import Select from 'rc-select';
 
-import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
-import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
+import zhCN from 'rc-calendar/src/locale/zh_CN';
+import enUS from 'rc-calendar/src/locale/en_US';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -32,17 +32,17 @@ function onSelect(value) {
   console.log('select', value.format(format));
 }
 
-const App = React.createClass({
-  getInitialState() {
-    return {
-      type: 'month',
-    };
-  },
-  onTypeChange(type) {
+class Demo extends React.Component {
+  state = {
+    type: 'month',
+  };
+
+  onTypeChange = (type) => {
     this.setState({
       type,
     });
-  },
+  }
+
   render() {
     return (
       <div style={{ zIndex: 1000, position: 'relative' }}>
@@ -66,7 +66,7 @@ const App = React.createClass({
         />
       </div>
     );
-  },
-});
+  }
+}
 
-ReactDOM.render(<App />, document.getElementById('__react-content'));
+ReactDOM.render(<Demo />, document.getElementById('__react-content'));

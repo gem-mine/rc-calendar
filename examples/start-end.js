@@ -1,13 +1,13 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
 
-import '@sdp.nd/rc-calendar/assets/index.less';
+import 'rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Calendar from '@sdp.nd/rc-calendar';
-import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
+import Calendar from 'rc-calendar';
+import DatePicker from 'rc-calendar/src/Picker';
 
-import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
-import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
+import zhCN from 'rc-calendar/src/locale/zh_CN';
+import enUS from 'rc-calendar/src/locale/en_US';
 import 'rc-time-picker/assets/index.css';
 import TimePickerPanel from 'rc-time-picker/lib/Panel';
 
@@ -38,13 +38,12 @@ const timePickerElement = <TimePickerPanel />;
 
 const SHOW_TIME = true;
 
-const Picker = React.createClass({
-  getDefaultProps() {
-    return {
-      showTime: SHOW_TIME,
-      disabled: false,
-    };
-  },
+class Picker extends React.Component {
+  state = {
+    showTime: SHOW_TIME,
+    disabled: false,
+  };
+
   render() {
     const props = this.props;
     const calendar = (<Calendar
@@ -76,25 +75,23 @@ const Picker = React.createClass({
         }
       }
     </DatePicker>);
-  },
-});
+  }
+}
 
-const Test = React.createClass({
-  getInitialState() {
-    return {
-      startValue: null,
-      endValue: null,
-    };
-  },
+class Demo extends React.Component {
+  state = {
+    startValue: null,
+    endValue: null,
+  };
 
-  onChange(field, value) {
+  onChange = (field, value) => {
     console.log('onChange', field, value && value.format(getFormat(SHOW_TIME)));
     this.setState({
       [field]: value,
     });
-  },
+  }
 
-  disabledEndDate(endValue) {
+  disabledEndDate = (endValue) => {
     if (!endValue) {
       return false;
     }
@@ -104,9 +101,9 @@ const Test = React.createClass({
     }
     return SHOW_TIME ? endValue.isBefore(startValue) :
     endValue.diff(startValue, 'days') <= 0;
-  },
+  }
 
-  disabledStartDate(startValue) {
+  disabledStartDate = (startValue) => {
     if (!startValue) {
       return false;
     }
@@ -116,7 +113,7 @@ const Test = React.createClass({
     }
     return SHOW_TIME ? endValue.isBefore(startValue) :
     endValue.diff(startValue, 'days') <= 0;
-  },
+  }
 
   render() {
     const state = this.state;
@@ -139,8 +136,8 @@ const Test = React.createClass({
         />
       </p>
     </div>);
-  },
-});
+  }
+}
 
 
-ReactDOM.render(<Test />, document.getElementById('__react-content'));
+ReactDOM.render(<Demo />, document.getElementById('__react-content'));

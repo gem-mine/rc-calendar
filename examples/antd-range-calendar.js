@@ -1,36 +1,42 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
 
-import '@sdp.nd/rc-calendar/assets/index.less';
-import RangeCalendar from '@sdp.nd/rc-calendar/src/RangeCalendar';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Picker from '@sdp.nd/rc-calendar/src/Picker';
-
-import 'rc-time-picker/assets/index.css';
-
-import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
-import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
-import 'rc-time-picker/assets/index.css';
+import Picker from 'rc-calendar/src/Picker';
+import RangeCalendar from 'rc-calendar/src/RangeCalendar';
+import zhCN from 'rc-calendar/src/locale/zh_CN';
+import enUS from 'rc-calendar/src/locale/en_US';
 import TimePickerPanel from 'rc-time-picker/lib/Panel';
+import 'rc-calendar/assets/index.less';
+import 'rc-time-picker/assets/index.css';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import 'moment/locale/en-gb';
 
-const formatStr = 'YYYY-MM-DD HH:mm:ss';
 const cn = location.search.indexOf('cn') !== -1;
+
+if (cn) {
+  moment.locale('zh-cn');
+} else {
+  moment.locale('en-gb');
+}
 
 const now = moment();
 if (cn) {
-  now.locale('zh-cn').utcOffset(8);
+  now.utcOffset(8);
 } else {
-  now.locale('en-gb').utcOffset(0);
+  now.utcOffset(0);
 }
 
 const defaultCalendarValue = now.clone();
 defaultCalendarValue.add(-1, 'month');
 
-const timePickerElement = <TimePickerPanel />;
+const timePickerElement = (
+  <TimePickerPanel
+    defaultValue={[moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')]}
+  />
+);
 
 function newArray(start, end) {
   const result = [];
@@ -90,6 +96,7 @@ function disabledTime(time, type) {
   };
 }
 
+const formatStr = 'YYYY-MM-DD HH:mm:ss';
 function format(v) {
   return v ? v.format(formatStr) : '';
 }
@@ -108,24 +115,30 @@ function onStandaloneSelect(value) {
   console.log(format(value[0]), format(value[1]));
 }
 
-const Test = React.createClass({
-  getInitialState() {
-    return {
-      value: [],
-    };
-  },
+class Demo extends React.Component {
+  state = {
+    value: [],
+    hoverValue: [],
+  }
 
-  onChange(value) {
+  onChange = (value) => {
+    console.log('onChange', value);
     this.setState({ value });
-  },
+  }
+
+  onHoverChange = (hoverValue) => {
+    this.setState({ hoverValue });
+  }
 
   render() {
     const state = this.state;
     const calendar = (
       <RangeCalendar
+        hoverValue={state.hoverValue}
+        onHoverChange={this.onHoverChange}
         showWeekNumber={false}
         dateInputPlaceholder={['start', 'end']}
-        defaultValue={[now, now]}
+        defaultValue={[now, now.clone().add(1, 'months')]}
         locale={cn ? zhCN : enUS}
         disabledTime={disabledTime}
         timePicker={timePickerElement}
@@ -153,8 +166,8 @@ const Test = React.createClass({
           }
         }
       </Picker>);
-  },
-});
+  }
+}
 
 ReactDOM.render(
   <div>
@@ -163,7 +176,6 @@ ReactDOM.render(
       <RangeCalendar
         showToday={false}
         showWeekNumber
-        defaultValue={now}
         dateInputPlaceholder={['start', 'end']}
         locale={cn ? zhCN : enUS}
         showOk={false}
@@ -174,11 +186,12 @@ ReactDOM.render(
         disabledDate={disabledDate}
         timePicker={timePickerElement}
         disabledTime={disabledTime}
+        renderFooter={() => <span>extra footer</span>}
       />
     </div>
     <br />
 
     <div style={{ margin: 20 }}>
-      <Test />
+      <Demo />
     </div>
   </div>, document.getElementById('__react-content'));
