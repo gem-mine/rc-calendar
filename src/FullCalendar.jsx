@@ -9,6 +9,7 @@ import CalendarHeader from './full-calendar/CalendarHeader';
 
 const FullCalendar = createReactClass({
   propTypes: {
+    mode: PropTypes.string,
     defaultType: PropTypes.string,
     type: PropTypes.string,
     prefixCls: PropTypes.string,
@@ -102,6 +103,7 @@ const FullCalendar = createReactClass({
 
     const table = type === 'date' ? (
       <DateTable
+        mode={props.mode}
         dateRender={props.dateCellRender}
         contentRender={props.dateCellContentRender}
         locale={locale}

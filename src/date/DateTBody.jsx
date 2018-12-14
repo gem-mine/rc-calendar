@@ -31,6 +31,7 @@ function getIdFromDate(date) {
 
 const DateTBody = createReactClass({
   propTypes: {
+    mode: PropTypes.string,
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -52,7 +53,7 @@ const DateTBody = createReactClass({
     const {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
-      hoverValue,
+      hoverValue, mode,
     } = props;
     let iIndex;
     let jIndex;
@@ -75,7 +76,9 @@ const DateTBody = createReactClass({
     const lastDisableClass = `${prefixCls}-disabled-cell-last-of-row`;
     const lastDayOfMonthClass = `${prefixCls}-last-day-of-month`;
     const month1 = value.clone();
-    month1.date(1);
+    if (mode !== 'week') {
+      month1.date(1);
+    }
     const day = month1.day();
     const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
@@ -83,7 +86,9 @@ const DateTBody = createReactClass({
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
     let passed = 0;
 
-    for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
+    // 如果是week模式，只显示一行
+    const rowCount = mode === 'week' ? 1 : DateConstants.DATE_ROW_COUNT;
+    for (iIndex = 0; iIndex < rowCount; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
         if (passed) {
@@ -97,7 +102,7 @@ const DateTBody = createReactClass({
     const tableHtml = [];
     passed = 0;
 
-    for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
+    for (iIndex = 0; iIndex < rowCount; iIndex++) {
       let isCurrentWeek;
       let weekNumberCell;
       let isActiveWeek = false;
