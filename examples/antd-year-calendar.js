@@ -1,12 +1,12 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
-import 'rc-calendar/assets/index.less';
+import '@sdp.nd/rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import YearCalendar from 'rc-calendar/src/YearCalendar';
-import DatePicker from 'rc-calendar/src/Picker';
-import zhCN from 'rc-calendar/src/locale/zh_CN';
-import enUS from 'rc-calendar/src/locale/en_US';
+import YearCalendar from '@sdp.nd/rc-calendar/src/YearCalendar';
+import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
+import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
+import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import 'moment/locale/en-gb';
