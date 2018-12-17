@@ -46,6 +46,7 @@ const DateTBody = createReactClass({
   getDefaultProps() {
     return {
       hoverValue: [],
+      showYear: true,
     };
   },
 
