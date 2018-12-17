@@ -66,8 +66,12 @@ const CalendarHeader = createReactClass({
   onYearSelect(value) {
     const referer = this.state.yearPanelReferer;
     this.setState({ yearPanelReferer: null });
-    this.props.onPanelChange(value, referer);
-    this.props.onValueChange(value);
+    this.props.onPanelChange(value, referer || 'month');
+    if (this.props.onYearSelect) {
+      this.props.onYearSelect(value);
+    } else {
+      this.props.onValueChange(value);
+    }
   },
 
   onDecadeSelect(value) {
@@ -146,6 +150,11 @@ const CalendarHeader = createReactClass({
       enableNext,
       enablePrev,
       disabledMonth,
+      monthCellRender,
+      monthCellContentRender,
+      disabledYear,
+      yearCellRender,
+      yearCellContentRender,
       showYear,
     } = props;
 
@@ -160,8 +169,8 @@ const CalendarHeader = createReactClass({
           onSelect={this.onMonthSelect}
           onYearPanelShow={() => this.showYearPanel('month')}
           disabledDate={disabledMonth}
-          cellRender={props.monthCellRender}
-          contentRender={props.monthCellContentRender}
+          cellRender={monthCellRender}
+          contentRender={monthCellContentRender}
         />
       );
     }
@@ -174,6 +183,9 @@ const CalendarHeader = createReactClass({
           rootPrefixCls={prefixCls}
           onSelect={this.onYearSelect}
           onDecadePanelShow={this.showDecadePanel}
+          disabledDate={disabledYear}
+          cellRender={yearCellRender}
+          contentRender={yearCellContentRender}
         />
       );
     }
