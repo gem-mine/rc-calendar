@@ -61,7 +61,7 @@ const YearCalendar = createReactClass({
     const { props, state } = this;
     const { mode, value } = state;
     const children = [props.renderSidebar(),
-      <div className={`${props.prefixCls}-year-calendar-content`}>
+      <div className={`${props.prefixCls}-year-calendar-content`} key={'panel'}>
         <div className={`${props.prefixCls}-year-header-wrap`}>
           <CalendarHeader
             prefixCls={props.prefixCls}
