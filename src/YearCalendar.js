@@ -60,7 +60,7 @@ const YearCalendar = createReactClass({
   render() {
     const { props, state } = this;
     const { mode, value } = state;
-    const children = (
+    const children = [props.renderSidebar(),
       <div className={`${props.prefixCls}-year-calendar-content`}>
         <div className={`${props.prefixCls}-year-header-wrap`}>
           <CalendarHeader
@@ -80,8 +80,8 @@ const YearCalendar = createReactClass({
           prefixCls={props.prefixCls}
           renderFooter={props.renderFooter}
         />
-      </div>
-    );
+      </div>,
+    ];
     return this.renderRoot({
       className: `${props.prefixCls}-year-calendar`,
       children,
