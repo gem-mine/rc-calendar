@@ -1,4 +1,6 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { getMonthName } from '../util';
 
 function noop() {
 }
@@ -42,7 +44,6 @@ class CalendarHeader extends Component {
 
   monthSelectElement(month) {
     const props = this.props;
-    const localeData = props.value.localeData();
     const t = props.value.clone();
     const { prefixCls } = props;
     const options = [];
@@ -50,7 +51,11 @@ class CalendarHeader extends Component {
 
     for (let index = 0; index < 12; index++) {
       t.month(index);
-      options.push(<Select.Option key={`${index}`}>{localeData.monthsShort(t)}</Select.Option>);
+      options.push(
+        <Select.Option key={`${index}`}>
+          {getMonthName(t)}
+        </Select.Option>
+      );
     }
 
     return (

@@ -19,7 +19,7 @@ export function getTodayTime(value) {
 }
 
 export function getTitleString(value) {
-  return `${value.year()}-${value.month() + 1}-${value.date()}`;
+  return value.format('LL');
 }
 
 export function getTitleNoYearString(value) {
@@ -36,7 +36,14 @@ export function getTodayTimeNoYearStr(value) {
   return getTitleNoYearString(today);
 }
 
+export function getMonthName(month) {
+  const locale = month.locale();
+  const localeData = month.localeData();
+  return localeData[locale === 'zh-cn' ? 'months' : 'monthsShort'](month);
+}
+
 export function syncTime(from, to) {
+  if (!moment.isMoment(from) || !moment.isMoment(to)) return;
   to.hour(from.hour());
   to.minute(from.minute());
   to.second(from.second());
@@ -90,4 +97,16 @@ export function isAllowedDate(value, disabledDate, disabledTime) {
     }
   }
   return true;
+}
+
+export function formatDate(value, format) {
+  if (!value) {
+    return '';
+  }
+
+  if (Array.isArray(format)) {
+    format = format[0];
+  }
+
+  return value.format(format);
 }

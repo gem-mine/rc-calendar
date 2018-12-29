@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateConstants from './DateConstants';
 import { getTitleString, getTodayTime, getTitleNoYearString } from '../util/';
@@ -27,7 +29,7 @@ function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
 }
 
-const DateTBody = React.createClass({
+const DateTBody = createReactClass({
   propTypes: {
     mode: PropTypes.string,
     contentRender: PropTypes.func,
@@ -44,6 +46,7 @@ const DateTBody = React.createClass({
   getDefaultProps() {
     return {
       hoverValue: [],
+      showYear: true,
     };
   },
 
@@ -52,7 +55,7 @@ const DateTBody = React.createClass({
     const {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
-      hoverValue,mode, showYear
+      hoverValue, mode, showYear,
     } = props;
     let iIndex;
     let jIndex;
@@ -65,21 +68,28 @@ const DateTBody = React.createClass({
     const todayClass = `${prefixCls}-today`;
     const selectedClass = `${prefixCls}-selected-day`;
     const selectedDateClass = `${prefixCls}-selected-date`;  // do not move with mouse operation
+    const selectedStartDateClass = `${prefixCls}-selected-start-date`;
+    const selectedEndDateClass = `${prefixCls}-selected-end-date`;
     const inRangeClass = `${prefixCls}-in-range-cell`;
     const lastMonthDayClass = `${prefixCls}-last-month-cell`;
     const nextMonthDayClass = `${prefixCls}-next-month-btn-day`;
     const disabledClass = `${prefixCls}-disabled-cell`;
     const firstDisableClass = `${prefixCls}-disabled-cell-first-of-row`;
     const lastDisableClass = `${prefixCls}-disabled-cell-last-of-row`;
+    const lastDayOfMonthClass = `${prefixCls}-last-day-of-month`;
     const month1 = value.clone();
-    mode === 'week' ? month1 : month1.date(1);
+    if (mode !== 'week') {
+      month1.date(1);
+    }
     const day = month1.day();
     const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
     let passed = 0;
-    const rowCount = mode === 'week' ? 1 : DateConstants.DATE_ROW_COUNT
+
+    // 如果是week模式，只显示一行
+    const rowCount = mode === 'week' ? 1 : DateConstants.DATE_ROW_COUNT;
     for (iIndex = 0; iIndex < rowCount; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
@@ -141,12 +151,14 @@ const DateTBody = React.createClass({
               if (isSameDay(current, startValue)) {
                 selected = true;
                 isActiveWeek = true;
+                cls += ` ${selectedStartDateClass}`;
               }
             }
             if (startValue && endValue) {
               if (isSameDay(current, endValue)) {
                 selected = true;
                 isActiveWeek = true;
+                cls += ` ${selectedEndDateClass}`;
               } else if (current.isAfter(startValue, 'day') &&
                 current.isBefore(endValue, 'day')) {
                 cls += ` ${inRangeClass}`;
@@ -166,8 +178,13 @@ const DateTBody = React.createClass({
         if (isBeforeCurrentMonthYear) {
           cls += ` ${lastMonthDayClass}`;
         }
+
         if (isAfterCurrentMonthYear) {
           cls += ` ${nextMonthDayClass}`;
+        }
+
+        if (current.clone().endOf('month').date() === current.date()) {
+          cls += ` ${lastDayOfMonthClass}`;
         }
 
         if (disabledDate) {
@@ -215,13 +232,16 @@ const DateTBody = React.createClass({
             onMouseEnter={disabled ?
               undefined : props.onDayHover && props.onDayHover.bind(null, current) || undefined}
             role="gridcell"
-            title={showYear ? getTitleString(current) : getTitleNoYearString(current)} className={cls}
+            title={showYear ? getTitleString(current) : getTitleNoYearString(current)}
+            className={cls}
           >
             {dateHtml}
           </td>);
 
         passed++;
       }
+
+
       tableHtml.push(
         <tr
           key={iIndex}
@@ -236,7 +256,7 @@ const DateTBody = React.createClass({
         </tr>);
     }
     return (<tbody className={`${prefixCls}-tbody`}>
-    {tableHtml}
+      {tableHtml}
     </tbody>);
   },
 });

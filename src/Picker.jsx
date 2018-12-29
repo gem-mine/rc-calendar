@@ -1,5 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import createChainedFunction from 'rc-util/lib/createChainedFunction';
 import KeyCode from 'rc-util/lib/KeyCode';
 import placements from './picker/placements';
@@ -12,7 +14,7 @@ function refFn(field, component) {
   this[field] = component;
 }
 
-const Picker = React.createClass({
+const Picker = createReactClass({
   propTypes: {
     animation: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     disabled: PropTypes.bool,
@@ -138,13 +140,7 @@ const Picker = React.createClass({
     const state = this.state;
     const calendarProps = props.calendar.props;
     const { value } = state;
-    let defaultValue;
-    // RangeCalendar
-    if (Array.isArray(value)) {
-      defaultValue = value[0];
-    } else {
-      defaultValue = value;
-    }
+    const defaultValue = value;
     const extraProps = {
       ref: this.saveCalendarRef,
       defaultValue: defaultValue || calendarProps.defaultValue,
@@ -197,26 +193,30 @@ const Picker = React.createClass({
       style, getCalendarContainer,
       align, animation,
       disabled,
+      dropdownClassName,
       transitionName, children,
     } = props;
     const state = this.state;
-    return (<Trigger
-      popup={this.getCalendarElement()}
-      popupAlign={align}
-      builtinPlacements={placements}
-      popupPlacement={placement}
-      action={(disabled && !state.open) ? [] : ['click']}
-      destroyPopupOnHide
-      getPopupContainer={getCalendarContainer}
-      popupStyle={style}
-      popupAnimation={animation}
-      popupTransitionName={transitionName}
-      popupVisible={state.open}
-      onPopupVisibleChange={this.onVisibleChange}
-      prefixCls={prefixCls}
-    >
-      {React.cloneElement(children(state, props), { onKeyDown: this.onKeyDown })}
-    </Trigger>);
+    return (
+      <Trigger
+        popup={this.getCalendarElement()}
+        popupAlign={align}
+        builtinPlacements={placements}
+        popupPlacement={placement}
+        action={(disabled && !state.open) ? [] : ['click']}
+        destroyPopupOnHide
+        getPopupContainer={getCalendarContainer}
+        popupStyle={style}
+        popupAnimation={animation}
+        popupTransitionName={transitionName}
+        popupVisible={state.open}
+        onPopupVisibleChange={this.onVisibleChange}
+        prefixCls={prefixCls}
+        popupClassName={dropdownClassName}
+      >
+        {React.cloneElement(children(state, props), { onKeyDown: this.onKeyDown })}
+      </Trigger>
+    );
   },
 });
 

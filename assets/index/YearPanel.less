@@ -72,18 +72,22 @@
 
 .@{prefixClass}-year-panel-body {
   padding: 9px 10px 10px;
+  position: absolute;
+  bottom: 0;
+  top: 34px;
 }
 
 .@{prefixClass}-year-panel-table {
   table-layout: fixed;
   width: 100%;
-  height: 255px;
+  height: 100%;
   border-collapse: separate;
 }
 
 .@{prefixClass}-year-panel-cell {
   text-align: center;
-  &-disabled {
+
+  &-disabled{
     .@{prefixClass}-year-panel-year {
       color: #bfbfbf;
       &:hover {
@@ -128,4 +132,8 @@
     -webkit-user-select: none;
     color: rgba(0, 0, 0, 0.25);
   }
+}
+.@{prefixClass}-year-header-wrap {
+  position: relative;
+  height: 308px;
 }

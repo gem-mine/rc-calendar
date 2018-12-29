@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import enUs from '../locale/en_US';
 
 function noop() {
@@ -53,8 +53,12 @@ export default {
   },
 
   focus() {
-    if (this.refs.root) {
-      this.refs.root.focus();
+    if (this.rootInstance) {
+      this.rootInstance.focus();
     }
+  },
+
+  saveRoot(root) {
+    this.rootInstance = root;
   },
 };

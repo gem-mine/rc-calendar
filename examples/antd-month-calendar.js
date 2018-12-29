@@ -3,6 +3,7 @@
 import '@sdp.nd/rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import MonthCalendar from '@sdp.nd/rc-calendar/src/MonthCalendar';
 import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
 
@@ -26,36 +27,39 @@ if (cn) {
 const defaultCalendarValue = now.clone();
 defaultCalendarValue.add(-1, 'month');
 
-const Test = React.createClass({
-  propTypes: {
-    defaultValue: React.PropTypes.object,
-  },
-  getInitialState() {
-    return {
+class Demo extends React.Component {
+  static propTypes = {
+    defaultValue: PropTypes.object,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
       showTime: true,
       disabled: false,
-      value: this.props.defaultValue,
+      value: props.defaultValue,
     };
-  },
+  }
 
-  onChange(value) {
+  onChange = (value) => {
     console.log(`DatePicker change: ${value && value.format(format)}`);
     this.setState({
       value,
     });
-  },
+  }
 
-  onShowTimeChange(e) {
+  onShowTimeChange = (e) => {
     this.setState({
       showTime: e.target.checked,
     });
-  },
+  }
 
-  toggleDisabled() {
+  toggleDisabled = () => {
     this.setState({
       disabled: !this.state.disabled,
     });
-  },
+  }
 
   render() {
     const state = this.state;
@@ -104,8 +108,8 @@ const Test = React.createClass({
         </DatePicker>
       </div>
     </div>);
-  },
-});
+  }
+}
 
 function onStandaloneSelect(value) {
   console.log('month-calendar select', (value && value.format(format)));
@@ -135,6 +139,7 @@ ReactDOM.render(
     }}
   >
     <MonthCalendar
+      renderSidebar={() => <div style={{ textAlign: 'center' }} key={'header'}>自定义头部</div>}
       locale={cn ? zhCN : enUS}
       style={{ zIndex: 1000 }}
       disabledDate={disabledDate}
@@ -142,10 +147,11 @@ ReactDOM.render(
       onChange={onStandaloneChange}
       monthCellContentRender={onMonthCellContentRender}
       defaultValue={defaultCalendarValue}
+      renderFooter={() => 'extra footer'}
     />
 
     <div style={{ marginTop: 200 }}>
-      <Test defaultValue={now} />
+      <Demo defaultValue={now} />
     </div>
   </div>)
   , document.getElementById('__react-content'));

@@ -1,62 +1,53 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
-
 import '@sdp.nd/rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import YearCalendar from '@sdp.nd/rc-calendar/src/YearCalendar';
 import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
-
 import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
 import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
-
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import 'moment/locale/en-gb';
-
 const format = 'YYYY';
 const cn = location.search.indexOf('cn') !== -1;
-
 const now = moment();
 if (cn) {
   now.locale('zh-cn').utcOffset(8);
 } else {
   now.locale('en-gb').utcOffset(0);
 }
-
 const defaultCalendarValue = now.clone();
-defaultCalendarValue.add(-1, 'month');
-
-const Test = React.createClass({
-  propTypes: {
-    defaultValue: React.PropTypes.object,
-  },
-  getInitialState() {
-    return {
+// defaultCalendarValue.add(-1, 'month');
+class Demo extends React.Component {
+  static propTypes = {
+    defaultValue: PropTypes.object,
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
       showTime: true,
       disabled: false,
-      value: this.props.defaultValue,
+      value: props.defaultValue,
     };
-  },
-
-  onChange(value) {
+  }
+  onChange = (value) => {
     console.log(`DatePicker change: ${value && value.format(format)}`);
     this.setState({
       value,
     });
-  },
-
-  onShowTimeChange(e) {
+  }
+  onShowTimeChange = (e) => {
     this.setState({
       showTime: e.target.checked,
     });
-  },
-
-  toggleDisabled() {
+  }
+  toggleDisabled = () => {
     this.setState({
       disabled: !this.state.disabled,
     });
-  },
-
+  }
   render() {
     const state = this.state;
     const calendar = (<YearCalendar
@@ -100,30 +91,23 @@ const Test = React.createClass({
               />);
             }
           }
-
         </DatePicker>
       </div>
     </div>);
-  },
-});
-
+  }
+}
 function onStandaloneSelect(value) {
-  console.log('month-calendar select', (value && value.format(format)));
+  console.log('year-calendar select', (value && value.format(format)));
 }
-
 function onStandaloneChange(value) {
-  console.log('month-calendar change', (value && value.format(format)));
+  console.log('year-calendar change', (value && value.format(format)));
 }
-
 function disabledDate(value) {
-  return value.year() < now.year();
+  return value.year() > now.year();
 }
-
-function onMonthCellContentRender(value) {
-  // console.log('month-calendar onMonthCellContentRender', (value && value.format(format)));
-  return `${value.month() + 1}月`;
+function onYearCellContentRender(value) {
+  return `${value.year()}月`;
 }
-
 ReactDOM.render(
   (<div
     style={{
@@ -139,12 +123,12 @@ ReactDOM.render(
       disabledDate={disabledDate}
       onSelect={onStandaloneSelect}
       onChange={onStandaloneChange}
-      monthCellContentRender={onMonthCellContentRender}
+      yearCellContentRender={onYearCellContentRender}
       defaultValue={defaultCalendarValue}
+      renderFooter={() => 'extra footer'}
     />
-
     <div style={{ marginTop: 200 }}>
-      <Test defaultValue={now} />
+      <Demo defaultValue={now} />
     </div>
   </div>)
   , document.getElementById('__react-content'));

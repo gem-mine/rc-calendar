@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
-import YearPanel from '../year/YearPanel';
+import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import MonthTable from './MonthTable';
 
 function goYear(direction) {
@@ -12,7 +13,7 @@ function noop() {
 
 }
 
-const MonthPanel = React.createClass({
+const MonthPanel = createReactClass({
   propTypes: {
     onChange: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -47,14 +48,6 @@ const MonthPanel = React.createClass({
     }
   },
 
-  onYearPanelSelect(current) {
-    this.setState({
-      showYearPanel: 0,
-    });
-    this.setAndChangeValue(current);
-  },
-
-
   setAndChangeValue(value) {
     this.setValue(value);
     this.props.onChange(value);
@@ -73,32 +66,19 @@ const MonthPanel = React.createClass({
     }
   },
 
-  showYearPanel() {
-    this.setState({
-      showYearPanel: 1,
-    });
-  },
-
   render() {
     const props = this.props;
     const value = this.state.value;
     const cellRender = props.cellRender;
     const showYear = props.showYear;
     const contentRender = props.contentRender;
-    const locale = props.locale;
+    const { locale } = props;
     const year = value.year();
     const prefixCls = this.prefixCls;
-    let yearPanel;
-    if (this.state.showYearPanel) {
-      yearPanel = (<YearPanel
-        locale={locale}
-        value={value}
-        rootPrefixCls={props.rootPrefixCls}
-        onSelect={this.onYearPanelSelect}
-      />);
-    }
+
     const disabledYearClass = showYear ?
-           '' : `${prefixCls}-year-disabled`;
+      '' : `${prefixCls}-year-disabled`;
+
     return (
       <div className={prefixCls} style={props.style}>
         <div>
@@ -113,7 +93,7 @@ const MonthPanel = React.createClass({
             <a
               className={`${prefixCls}-year-select ${disabledYearClass}`}
               role="button"
-              onClick={showYear ? this.showYearPanel : null}
+              onClick={showYear ? props.onYearPanelShow : null}
               title={locale.yearSelect}
             >
               <span className={`${prefixCls}-year-select-content`}>{year}</span>
@@ -139,7 +119,6 @@ const MonthPanel = React.createClass({
             />
           </div>
         </div>
-        {yearPanel}
       </div>);
   },
 });

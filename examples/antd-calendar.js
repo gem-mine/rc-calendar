@@ -3,6 +3,7 @@
 import '@sdp.nd/rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import Calendar from '@sdp.nd/rc-calendar';
 import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
 import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
@@ -32,7 +33,7 @@ function getFormat(time) {
 const defaultCalendarValue = now.clone();
 defaultCalendarValue.add(-1, 'month');
 
-const timePickerElement = <TimePickerPanel />;
+const timePickerElement = <TimePickerPanel defaultValue={moment('00:00:00', 'HH:mm:ss')} />;
 
 function disabledTime(date) {
   console.log('disabledTime', date);
@@ -60,48 +61,50 @@ function disabledDate(current) {
   date.hour(0);
   date.minute(0);
   date.second(0);
-  return current.date() + 10 < date.date();  // can not select days before today
+  return current.valueOf() < date.valueOf();  // can not select days before today
 }
 
-const Test = React.createClass({
-  propTypes: {
-    defaultValue: React.PropTypes.object,
-    defaultCalendarValue: React.PropTypes.object,
-  },
+class Demo extends React.Component {
+  static propTypes = {
+    defaultValue: PropTypes.object,
+    defaultCalendarValue: PropTypes.object,
+  }
 
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       showTime: true,
       showDateInput: true,
       disabled: false,
-      value: this.props.defaultValue,
+      value: props.defaultValue,
     };
-  },
+  }
 
-  onChange(value) {
+  onChange = (value) => {
     console.log('DatePicker change: ', (value && value.format(format)));
     this.setState({
       value,
     });
-  },
+  }
 
-  onShowTimeChange(e) {
+  onShowTimeChange = (e) => {
     this.setState({
       showTime: e.target.checked,
     });
-  },
+  }
 
-  onShowDateInputChange(e) {
+  onShowDateInputChange = (e) => {
     this.setState({
       showDateInput: e.target.checked,
     });
-  },
+  }
 
-  toggleDisabled() {
+  toggleDisabled = () => {
     this.setState({
       disabled: !this.state.disabled,
     });
-  },
+  }
 
   render() {
     const state = this.state;
@@ -109,7 +112,7 @@ const Test = React.createClass({
       locale={cn ? zhCN : enUS}
       style={{ zIndex: 1000 }}
       dateInputPlaceholder="please input"
-      formatter={getFormat(state.showTime)}
+      format={getFormat(state.showTime)}
       disabledTime={state.showTime ? disabledTime : null}
       timePicker={state.showTime ? timePickerElement : null}
       defaultValue={this.props.defaultCalendarValue}
@@ -155,7 +158,6 @@ const Test = React.createClass({
       >
         <DatePicker
           animation="slide-up"
-          disabled={state.disabled}
           calendar={calendar}
           value={state.value}
           onChange={this.onChange}
@@ -180,8 +182,46 @@ const Test = React.createClass({
         </DatePicker>
       </div>
     </div>);
-  },
-});
+  }
+}
+
+const multiFormats = ['DD/MM/YYYY', 'DD/MM/YY', 'DDMMYY', 'D/M/YY'];
+
+class DemoMultiFormat extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: now,
+    };
+  }
+
+  onChange = (value) => {
+    console.log('Calendar change: ', (value && value.format(format)));
+    this.setState({
+      value,
+    });
+  }
+
+  render() {
+    const state = this.state;
+    return (<div style={{ width: 400, margin: 20 }}>
+      <div style={{ marginBottom: 10 }}>
+        Accepts multiple input formats
+        <br/>
+        <small>{multiFormats.join(', ')}</small>
+      </div>
+      <Calendar
+        locale={cn ? zhCN : enUS}
+        style={{ zIndex: 1000 }}
+        dateInputPlaceholder="please input"
+        format={multiFormats}
+        value={state.value}
+        onChange={this.onChange}
+      />
+    </div>);
+  }
+}
 
 function onStandaloneSelect(value) {
   console.log('onStandaloneSelect');
@@ -210,20 +250,24 @@ ReactDOM.render((<div
         defaultValue={now}
         disabledTime={disabledTime}
         showToday
-        formatter={getFormat(true)}
+        format={getFormat(true)}
         showOk={false}
         timePicker={timePickerElement}
         onChange={onStandaloneChange}
         disabledDate={disabledDate}
         onSelect={onStandaloneSelect}
+        renderFooter={() => 'extra footer'}
       />
     </div>
     <div style={{ float: 'left', width: 300 }}>
-      <Test defaultValue={now} />
+      <Demo defaultValue={now} />
     </div>
     <div style={{ float: 'right', width: 300 }}>
-      <Test defaultCalendarValue={defaultCalendarValue} />
+      <Demo defaultCalendarValue={defaultCalendarValue} />
     </div>
     <div style={{ clear: 'both' }}></div>
+    <div>
+      <DemoMultiFormat />
+    </div>
   </div>
 </div>), document.getElementById('__react-content'));

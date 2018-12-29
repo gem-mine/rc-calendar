@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
 import { isAllowedDate, getTodayTime } from '../util/index';
@@ -78,7 +79,7 @@ const CalendarMixin = {
 
     return (
       <div
-        ref="root"
+        ref={this.saveRoot}
         className={`${classnames(className)}`}
         style={this.props.style}
         tabIndex="0"
@@ -107,9 +108,11 @@ const CalendarMixin = {
         value,
       });
     }
-    if (originalValue && value && !originalValue.isSame(value) ||
-      (!originalValue && value) ||
-      (originalValue && !value)) {
+    if (
+      originalValue && value && !originalValue.isSame(value) ||
+        (!originalValue && value) ||
+        (originalValue && !value)
+    ) {
       this.props.onChange(value);
     }
   },
