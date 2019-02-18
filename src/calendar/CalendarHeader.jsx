@@ -35,6 +35,7 @@ export default class CalendarHeader extends React.Component {
     disabledMonth: PropTypes.func,
     renderFooter: PropTypes.func,
     onMonthSelect: PropTypes.func,
+    onYearSelect: PropTypes.func,
   }
 
   static defaultProps = {

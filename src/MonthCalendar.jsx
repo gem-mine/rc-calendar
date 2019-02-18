@@ -113,7 +113,7 @@ class MonthCalendar extends React.Component {
           prefixCls={props.prefixCls}
           renderFooter={props.renderFooter}
         />
-      </div>
+      </div>,
     ];
     return this.renderRoot({
       className: `${props.prefixCls}-month-calendar`,
