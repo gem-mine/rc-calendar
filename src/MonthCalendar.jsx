@@ -92,7 +92,8 @@ class MonthCalendar extends React.Component {
   render() {
     const { props, state } = this;
     const { mode, value } = state;
-    const children = (
+    const children = [
+      props.renderSidebar(),
       <div className={`${props.prefixCls}-month-calendar-content`}>
         <div className={`${props.prefixCls}-month-header-wrap`}>
           <CalendarHeader
@@ -113,7 +114,7 @@ class MonthCalendar extends React.Component {
           renderFooter={props.renderFooter}
         />
       </div>
-    );
+    ];
     return this.renderRoot({
       className: `${props.prefixCls}-month-calendar`,
       children,

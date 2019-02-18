@@ -15,6 +15,7 @@ import moment from 'moment';
 
 class FullCalendar extends React.Component {
   static propTypes = {
+    mode: PropTypes.string,
     ...calendarMixinPropTypes,
     ...propType,
     defaultType: PropTypes.string,
@@ -135,6 +136,7 @@ class FullCalendar extends React.Component {
 
     const table = type === 'date' ? (
       <DateTable
+        mode={props.mode}
         dateRender={props.dateCellRender}
         contentRender={props.dateCellContentRender}
         locale={locale}
