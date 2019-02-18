@@ -1,9 +1,8 @@
 import React from 'react';
-import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateConstants from './DateConstants';
-import { getTitleString, getTodayTime, getTitleNoYearString } from '../util/';
+import { getTitleString, getTodayTime } from '../util/';
 
 function isSameDay(one, two) {
   return one && two && one.isSame(two, 'day');
@@ -29,9 +28,8 @@ function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
 }
 
-const DateTBody = createReactClass({
-  propTypes: {
-    mode: PropTypes.string,
+export default class DateTBody extends React.Component {
+  static propTypes = {
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -40,22 +38,18 @@ const DateTBody = createReactClass({
     value: PropTypes.object,
     hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
-    showYear: PropTypes.bool,
-  },
+  }
 
-  getDefaultProps() {
-    return {
-      hoverValue: [],
-      showYear: true,
-    };
-  },
+  static defaultProps = {
+    hoverValue: [],
+  }
 
   render() {
     const props = this.props;
     const {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
-      hoverValue, mode, showYear,
+      hoverValue,
     } = props;
     let iIndex;
     let jIndex;
@@ -78,9 +72,7 @@ const DateTBody = createReactClass({
     const lastDisableClass = `${prefixCls}-disabled-cell-last-of-row`;
     const lastDayOfMonthClass = `${prefixCls}-last-day-of-month`;
     const month1 = value.clone();
-    if (mode !== 'week') {
-      month1.date(1);
-    }
+    month1.date(1);
     const day = month1.day();
     const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
     // calculate last month
@@ -88,9 +80,7 @@ const DateTBody = createReactClass({
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
     let passed = 0;
 
-    // 如果是week模式，只显示一行
-    const rowCount = mode === 'week' ? 1 : DateConstants.DATE_ROW_COUNT;
-    for (iIndex = 0; iIndex < rowCount; iIndex++) {
+    for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       for (jIndex = 0; jIndex < DateConstants.DATE_COL_COUNT; jIndex++) {
         current = lastMonth1;
         if (passed) {
@@ -104,7 +94,7 @@ const DateTBody = createReactClass({
     const tableHtml = [];
     passed = 0;
 
-    for (iIndex = 0; iIndex < rowCount; iIndex++) {
+    for (iIndex = 0; iIndex < DateConstants.DATE_ROW_COUNT; iIndex++) {
       let isCurrentWeek;
       let weekNumberCell;
       let isActiveWeek = false;
@@ -232,7 +222,7 @@ const DateTBody = createReactClass({
             onMouseEnter={disabled ?
               undefined : props.onDayHover && props.onDayHover.bind(null, current) || undefined}
             role="gridcell"
-            title={showYear ? getTitleString(current) : getTitleNoYearString(current)}
+            title={getTitleString(current)}
             className={cls}
           >
             {dateHtml}
@@ -258,7 +248,5 @@ const DateTBody = createReactClass({
     return (<tbody className={`${prefixCls}-tbody`}>
       {tableHtml}
     </tbody>);
-  },
-});
-
-export default DateTBody;
+  }
+}

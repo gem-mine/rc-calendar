@@ -16,14 +16,10 @@ function chooseYear(year) {
   const value = this.state.value.clone();
   value.year(year);
   value.month(this.state.value.month());
-  this.setState({
-    value,
-  });
   this.props.onSelect(value);
 }
 
-export default
-  class YearPanel extends React.Component {
+export default class YearPanel extends React.Component {
   constructor(props) {
     super(props);
     this.prefixCls = `${props.rootPrefixCls}-year-panel`;
@@ -33,17 +29,7 @@ export default
     this.nextDecade = goYear.bind(this, 10);
     this.previousDecade = goYear.bind(this, -10);
   }
-  componentWillReceiveProps(nextProps) {
-    if ('value' in nextProps) {
-      this.setState({
-        value: nextProps.value,
-      });
-    }
-  }
-  setAndSelectValue(value) {
-    this.setValue(value);
-    this.props.onSelect(value);
-  }
+
   years() {
     const value = this.state.value;
     const currentYear = value.year();
@@ -69,7 +55,7 @@ export default
   render() {
     const props = this.props;
     const value = this.state.value;
-    const { locale } = props;
+    const { locale, renderFooter } = props;
     const years = this.years();
     const currentYear = value.year();
     const startYear = parseInt(currentYear / 10, 10) * 10;
@@ -78,15 +64,8 @@ export default
 
     const yeasEls = years.map((row, index) => {
       const tds = row.map(yearData => {
-        let disabled = false;
-        if (props.disabledDate) {
-          const testValue = value.clone();
-          testValue.year(yearData.year);
-          disabled = props.disabledDate(testValue);
-        }
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
-          [`${prefixCls}-cell-disabled`]: disabled,
           [`${prefixCls}-selected-cell`]: yearData.year === currentYear,
           [`${prefixCls}-last-decade-cell`]: yearData.year < startYear,
           [`${prefixCls}-next-decade-cell`]: yearData.year > endYear,
@@ -104,7 +83,7 @@ export default
             role="gridcell"
             title={yearData.title}
             key={yearData.content}
-            onClick={disabled ? null : clickHandler}
+            onClick={clickHandler}
             className={classnames(classNameMap)}
           >
             <a
@@ -117,6 +96,7 @@ export default
       return (<tr key={index} role="row">{tds}</tr>);
     });
 
+    const footer = renderFooter && renderFooter('year');
 
     return (
       <div className={this.prefixCls}>
@@ -154,6 +134,11 @@ export default
               </tbody>
             </table>
           </div>
+
+          {footer && (
+            <div className={`${prefixCls}-footer`}>
+              {footer}
+            </div>)}
         </div>
       </div>);
   }
@@ -163,8 +148,7 @@ YearPanel.propTypes = {
   rootPrefixCls: PropTypes.string,
   value: PropTypes.object,
   defaultValue: PropTypes.object,
-  disabledDate: PropTypes.func,
-  onSelect: PropTypes.func,
+  renderFooter: PropTypes.func,
 };
 
 YearPanel.defaultProps = {

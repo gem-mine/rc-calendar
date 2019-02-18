@@ -1,6 +1,6 @@
 {
-  "name": "@sdp.nd/rc-calendar",
-  "version": "4.0.0",
+  "name": "rc-calendar",
+  "version": "9.10.9",
   "description": "React Calendar",
   "keywords": [
     "react",
@@ -20,6 +20,12 @@
   ],
   "main": "lib/index",
   "module": "es/index",
+  "homepage": "http://github.com/react-component/calendar",
+  "author": "yiminghe@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:react-component/calendar.git"
+  },
   "bugs": {
     "url": "http://github.com/react-component/calendar/issues"
   },
@@ -34,7 +40,7 @@
     }
   },
   "scripts": {
-    "build": "rc-tools run compile --babel-runtime",
+    "build": "rc-tools run build",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
     "compile": "rc-tools run compile --babel-runtime",
@@ -74,8 +80,8 @@
     "rc-select": "^7.1.0",
     "rc-time-picker": "^3.1.0",
     "rc-tools": "^7.0.3",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
     "react-test-renderer": "^16.0.0",
     "tslint": "^5.9.1",
     "typescript": "^2.8.3"
@@ -84,14 +90,13 @@
     "lint"
   ],
   "dependencies": {
-    "@sdp.nd/nd-input": "^2.0.1",
     "babel-runtime": "6.x",
     "classnames": "2.x",
-    "create-react-class": "^15.5.2",
     "moment": "2.x",
     "prop-types": "^15.5.8",
     "rc-trigger": "^2.2.0",
-    "rc-util": "^4.1.1"
+    "rc-util": "^4.1.1",
+    "react-lifecycles-compat": "^3.0.4"
   },
   "types": "index.d.ts"
 }

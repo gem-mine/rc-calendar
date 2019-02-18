@@ -1,13 +1,13 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
 
-import '@sdp.nd/rc-calendar/assets/index.less';
+import 'rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import Calendar from '@sdp.nd/rc-calendar';
-import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
-import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
-import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
+import Calendar from 'rc-calendar';
+import DatePicker from 'rc-calendar/src/Picker';
+import zhCN from 'rc-calendar/src/locale/zh_CN';
+import enUS from 'rc-calendar/src/locale/en_US';
 import 'rc-time-picker/assets/index.css';
 import TimePickerPanel from 'rc-time-picker/lib/Panel';
 
@@ -166,15 +166,15 @@ class Demo extends React.Component {
             ({ value }) => {
               return (
                 <span tabIndex="0">
-                <input
-                  placeholder="please select"
-                  style={{ width: 250 }}
-                  disabled={state.disabled}
-                  readOnly
-                  tabIndex="-1"
-                  className="ant-calendar-picker-input ant-input"
-                  value={value && value.format(getFormat(state.showTime)) || ''}
-                />
+                  <input
+                    placeholder="please select"
+                    style={{ width: 250 }}
+                    disabled={state.disabled}
+                    readOnly
+                    tabIndex="-1"
+                    className="ant-calendar-picker-input ant-input"
+                    value={value && value.format(getFormat(state.showTime)) || ''}
+                  />
                 </span>
               );
             }
@@ -208,7 +208,7 @@ class DemoMultiFormat extends React.Component {
     return (<div style={{ width: 400, margin: 20 }}>
       <div style={{ marginBottom: 10 }}>
         Accepts multiple input formats
-        <br/>
+        <br />
         <small>{multiFormats.join(', ')}</small>
       </div>
       <Calendar
@@ -218,6 +218,7 @@ class DemoMultiFormat extends React.Component {
         format={multiFormats}
         value={state.value}
         onChange={this.onChange}
+        focusablePanel={false}
       />
     </div>);
   }
@@ -256,7 +257,7 @@ ReactDOM.render((<div
         onChange={onStandaloneChange}
         disabledDate={disabledDate}
         onSelect={onStandaloneSelect}
-        renderFooter={() => 'extra footer'}
+        renderFooter={(mode) => (<span>{mode} extra footer</span>)}
       />
     </div>
     <div style={{ float: 'left', width: 300 }}>
