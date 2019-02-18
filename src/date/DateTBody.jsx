@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateConstants from './DateConstants';
-import { getTitleString, getTodayTime } from '../util/';
 import { getTitleString, getTodayTime, getTitleNoYearString } from '../util/';
 
 function isSameDay(one, two) {

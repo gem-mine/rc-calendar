@@ -68,8 +68,12 @@ export default class CalendarHeader extends React.Component {
   onYearSelect = (value) => {
     const referer = this.state.yearPanelReferer;
     this.setState({ yearPanelReferer: null });
-    this.props.onPanelChange(value, referer);
-    this.props.onValueChange(value);
+    this.props.onPanelChange(value, referer || 'month');
+    if (this.props.onYearSelect) {
+      this.props.onYearSelect(value);
+    } else {
+      this.props.onValueChange(value);
+    }
   }
 
   onDecadeSelect = (value) => {
@@ -150,6 +154,11 @@ export default class CalendarHeader extends React.Component {
       disabledMonth,
       renderFooter,
       showYear,
+      monthCellRender,
+      monthCellContentRender,
+      disabledYear,
+      yearCellRender,
+      yearCellContentRender,
     } = props;
 
     let panel = null;
@@ -163,8 +172,8 @@ export default class CalendarHeader extends React.Component {
           onSelect={this.onMonthSelect}
           onYearPanelShow={() => this.showYearPanel('month')}
           disabledDate={disabledMonth}
-          cellRender={props.monthCellRender}
-          contentRender={props.monthCellContentRender}
+          cellRender={monthCellRender}
+          contentRender={monthCellContentRender}
           renderFooter={renderFooter}
         />
       );
@@ -179,6 +188,9 @@ export default class CalendarHeader extends React.Component {
           onSelect={this.onYearSelect}
           onDecadePanelShow={this.showDecadePanel}
           renderFooter={renderFooter}
+          disabledDate={disabledYear}
+          cellRender={yearCellRender}
+          contentRender={yearCellContentRender}
         />
       );
     }
