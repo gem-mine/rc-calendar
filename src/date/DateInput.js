@@ -5,6 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { polyfill } from 'react-lifecycles-compat';
 import moment from 'moment';
 import { formatDate } from '../util';
+import NdInput from '@sdp.nd/nd-input/lib/index';
 
 let cachedSelectionStart;
 let cachedSelectionEnd;
@@ -156,7 +157,8 @@ class DateInput extends React.Component {
   }
 
   saveDateInput = (dateInput) => {
-    dateInputInstance = dateInput;
+    // 使用nd-input包了一层后，取ref也需要多一层
+    this.dateInputInstance = dateInput && dateInput.inputRef;
   }
 
   render() {
@@ -167,8 +169,9 @@ class DateInput extends React.Component {
     return (
       <div className={`${prefixCls}-input-wrap`}>
         <div className={`${prefixCls}-date-input-wrap`}>
-          <input
+          <NdInput
             ref={this.saveDateInput}
+            prefixCls={`${prefixCls}`}
             className={`${prefixCls}-input ${invalidClass}`}
             value={str}
             disabled={props.disabled}

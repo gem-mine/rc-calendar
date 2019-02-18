@@ -84,6 +84,7 @@
     "lint"
   ],
   "dependencies": {
+    "@sdp.nd/nd-input": "^1.0.0",
     "babel-runtime": "6.x",
     "classnames": "2.x",
     "moment": "2.x",
