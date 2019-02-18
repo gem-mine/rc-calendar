@@ -37,6 +37,7 @@ class Calendar extends React.Component {
     showDateInput: PropTypes.bool,
     showWeekNumber: PropTypes.bool,
     showToday: PropTypes.bool,
+    showYear: PropTypes.bool,
     showOk: PropTypes.bool,
     onSelect: PropTypes.func,
     onOk: PropTypes.func,
@@ -59,6 +60,7 @@ class Calendar extends React.Component {
     ...calendarMixinDefaultProps,
     ...defaultProp,
     showToday: true,
+    showYear: true,
     showDateInput: true,
     timePicker: null,
     onOk: noop,
@@ -244,7 +246,7 @@ class Calendar extends React.Component {
     const {
       locale, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
-      disabledTime, clearIcon, renderFooter,
+      disabledTime, clearIcon, renderFooter, showYear,
     } = props;
     const { value, selectedValue, mode } = state;
     const showTimePicker = mode === 'time';
@@ -309,6 +311,7 @@ class Calendar extends React.Component {
           onPanelChange={this.onPanelChange}
           renderFooter={renderFooter}
           showTimePicker={showTimePicker}
+          showYear={showYear}
           prefixCls={prefixCls}
         />
         {timePicker && showTimePicker ?
@@ -328,6 +331,7 @@ class Calendar extends React.Component {
             onSelect={this.onDateTableSelect}
             disabledDate={disabledDate}
             showWeekNumber={props.showWeekNumber}
+            showYear={showYear}
           />
         </div>
 
@@ -338,6 +342,7 @@ class Calendar extends React.Component {
           locale={locale}
           prefixCls={prefixCls}
           showToday={props.showToday}
+          showYear={showYear}
           disabledTime={disabledTime}
           showTimePicker={showTimePicker}
           showDateInput={props.showDateInput}

@@ -22,11 +22,13 @@ class MonthPanel extends React.Component {
     rootPrefixCls: PropTypes.string,
     value: PropTypes.object,
     defaultValue: PropTypes.object,
+    showYear: PropTypes.bool,
   }
 
   static defaultProps = {
     onChange: noop,
     onSelect: noop,
+    showYear: true,
   }
 
   constructor(props) {
@@ -74,27 +76,30 @@ class MonthPanel extends React.Component {
   render() {
     const props = this.props;
     const value = this.state.value;
-    const { locale, cellRender, contentRender, renderFooter } = props;
+    const { locale, cellRender, contentRender, renderFooter, showYear } = props;
     const year = value.year();
     const prefixCls = this.prefixCls;
 
     const footer = renderFooter && renderFooter('month');
+
+    const disabledYearClass = showYear ?
+      '' : `${prefixCls}-year-disabled`;
 
     return (
       <div className={prefixCls} style={props.style}>
         <div>
           <div className={`${prefixCls}-header`}>
             <a
-              className={`${prefixCls}-prev-year-btn`}
+              className={`${prefixCls}-prev-year-btn ${disabledYearClass}`}
               role="button"
-              onClick={this.previousYear}
+              onClick={showYear ? this.previousYear : null}
               title={locale.previousYear}
             />
 
             <a
-              className={`${prefixCls}-year-select`}
+              className={`${prefixCls}-year-select ${disabledYearClass}`}
               role="button"
-              onClick={props.onYearPanelShow}
+              onClick={showYear ? props.onYearPanelShow : null}
               title={locale.yearSelect}
             >
               <span className={`${prefixCls}-year-select-content`}>{year}</span>
@@ -102,9 +107,9 @@ class MonthPanel extends React.Component {
             </a>
 
             <a
-              className={`${prefixCls}-next-year-btn`}
+              className={`${prefixCls}-next-year-btn ${disabledYearClass}`}
               role="button"
-              onClick={this.nextYear}
+              onClick={showYear ? this.nextYear : null}
               title={locale.nextYear}
             />
           </div>

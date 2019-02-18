@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateConstants from './DateConstants';
 import { getTitleString, getTodayTime } from '../util/';
+import { getTitleString, getTodayTime, getTitleNoYearString } from '../util/';
 
 function isSameDay(one, two) {
   return one && two && one.isSame(two, 'day');
@@ -39,6 +40,7 @@ export default class DateTBody extends React.Component {
     value: PropTypes.object,
     hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
+    showYear: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -50,7 +52,7 @@ export default class DateTBody extends React.Component {
     const {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
-      hoverValue, mode,
+      hoverValue, mode, showYear,
     } = props;
     let iIndex;
     let jIndex;
@@ -227,7 +229,7 @@ export default class DateTBody extends React.Component {
             onMouseEnter={disabled ?
               undefined : props.onDayHover && props.onDayHover.bind(null, current) || undefined}
             role="gridcell"
-            title={getTitleString(current)}
+            title={showYear ? getTitleString(current) : getTitleNoYearString(current)}
             className={cls}
           >
             {dateHtml}
