@@ -1,14 +1,14 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
 
-import 'rc-calendar/assets/index.less';
+import '@sdp.nd/rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import MonthCalendar from 'rc-calendar/src/MonthCalendar';
-import DatePicker from 'rc-calendar/src/Picker';
+import MonthCalendar from '@sdp.nd/rc-calendar/src/MonthCalendar';
+import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
 
-import zhCN from 'rc-calendar/src/locale/zh_CN';
-import enUS from 'rc-calendar/src/locale/en_US';
+import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
+import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -139,6 +139,7 @@ ReactDOM.render(
     }}
   >
     <MonthCalendar
+      renderSidebar={() => <div style={{ textAlign: 'center' }} key={'header'}>自定义头部</div>}
       locale={cn ? zhCN : enUS}
       style={{ zIndex: 1000 }}
       disabledDate={disabledDate}
