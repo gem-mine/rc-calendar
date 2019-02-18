@@ -44,6 +44,7 @@ export default class DateTBody extends React.Component {
 
   static defaultProps = {
     hoverValue: [],
+    showYear: true,
   }
 
   render() {
