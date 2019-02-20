@@ -94,7 +94,7 @@ class MonthCalendar extends React.Component {
     const { mode, value } = state;
     const children = [
       props.renderSidebar(),
-      <div className={`${props.prefixCls}-month-calendar-content`}>
+      <div className={`${props.prefixCls}-month-calendar-content`} key={'panel'}>
         <div className={`${props.prefixCls}-month-header-wrap`}>
           <CalendarHeader
             prefixCls={props.prefixCls}
