@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
+import KeyCode from 'rc-util/lib/KeyCode';
+import { polyfill } from 'react-lifecycles-compat';
 import moment from 'moment';
 import { formatDate } from '../util';
 import NdInput from '@sdp.nd/nd-input/lib/index';
 
-const DateInput = createReactClass({
-  propTypes: {
+let cachedSelectionStart;
+let cachedSelectionEnd;
+let dateInputInstance;
+
+class DateInput extends React.Component {
+  static propTypes = {
     prefixCls: PropTypes.string,
     timePicker: PropTypes.object,
     value: PropTypes.object,
@@ -21,38 +26,34 @@ const DateInput = createReactClass({
     onSelect: PropTypes.func,
     selectedValue: PropTypes.object,
     clearIcon: PropTypes.node,
-  },
+  }
 
-  getInitialState() {
-    const selectedValue = this.props.selectedValue;
-    return {
+  constructor(props) {
+    super(props);
+    const selectedValue = props.selectedValue;
+
+    this.state = {
       str: formatDate(selectedValue, this.props.format),
       invalid: false,
       hasFocus: false,
     };
-  },
-
-  componentWillReceiveProps(nextProps) {
-    this.cachedSelectionStart = this.dateInputInstance.selectionStart;
-    this.cachedSelectionEnd = this.dateInputInstance.selectionEnd;
-    // when popup show, click body will call this, bug!
-    const selectedValue = nextProps.selectedValue;
-    if (!this.state.hasFocus) {
-      this.setState({
-        str: formatDate(selectedValue, nextProps.format),
-        invalid: false,
-      });
-    }
-  },
+  }
 
   componentDidUpdate() {
-    if (this.state.hasFocus && !this.state.invalid &&
-        !(this.cachedSelectionStart === 0 && this.cachedSelectionEnd === 0)) {
-      this.dateInputInstance.setSelectionRange(this.cachedSelectionStart, this.cachedSelectionEnd);
+    if (dateInputInstance && this.state.hasFocus && !this.state.invalid &&
+      !(cachedSelectionStart === 0 && cachedSelectionEnd === 0)) {
+      dateInputInstance.setSelectionRange(cachedSelectionStart, cachedSelectionEnd);
     }
-  },
+  }
 
-  onInputChange(event) {
+  onClear = () => {
+    this.setState({
+      str: '',
+    });
+    this.props.onClear(null);
+  }
+
+  onInputChange = (event) => {
     const str = event.target.value;
     const { disabledDate, format, onChange, selectedValue } = this.props;
 
@@ -97,44 +98,68 @@ const DateInput = createReactClass({
       selectedValue && value && !selectedValue.isSame(value)
     )) {
       this.setState({
+        invalid: false,
         str,
       });
       onChange(value);
     }
-  },
+  }
 
-  onClear() {
-    this.setState({
-      str: '',
-    });
-    this.props.onClear(null);
-  },
-
-  getRootDOMNode() {
-    return ReactDOM.findDOMNode(this);
-  },
-
-  focus() {
-    if (this.dateInputInstance) {
-      this.dateInputInstance.focus();
-    }
-  },
-
-  saveDateInput(dateInput) {
-    // 使用nd-input包了一层后，取ref也需要多一层
-    this.dateInputInstance = dateInput && dateInput.inputRef;
-  },
-
-  onFocus() {
+  onFocus = () => {
     this.setState({ hasFocus: true });
-  },
+  }
 
-  onBlur() {
+  onBlur = () => {
     this.setState((prevState, prevProps) => ({
       hasFocus: false,
       str: formatDate(prevProps.value, prevProps.format),
     }));
-  },
+  }
+
+  onKeyDown = ({ keyCode }) => {
+    const { onSelect, value } = this.props;
+    if (keyCode === KeyCode.ENTER && onSelect) {
+      onSelect(value.clone());
+    }
+  };
+
+  static getDerivedStateFromProps(nextProps, state) {
+    let newState = {};
+
+    if (dateInputInstance) {
+      cachedSelectionStart = dateInputInstance.selectionStart;
+      cachedSelectionEnd = dateInputInstance.selectionEnd;
+    }
+    // when popup show, click body will call this, bug!
+    const selectedValue = nextProps.selectedValue;
+    if (!state.hasFocus) {
+      newState = {
+        str: formatDate(selectedValue, nextProps.format),
+        invalid: false,
+      };
+    }
+
+    return newState;
+  }
+
+  static getInstance() {
+    return dateInputInstance;
+  }
+
+  getRootDOMNode = () => {
+    return ReactDOM.findDOMNode(this);
+  }
+
+  focus = () => {
+    if (dateInputInstance) {
+      dateInputInstance.focus();
+    }
+  }
+
+  saveDateInput = (dateInput) => {
+    // 使用nd-input包了一层后，取ref也需要多一层
+    this.dateInputInstance = dateInput && dateInput.inputRef;
+  }
 
   render() {
     const props = this.props;
@@ -152,6 +177,7 @@ const DateInput = createReactClass({
             disabled={props.disabled}
             placeholder={placeholder}
             onChange={this.onInputChange}
+            onKeyDown={this.onKeyDown}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
           />
@@ -162,12 +188,14 @@ const DateInput = createReactClass({
             title={locale.clear}
             onClick={this.onClear}
           >
-            {clearIcon || <span className={`${prefixCls}-clear-btn`}/>}
+            {clearIcon || <span className={`${prefixCls}-clear-btn`} />}
           </a>
         ) : null}
       </div>
     );
-  },
-});
+  }
+}
+
+polyfill(DateInput);
 
 export default DateInput;

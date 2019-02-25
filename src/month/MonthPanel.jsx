@@ -1,6 +1,6 @@
 import React from 'react';
-import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
+import { polyfill } from 'react-lifecycles-compat';
 import MonthTable from './MonthTable';
 
 function goYear(direction) {
@@ -13,68 +13,74 @@ function noop() {
 
 }
 
-const MonthPanel = createReactClass({
-  propTypes: {
+class MonthPanel extends React.Component {
+  static propTypes = {
     onChange: PropTypes.func,
     disabledDate: PropTypes.func,
     onSelect: PropTypes.func,
+    renderFooter: PropTypes.func,
+    rootPrefixCls: PropTypes.string,
+    value: PropTypes.object,
+    defaultValue: PropTypes.object,
     showYear: PropTypes.bool,
-  },
+  }
 
-  getDefaultProps() {
-    return {
-      onChange: noop,
-      onSelect: noop,
-      showYear: true,
-    };
-  },
+  static defaultProps = {
+    onChange: noop,
+    onSelect: noop,
+    showYear: true,
+  }
 
-  getInitialState() {
-    const props = this.props;
-    // bind methods
+  constructor(props) {
+    super(props);
+
     this.nextYear = goYear.bind(this, 1);
     this.previousYear = goYear.bind(this, -1);
     this.prefixCls = `${props.rootPrefixCls}-month-panel`;
-    return {
+
+    this.state = {
       value: props.value || props.defaultValue,
     };
-  },
+  }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps) {
+    let newState = {};
+
     if ('value' in nextProps) {
-      this.setState({
+      newState = {
         value: nextProps.value,
-      });
+      };
     }
-  },
 
-  setAndChangeValue(value) {
+    return newState;
+  }
+
+  setAndChangeValue = (value) => {
     this.setValue(value);
     this.props.onChange(value);
-  },
+  }
 
-  setAndSelectValue(value) {
+  setAndSelectValue = (value) => {
     this.setValue(value);
     this.props.onSelect(value);
-  },
+  }
 
-  setValue(value) {
+  setValue = (value) => {
     if (!('value' in this.props)) {
       this.setState({
         value,
       });
     }
-  },
+  }
 
   render() {
     const props = this.props;
     const value = this.state.value;
-    const cellRender = props.cellRender;
-    const showYear = props.showYear;
-    const contentRender = props.contentRender;
-    const { locale } = props;
+    const { locale, cellRender, contentRender, renderFooter, showYear } = props;
     const year = value.year();
     const prefixCls = this.prefixCls;
+
+    const footer = renderFooter && renderFooter('month');
 
     const disabledYearClass = showYear ?
       '' : `${prefixCls}-year-disabled`;
@@ -118,9 +124,15 @@ const MonthPanel = createReactClass({
               prefixCls={prefixCls}
             />
           </div>
+          {footer && (
+            <div className={`${prefixCls}-footer`}>
+              {footer}
+            </div>)}
         </div>
       </div>);
-  },
-});
+  }
+}
+
+polyfill(MonthPanel);
 
 export default MonthPanel;
