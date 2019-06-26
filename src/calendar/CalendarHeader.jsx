@@ -82,6 +82,14 @@ export default class CalendarHeader extends React.Component {
     this.props.onValueChange(value);
   }
 
+  changeYear = (direction) => {
+    if (direction > 0) {
+      this.nextYear();
+    } else {
+      this.previousYear();
+    }
+  }
+
   monthYearElement = (showTimePicker) => {
     const props = this.props;
     const prefixCls = props.prefixCls;
@@ -167,6 +175,7 @@ export default class CalendarHeader extends React.Component {
       panel = (
         <MonthPanel
           locale={locale}
+          value={value}
           showYear={showYear}
           defaultValue={value}
           rootPrefixCls={prefixCls}
@@ -176,6 +185,7 @@ export default class CalendarHeader extends React.Component {
           cellRender={monthCellRender}
           contentRender={monthCellContentRender}
           renderFooter={renderFooter}
+          changeYear={this.changeYear}
         />
       );
     }
