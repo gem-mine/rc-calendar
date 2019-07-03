@@ -7,6 +7,8 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import placements from './picker/placements';
 import Trigger from 'rc-trigger';
 
+const isIE = !!window.ActiveXObject || 'ActiveXObject' in window;
+
 function noop() {
 }
 
@@ -39,6 +41,7 @@ class Picker extends React.Component {
     ]),
     align: PropTypes.object,
     onBlur: PropTypes.func,
+    showTime: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -121,7 +124,11 @@ class Picker extends React.Component {
   }
 
   onCalendarBlur = () => {
-    this.setOpen(false);
+    // ie系列有showTime时选择日期会触发失去焦点，导致panel自动关闭
+    // todo: ie下使用tab切换选项的时候，panel不会自动关闭
+    if (!isIE || !this.props.showTime) {
+      this.setOpen(false);
+    }
   }
 
   onVisibleChange = (open) => {
