@@ -26,6 +26,7 @@ class DateInput extends React.Component {
     onSelect: PropTypes.func,
     selectedValue: PropTypes.object,
     clearIcon: PropTypes.node,
+    inputMode: PropTypes.string,
   }
 
   constructor(props) {
@@ -116,13 +117,15 @@ class DateInput extends React.Component {
     }));
   }
 
-  onKeyDown = ({ keyCode }) => {
+  onKeyDown = (event) => {
+    const { keyCode } = event;
     const { onSelect, value, disabledDate } = this.props;
     if (keyCode === KeyCode.ENTER && onSelect) {
       const validateDate = !disabledDate || !disabledDate(value);
       if (validateDate) {
         onSelect(value.clone());
       }
+      event.preventDefault();
     }
   };
 
@@ -167,7 +170,7 @@ class DateInput extends React.Component {
   render() {
     const props = this.props;
     const { invalid, str } = this.state;
-    const { locale, prefixCls, placeholder, clearIcon } = props;
+    const { locale, prefixCls, placeholder, clearIcon, inputMode } = props;
     const invalidClass = invalid ? `${prefixCls}-input-invalid` : '';
     return (
       <div className={`${prefixCls}-input-wrap`}>
@@ -183,6 +186,7 @@ class DateInput extends React.Component {
             onKeyDown={this.onKeyDown}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
+            inputMode={inputMode}
           />
         </div>
         {props.showClear ? (

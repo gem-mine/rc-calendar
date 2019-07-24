@@ -40,8 +40,12 @@ class Picker extends React.Component {
       PropTypes.array,
     ]),
     align: PropTypes.object,
+    dateRender: PropTypes.func,
     onBlur: PropTypes.func,
-    showTime: PropTypes.bool,
+    showTime: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+    ]),
   }
 
   static defaultProps = {

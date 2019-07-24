@@ -21,6 +21,13 @@ import moment from 'moment';
 function noop() {
 }
 
+const getMomentObjectIfValid = date => {
+  if (moment.isMoment(date) && date.isValid()) {
+    return date;
+  }
+  return false;
+};
+
 class Calendar extends React.Component {
   static propTypes = {
     ...calendarMixinPropTypes,
@@ -54,6 +61,7 @@ class Calendar extends React.Component {
     renderSidebar: PropTypes.func,
     clearIcon: PropTypes.node,
     focusablePanel: PropTypes.bool,
+    inputMode: PropTypes.string,
     onBlur: PropTypes.func,
   }
 
@@ -71,10 +79,12 @@ class Calendar extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       mode: this.props.mode || 'date',
-      value: props.value || props.defaultValue || moment(),
+      value:
+        getMomentObjectIfValid(props.value) ||
+        getMomentObjectIfValid(props.defaultValue) ||
+        moment(),
       selectedValue: props.selectedValue || props.defaultSelectedValue,
     };
   }
@@ -230,7 +240,10 @@ class Calendar extends React.Component {
       newState = { mode: nextProps.mode };
     }
     if ('value' in nextProps) {
-      newState.value = value || nextProps.defaultValue || getNowByCurrentStateValue(state.value);
+      newState.value =
+        getMomentObjectIfValid(value) ||
+        getMomentObjectIfValid(nextProps.defaultValue) ||
+        getNowByCurrentStateValue(state.value);
     }
     if ('selectedValue' in nextProps) {
       newState.selectedValue = selectedValue;
@@ -263,7 +276,7 @@ class Calendar extends React.Component {
     const {
       locale, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
-      disabledTime, clearIcon, renderFooter, showYear,
+      disabledTime, clearIcon, renderFooter, showYear, inputMode,
     } = props;
     const { value, selectedValue, mode } = state;
     const showTimePicker = mode === 'time';
@@ -307,6 +320,7 @@ class Calendar extends React.Component {
         onChange={this.onDateInputChange}
         onSelect={this.onDateInputSelect}
         clearIcon={clearIcon}
+        inputMode={inputMode}
       />
     ) : null;
 
