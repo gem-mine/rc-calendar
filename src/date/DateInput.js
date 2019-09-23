@@ -5,7 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { polyfill } from 'react-lifecycles-compat';
 import moment from 'moment';
 import { formatDate } from '../util';
-import NdInput from '@sdp.nd/nd-input/lib/index';
+import NdInput from '@gem-mine/rc-input/lib/index';
 
 let cachedSelectionStart;
 let cachedSelectionEnd;

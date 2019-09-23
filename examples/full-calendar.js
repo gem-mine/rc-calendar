@@ -1,15 +1,15 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
 
-import '@sdp.nd/rc-calendar/assets/index.less';
+import '@gem-mine/rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FullCalendar from '@sdp.nd/rc-calendar/src/FullCalendar';
+import FullCalendar from '@gem-mine/rc-calendar/src/FullCalendar';
 
 import 'rc-select/assets/index.css';
 import Select from 'rc-select';
 
-import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
-import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
+import zhCN from '@gem-mine/rc-calendar/src/locale/zh_CN';
+import enUS from '@gem-mine/rc-calendar/src/locale/en_US';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';

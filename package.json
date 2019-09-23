@@ -1,5 +1,5 @@
 {
-  "name": "@sdp.nd/rc-calendar",
+  "name": "@gem-mine/rc-calendar",
   "version": "5.3.0",
   "description": "React Calendar",
   "keywords": [
@@ -83,7 +83,7 @@
     "lint"
   ],
   "dependencies": {
-    "@sdp.nd/nd-input": "^2.0.1",
+    "@gem-mine/rc-input": "^2.0.1",
     "babel-runtime": "6.x",
     "classnames": "2.x",
     "moment": "2.x",

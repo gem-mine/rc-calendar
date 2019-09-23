@@ -1,13 +1,13 @@
-import '@sdp.nd/rc-calendar/assets/index.less';
+import '@gem-mine/rc-calendar/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Calendar from '@sdp.nd/rc-calendar';
-import DatePicker from '@sdp.nd/rc-calendar/src/Picker';
+import Calendar from '@gem-mine/rc-calendar';
+import DatePicker from '@gem-mine/rc-calendar/src/Picker';
 import Dialog from 'rc-dialog';
 import 'rc-dialog/assets/index.css';
 
-import zhCN from '@sdp.nd/rc-calendar/src/locale/zh_CN';
-import enUS from '@sdp.nd/rc-calendar/src/locale/en_US';
+import zhCN from '@gem-mine/rc-calendar/src/locale/zh_CN';
+import enUS from '@gem-mine/rc-calendar/src/locale/en_US';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
