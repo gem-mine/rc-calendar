@@ -111,6 +111,7 @@ class FullCalendar extends React.Component {
       headerComponent,
       headerRender,
       disabledDate,
+      firstDayOfWeek,
     } = props;
     const { value, type } = this.state;
 
@@ -144,6 +145,7 @@ class FullCalendar extends React.Component {
         onSelect={this.onSelect}
         value={value}
         disabledDate={disabledDate}
+        firstDayOfWeek={firstDayOfWeek}
       />
     ) : (
       <MonthTable

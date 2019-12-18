@@ -52,7 +52,7 @@ export default class DateTBody extends React.Component {
     const {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
-      hoverValue, mode, showYear,
+      hoverValue, mode, showYear, firstDayOfWeek: propsFirstDayOfWeek,
     } = props;
     let iIndex;
     let jIndex;
@@ -75,11 +75,14 @@ export default class DateTBody extends React.Component {
     const lastDisableClass = `${prefixCls}-disabled-cell-last-of-row`;
     const lastDayOfMonthClass = `${prefixCls}-last-day-of-month`;
     const month1 = value.clone();
+    const firstDayOfWeek = propsFirstDayOfWeek === undefined
+      ? value.localeData().firstDayOfWeek()
+      : propsFirstDayOfWeek;
     if (mode !== 'week') {
       month1.date(1);
     }
     const day = month1.day();
-    const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
+    const lastMonthDiffDay = (day + 7 - firstDayOfWeek) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
