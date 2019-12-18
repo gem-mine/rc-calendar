@@ -277,6 +277,7 @@ class Calendar extends React.Component {
       locale, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
       disabledTime, clearIcon, renderFooter, showYear, inputMode,
+      monthCellRender, monthCellContentRender,
     } = props;
     const { value, selectedValue, mode } = state;
     const showTimePicker = mode === 'time';
@@ -344,6 +345,8 @@ class Calendar extends React.Component {
           showTimePicker={showTimePicker}
           showYear={showYear}
           prefixCls={prefixCls}
+          monthCellRender={monthCellRender}
+          monthCellContentRender={monthCellContentRender}
         />
         {timePicker && showTimePicker ?
           (<div className={`${prefixCls}-time-picker`}>
