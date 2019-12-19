@@ -52,7 +52,8 @@ class Demo extends React.Component {
           fullscreen={false}
           onSelect={onSelect}
           defaultValue={now}
-          firstDayOfWeek={2}
+          // firstDayOfWeek={2}
+          firstDayOfMonth={0}
           locale={cn ? zhCN : enUS}
         />
         <FullCalendar

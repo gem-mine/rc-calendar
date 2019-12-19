@@ -8,21 +8,22 @@ function isSameDay(one, two) {
   return one && two && one.isSame(two, 'day');
 }
 
-function beforeCurrentMonthYear(current, today) {
-  if (current.year() < today.year()) {
-    return 1;
-  }
-  return current.year() === today.year() &&
-    current.month() < today.month();
-}
-
-function afterCurrentMonthYear(current, today) {
-  if (current.year() > today.year()) {
-    return 1;
-  }
-  return current.year() === today.year() &&
-    current.month() > today.month();
-}
+// function beforeCurrentMonthYear(current, today) {
+//   if (current.year() < today.year()) {
+//     return 1;
+//   }
+//   return current.year() === today.year() &&
+//     current.month() < today.month();
+// }
+//
+// function afterCurrentMonthYear(current, today) {
+//   // 判断比如12月的时候， 1月的部分天数需要置灰的时候
+//   if (current.year() > today.year()) {
+//     return 1;
+//   }
+//   return current.year() === today.year() &&
+//     current.month() > today.month();
+// }
 
 function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
@@ -53,6 +54,7 @@ export default class DateTBody extends React.Component {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
       hoverValue, mode, showYear, firstDayOfWeek: propsFirstDayOfWeek,
+      firstDayOfMonth = 1,
     } = props;
     let iIndex;
     let jIndex;
@@ -79,8 +81,22 @@ export default class DateTBody extends React.Component {
       ? value.localeData().firstDayOfWeek()
       : propsFirstDayOfWeek;
     if (mode !== 'week') {
-      month1.date(1);
+      // 有selectedValue表示是点击选中的, 否则则是初始化的时候
+      if (selectedValue) {
+        // 如果大于21 那么就是这个月的21，如果小于21  那么就是上个月的21
+        if (month1.date() > firstDayOfMonth) {
+          month1.date(firstDayOfMonth);
+        } else {
+          month1.subtract(1, 'months').date(firstDayOfMonth);
+        }
+      } else {
+        month1.date(firstDayOfMonth);
+      }
     }
+
+    // 定义相对的第一个月的第一天和最后一天  用来对比 置灰日期
+    const firstDay = month1.clone();
+    const lastDay = month1.clone().add(1, 'months').subtract(1, 'days');
     const day = month1.day();
     const lastMonthDiffDay = (day + 7 - firstDayOfWeek) % 7;
     // calculate last month
@@ -139,8 +155,11 @@ export default class DateTBody extends React.Component {
           isCurrentWeek = true;
         }
 
-        const isBeforeCurrentMonthYear = beforeCurrentMonthYear(current, value);
-        const isAfterCurrentMonthYear = afterCurrentMonthYear(current, value);
+        const isBeforeCurrentMonthYear = current < firstDay;
+        const isAfterCurrentMonthYear = current > lastDay;
+
+        // const isBeforeCurrentMonthYear = beforeCurrentMonthYear(current, value);
+        // const isAfterCurrentMonthYear = afterCurrentMonthYear(current, value);
 
         if (selectedValue && Array.isArray(selectedValue)) {
           const rangeValue = hoverValue.length ? hoverValue : selectedValue;

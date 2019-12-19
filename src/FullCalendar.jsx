@@ -37,6 +37,8 @@ class FullCalendar extends React.Component {
     defaultValue: PropTypes.object,
     selectedValue: PropTypes.object,
     defaultSelectedValue: PropTypes.object,
+    firstDayOfWeek: PropTypes.number,
+    firstDayOfMonth: PropTypes.number,
   }
 
   static defaultProps = {
@@ -112,8 +114,9 @@ class FullCalendar extends React.Component {
       headerRender,
       disabledDate,
       firstDayOfWeek,
+      firstDayOfMonth,
     } = props;
-    const { value, type } = this.state;
+    const { value, type, selectedValue } = this.state;
 
     let header = null;
     if (showHeader) {
@@ -144,8 +147,10 @@ class FullCalendar extends React.Component {
         prefixCls={prefixCls}
         onSelect={this.onSelect}
         value={value}
+        selectedValue={selectedValue} // 用于设定月起始天时 判断是点击还是初始化改变了面板
         disabledDate={disabledDate}
         firstDayOfWeek={firstDayOfWeek}
+        firstDayOfMonth={firstDayOfMonth}
       />
     ) : (
       <MonthTable
