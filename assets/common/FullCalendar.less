@@ -87,5 +87,24 @@
       border-top-color: #3FC7FA;
       color: #3FC7FA;
     }
+    &-month-panel-full {
+      &-cell {
+        display: inline-block;
+        padding: 20px;
+      }
+      height: 270px;
+      width: 250px;
+      &-title {
+        font-size: 18px;
+        text-align: left;
+        padding: 5px;
+      }
+      .@{prefixClass} {
+        &-cell .@{prefixClass}-date,
+        &-month-panel-cell .@{prefixClass}-month-panel-month {
+          height: auto;
+        }
+      }
+    }
   }
 }

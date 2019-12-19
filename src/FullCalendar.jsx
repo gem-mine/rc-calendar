@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { polyfill } from 'react-lifecycles-compat';
 import DateTable from './date/DateTable';
 import MonthTable from './month/MonthTable';
+import FullCalendarMonthTable from './FullMonthTable';
 import {
   calendarMixinWrapper,
   calendarMixinPropTypes,
@@ -103,6 +104,42 @@ class FullCalendar extends React.Component {
     this.props.onTypeChange(type);
   }
 
+  renderMonthTable = () => {
+    const props = this.props;
+    const {
+      locale,
+      fullscreen,
+      prefixCls,
+      disabledDate,
+    } = props;
+    const { value } = this.state;
+    if (fullscreen) {
+      return (
+        <FullCalendarMonthTable
+          contentRender={props.monthCellContentRender}
+          locale={locale}
+          onSelect={this.onMonthSelect}
+          prefixCls={`${prefixCls}-month-panel-full`}
+          value={value}
+          dateCellRender={props.dateCellRender}
+          dateCellContentRender={props.dateCellContentRender}
+          disabledDate={disabledDate}
+        />
+      );
+    }
+    return (
+      <MonthTable
+        cellRender={props.monthCellRender}
+        contentRender={props.monthCellContentRender}
+        locale={locale}
+        onSelect={this.onMonthSelect}
+        prefixCls={`${prefixCls}-month-panel`}
+        value={value}
+        disabledDate={disabledDate}
+      />
+    );
+  }
+
   render() {
     const props = this.props;
     const {
@@ -152,17 +189,7 @@ class FullCalendar extends React.Component {
         firstDayOfWeek={firstDayOfWeek}
         firstDayOfMonth={firstDayOfMonth}
       />
-    ) : (
-      <MonthTable
-        cellRender={props.monthCellRender}
-        contentRender={props.monthCellContentRender}
-        locale={locale}
-        onSelect={this.onMonthSelect}
-        prefixCls={`${prefixCls}-month-panel`}
-        value={value}
-        disabledDate={disabledDate}
-      />
-    );
+    ) : this.renderMonthTable();
 
     const children = [
       header,
