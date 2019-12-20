@@ -40,6 +40,7 @@ class FullCalendar extends React.Component {
     defaultSelectedValue: PropTypes.object,
     firstDayOfWeek: PropTypes.number,
     firstDayOfMonth: PropTypes.number,
+    dateCellContentRender: PropTypes.func,
   }
 
   static defaultProps = {
@@ -111,19 +112,25 @@ class FullCalendar extends React.Component {
       fullscreen,
       prefixCls,
       disabledDate,
+      firstDayOfWeek,
+      firstDayOfMonth,
     } = props;
-    const { value } = this.state;
+    const { value, selectedValue } = this.state;
     if (fullscreen) {
       return (
         <FullCalendarMonthTable
           contentRender={props.monthCellContentRender}
           locale={locale}
-          onSelect={this.onMonthSelect}
+          onSelect={this.onSelect}
           prefixCls={`${prefixCls}-month-panel-full`}
+          dateTablePrefixCls={prefixCls}
           value={value}
           dateCellRender={props.dateCellRender}
+          selectedValue={selectedValue}
           dateCellContentRender={props.dateCellContentRender}
           disabledDate={disabledDate}
+          firstDayOfWeek={firstDayOfWeek}
+          firstDayOfMonth={firstDayOfMonth}
         />
       );
     }

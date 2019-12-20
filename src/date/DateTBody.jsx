@@ -55,7 +55,7 @@ export default class DateTBody extends React.Component {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
       hoverValue, mode, showYear, firstDayOfWeek: propsFirstDayOfWeek,
-      firstDayOfMonth = 1,
+      firstDayOfMonth,
     } = props;
     let iIndex;
     let jIndex;
@@ -85,7 +85,7 @@ export default class DateTBody extends React.Component {
       // 有selectedValue表示是点击选中的, 否则则是初始化的时候
       if (selectedValue) {
         // 如果大于21 那么就是这个月的21，如果小于21  那么就是上个月的21
-        if (month1.date() > firstDayOfMonth) {
+        if (month1.date() >= firstDayOfMonth) {
           month1.date(firstDayOfMonth);
         } else {
           month1.subtract(1, 'months').date(firstDayOfMonth);
@@ -192,11 +192,18 @@ export default class DateTBody extends React.Component {
             }
           }
         } else if (isSameDay(current, value)) {
+          // todo： 按键事件问题
           // keyboard change value, highlight works
-          selected = true;
-          isActiveWeek = true;
+          // 年面板下 点击选中的不是对应的日期则不是选中的日期
+          // 每个月都已一天能被 isSameDay(current, value) 命中
+          if (current !== selectedValue && props.full) {
+            selected = false;
+          } else {
+            selected = true;
+            // todo: 这个变量是否有影响
+            isActiveWeek = true;
+          }
         }
-
         if (isSameDay(current, selectedValue)) {
           cls += ` ${selectedDateClass}`;
         }
@@ -211,7 +218,7 @@ export default class DateTBody extends React.Component {
         if (isAfterCurrentMonthYear) {
           cls += ` ${nextMonthDayClass}`;
           if (props.full) {
-            cls += ` ${lastMonthDayClass}-hidden`; // todo: 类名优化
+            cls += ` ${lastMonthDayClass}-hidden`;
           }
         }
 
@@ -292,3 +299,7 @@ export default class DateTBody extends React.Component {
     </tbody>);
   }
 }
+
+DateTBody.defaultProps = {
+  firstDayOfMonth: 1,
+};

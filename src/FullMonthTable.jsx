@@ -7,12 +7,6 @@ import DateTable from './date/DateTable';
 const ROW = 4;
 const COL = 3;
 
-function chooseMonth(month) {
-  const next = this.state.value.clone();
-  next.month(month);
-  this.setAndSelectValue(next);
-}
-
 function noop() {
 
 }
@@ -69,9 +63,8 @@ class MonthTable extends Component {
     const months = this.months();
     const currentMonth = value.month();
     const { prefixCls, locale } = props;
-    const monthsEls = months.map((month) => {
-      // todo: 优化
-      const tds = month.map(monthData => {
+    return months.map(month => {
+      return month.map(monthData => {
         let disabled = false;
         if (props.disabledDate) {
           const testValue = value.clone();
@@ -85,42 +78,35 @@ class MonthTable extends Component {
           [`${prefixCls}-current-cell`]: today.year() === value.year() &&
           monthData.value === today.month(),
         };
-        let cellEl;
         const currentValue = value.clone();
         currentValue.month(monthData.value);
-        cellEl = (
-          <div className={`${prefixCls}`}>
-            <div className={`${prefixCls}-title`}>
-              {currentValue.localeData().months(currentValue)}
-            </div>
-            <DateTable
-              full // todo: 区分普通的dataTable和作为年面板下的dateTable
-              dateRender={props.dateCellRender}
-              contentRender={props.dateCellContentRender}
-              locale={locale}
-              prefixCls={`rc-calendar`} // todo: 优化
-              onSelect={props.onSelect} // todo: 无法选中因为外面传入的是月份的选中函数
-              value={currentValue}
-              disabledDate={props.disabledDate}
-            />
-          </div>
-        );
-
         return (
           <div
             role="gridcell"
             key={monthData.value}
-            onClick={disabled ? null : chooseMonth.bind(this, monthData.value)}
             title={monthData.title}
-            className={classnames(classNameMap)}
+            className={classnames(prefixCls, classNameMap)}
           >
-            {cellEl}
-          </div>);
+            <div className={`${prefixCls}-title`}>
+              {currentValue.localeData().months(currentValue)}
+            </div>
+            <DateTable
+              full // 区分普通的dataTable和作为年面板下的dateTable
+              dateRender={props.dateCellRender}
+              contentRender={props.dateCellContentRender}
+              locale={locale}
+              prefixCls={props.dateTablePrefixCls}
+              onSelect={props.onSelect}
+              value={currentValue}
+              selectedValue={props.selectedValue} // 区分是否是点击选中的
+              disabledDate={props.disabledDate}
+              firstDayOfWeek={props.firstDayOfWeek}
+              firstDayOfMonth={props.firstDayOfMonth}
+            />
+          </div>
+        );
       });
-      return tds;
     });
-
-    return monthsEls;
   }
 }
 
@@ -132,5 +118,6 @@ MonthTable.propTypes = {
   cellRender: PropTypes.func,
   prefixCls: PropTypes.string,
   value: PropTypes.object,
+  dateTablePrefixCls: PropTypes.string,
 };
 export default MonthTable;
