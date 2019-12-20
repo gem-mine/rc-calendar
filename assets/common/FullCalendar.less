@@ -104,6 +104,12 @@
         &-month-panel-cell .@{prefixClass}-month-panel-month {
           height: auto;
         }
+
+        &-last-month-cell-hidden { // 年面板下不显示上/下个月日期
+          .@{prefixClass}-date {
+            display: none;
+          }
+        }
       }
     }
   }

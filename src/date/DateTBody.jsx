@@ -41,6 +41,7 @@ export default class DateTBody extends React.Component {
     hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
     showYear: PropTypes.bool,
+    full: PropTypes.bool, // 是否是在年面板下
   }
 
   static defaultProps = {
@@ -202,10 +203,16 @@ export default class DateTBody extends React.Component {
 
         if (isBeforeCurrentMonthYear) {
           cls += ` ${lastMonthDayClass}`;
+          if (props.full) {
+            cls += ` ${lastMonthDayClass}-hidden`;
+          }
         }
 
         if (isAfterCurrentMonthYear) {
           cls += ` ${nextMonthDayClass}`;
+          if (props.full) {
+            cls += ` ${lastMonthDayClass}-hidden`; // todo: 类名优化
+          }
         }
 
         if (current.clone().endOf('month').date() === current.date()) {

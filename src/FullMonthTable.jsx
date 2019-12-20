@@ -70,6 +70,7 @@ class MonthTable extends Component {
     const currentMonth = value.month();
     const { prefixCls, locale } = props;
     const monthsEls = months.map((month) => {
+      // todo: 优化
       const tds = month.map(monthData => {
         let disabled = false;
         if (props.disabledDate) {
@@ -88,17 +89,17 @@ class MonthTable extends Component {
         const currentValue = value.clone();
         currentValue.month(monthData.value);
         cellEl = (
-          <div className={`${prefixCls}`} style={{ height: '250px', width: '250px' }}>
+          <div className={`${prefixCls}`}>
             <div className={`${prefixCls}-title`}>
               {currentValue.localeData().months(currentValue)}
             </div>
             <DateTable
-              fullscreen={false}
+              full // todo: 区分普通的dataTable和作为年面板下的dateTable
               dateRender={props.dateCellRender}
               contentRender={props.dateCellContentRender}
               locale={locale}
               prefixCls={`rc-calendar`} // todo: 优化
-              onSelect={props.onSelect}
+              onSelect={props.onSelect} // todo: 无法选中因为外面传入的是月份的选中函数
               value={currentValue}
               disabledDate={props.disabledDate}
             />
