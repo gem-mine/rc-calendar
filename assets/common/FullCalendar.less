@@ -100,9 +100,14 @@
         padding: 5px;
       }
       .@{prefixClass} {
+        &-column-header {
+          padding-right: 6px;
+        }
         &-cell .@{prefixClass}-date,
         &-month-panel-cell .@{prefixClass}-month-panel-month {
           height: auto;
+          text-align: center;
+          padding-right: 0;
         }
 
         &-last-month-cell-hidden { // 年面板下不显示上/下个月日期
