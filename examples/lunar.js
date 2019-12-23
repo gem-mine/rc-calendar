@@ -67,6 +67,7 @@ class Demo extends React.Component {
           )}
         />
         <FullCalendar
+          backToday
           style={{ margin: 10 }}
           Select={Select}
           fullscreen

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { getMonthName } from '../util';
 
 function noop() {
@@ -82,7 +83,15 @@ class CalendarHeader extends Component {
   }
 
   render() {
-    const { value, locale, prefixCls, type, showTypeSwitch, headerComponents } = this.props;
+    const {
+      value,
+      locale,
+      prefixCls,
+      type,
+      showTypeSwitch,
+      headerComponents,
+      backToday,
+    } = this.props;
     const year = value.year();
     const month = value.month();
     const yearSelect = this.yearSelectElement(year);
@@ -116,6 +125,14 @@ class CalendarHeader extends Component {
         { typeSwitcher }
         { monthSelect }
         { yearSelect }
+        {
+          backToday ? (
+            <button className={`${prefixCls}-header-back-today`} onClick={() => {
+              this.props.onValueChange(moment());
+            }}
+            >{locale.today}</button>
+          ) : null
+        }
         { headerComponents }
       </div>
     );
@@ -132,6 +149,7 @@ CalendarHeader.propTypes = {
   prefixCls: PropTypes.string,
   type: PropTypes.string,
   showTypeSwitch: PropTypes.bool,
+  backToday: PropTypes.bool,
   headerComponents: PropTypes.array,
 };
 CalendarHeader.defaultProps = {
