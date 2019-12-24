@@ -16,9 +16,9 @@ import moment from 'moment';
 
 class FullCalendar extends React.Component {
   static propTypes = {
-    mode: PropTypes.string,
     ...calendarMixinPropTypes,
     ...propType,
+    mode: PropTypes.string,
     defaultType: PropTypes.string,
     type: PropTypes.string,
     prefixCls: PropTypes.string,
@@ -119,6 +119,7 @@ class FullCalendar extends React.Component {
     if (fullscreen) {
       return (
         <FullCalendarMonthTable
+          mode={props.mode}
           contentRender={props.monthCellContentRender}
           locale={locale}
           onSelect={this.onSelect}

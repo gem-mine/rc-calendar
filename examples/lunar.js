@@ -41,6 +41,7 @@ class Demo extends React.Component {
   onTypeChange = (type) => {
     this.setState({
       type,
+      mode: type, // todo: 之前的修改是根据mode和type共同判断面板，后续看怎么优化
     });
   }
 
@@ -73,7 +74,8 @@ class Demo extends React.Component {
           fullscreen
           defaultValue={now}
           onSelect={onSelect}
-          type={this.state.type}
+          type={this.state.type === 'week' ? 'date' : this.state.type}
+          mode={this.state.mode}
           onTypeChange={this.onTypeChange}
           locale={cn ? zhCN : enUS}
           dateCellRender={(current) => {

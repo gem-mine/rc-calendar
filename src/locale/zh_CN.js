@@ -7,6 +7,7 @@ export default {
   dateSelect: '选择日期',
   weekSelect: '选择周',
   clear: '清除',
+  week: '周',
   month: '月',
   year: '年',
   previousMonth: '上个月 (翻页上键)',

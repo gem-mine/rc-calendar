@@ -6,6 +6,7 @@ export default {
   timeSelect: '選擇時間',
   dateSelect: '選擇日期',
   clear: '清除',
+  week: '周',
   month: '月',
   year: '年',
   previousMonth: '上個月 (翻頁上鍵)',

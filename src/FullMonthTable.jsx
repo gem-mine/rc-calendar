@@ -11,7 +11,7 @@ function noop() {
 
 }
 
-class MonthTable extends Component {
+class FullCalendarMonthTable extends Component {
   constructor(props) {
     super(props);
 
@@ -92,6 +92,7 @@ class MonthTable extends Component {
             </div>
             <DateTable
               full // 区分普通的dataTable和作为年面板下的dateTable
+              mode={props.mode}
               dateRender={props.dateCellRender}
               contentRender={props.dateCellContentRender}
               locale={locale}
@@ -110,14 +111,14 @@ class MonthTable extends Component {
   }
 }
 
-MonthTable.defaultProps = {
+FullCalendarMonthTable.defaultProps = {
   onSelect: noop,
 };
-MonthTable.propTypes = {
+FullCalendarMonthTable.propTypes = {
   onSelect: PropTypes.func,
   cellRender: PropTypes.func,
   prefixCls: PropTypes.string,
   value: PropTypes.object,
   dateTablePrefixCls: PropTypes.string,
 };
-export default MonthTable;
+export default FullCalendarMonthTable;

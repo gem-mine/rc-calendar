@@ -82,6 +82,10 @@ class CalendarHeader extends Component {
     this.props.onTypeChange('month');
   }
 
+  changeTypeToWeek() {
+    this.props.onTypeChange('week');
+  }
+
   render() {
     const {
       value,
@@ -91,6 +95,7 @@ class CalendarHeader extends Component {
       showTypeSwitch,
       headerComponents,
       backToday,
+      mode,
     } = this.props;
     const year = value.year();
     const month = value.month();
@@ -99,7 +104,16 @@ class CalendarHeader extends Component {
     const switchCls = `${prefixCls}-header-switcher`;
     const typeSwitcher = showTypeSwitch ? (
       <span className={switchCls}>
-        { type === 'date' ?
+        { type === 'month' ?
+          <span className={`${switchCls}-focus`}>{locale.year}</span> :
+          <span
+            onClick={this.changeTypeToMonth.bind(this)}
+            className={`${switchCls}-normal`}
+          >
+            {locale.year}
+          </span>
+        }
+        {(type === 'date' && mode !== 'week') ?
           <span className={`${switchCls}-focus`}>{locale.month}</span> :
           <span
             onClick={this.changeTypeToDate.bind(this)}
@@ -108,13 +122,14 @@ class CalendarHeader extends Component {
             {locale.month}
           </span>
         }
-        { type === 'month' ?
-          <span className={`${switchCls}-focus`}>{locale.year}</span> :
-          <span
-            onClick={this.changeTypeToMonth.bind(this)}
-            className={`${switchCls}-normal`}
-          >
-            {locale.year}
+        {
+          (type === 'date' && mode === 'week') ?
+            <span className={`${switchCls}-focus`}>{locale.week}</span> :
+            <span
+              onClick={this.changeTypeToWeek.bind(this)}
+              className={`${switchCls}-normal`}
+            >
+            {locale.week}
           </span>
         }
       </span>
@@ -151,6 +166,7 @@ CalendarHeader.propTypes = {
   showTypeSwitch: PropTypes.bool,
   backToday: PropTypes.bool,
   headerComponents: PropTypes.array,
+  mode: PropTypes.string,
 };
 CalendarHeader.defaultProps = {
   yearSelectOffset: 10,
