@@ -2,7 +2,6 @@
   width: 275px;
   &-header {
     padding: 5px 10px;
-    text-align: center;
     user-select: none;
     -webkit-user-select: none;
     border-bottom: 1px solid #ccc;
@@ -22,6 +21,22 @@
       width: 70px;
       float: right;
       margin-right: 5px;
+    }
+
+    &-title {
+      font-size: 18px;
+      &-prev {
+        padding-right: 25px;
+        &:after {
+          content: '‹'
+        }
+      }
+      &-next {
+        padding-left: 25px;
+        &:after {
+          content: '›'
+        }
+      }
     }
 
     &-switcher {
@@ -100,6 +115,7 @@
       &-cell {
         display: inline-block;
         padding: 20px;
+        width: 25%;
       }
       height: 270px;
       width: 250px;

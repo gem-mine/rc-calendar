@@ -19,6 +19,12 @@ class CalendarHeader extends Component {
     this.props.onValueChange(newValue);
   }
 
+  onWeekChange(week) {
+    const newValue = this.props.value.clone();
+    newValue.week(parseInt(week, 10));
+    this.props.onValueChange(newValue);
+  }
+
   yearSelectElement(year) {
     const { yearSelectOffset, yearSelectTotal, prefixCls, Select } = this.props;
     const start = year - yearSelectOffset;
@@ -86,6 +92,46 @@ class CalendarHeader extends Component {
     this.props.onTypeChange('week');
   }
 
+  renderTitle() {
+    const { type, mode, prefixCls } = this.props;
+    const titleCls = `${prefixCls}-header-title`;
+    let title = null;
+    let handlePrev = null;
+    let handleNext = null;
+    if (type === 'month') {
+      title = this.props.value.format(`YYYY`);
+      handlePrev = () => {
+        this.onYearChange(this.props.value.year() - 1);
+      };
+      handleNext = () => {
+        this.onYearChange(this.props.value.year() + 1);
+      };
+    } else if (type === 'date' && mode !== 'week') {
+      title = this.props.value.format('YYYY MM');
+      handlePrev = () => {
+        this.onMonthChange(this.props.value.month() - 1);
+      };
+      handleNext = () => {
+        this.onMonthChange(this.props.value.month() + 1);
+      };
+    } else if (type === 'date' && mode === 'week') {
+      title = this.props.value.format('YYYY wo');
+      handlePrev = () => {
+        this.onWeekChange(this.props.value.week() - 1);
+      };
+      handleNext = () => {
+        this.onWeekChange(this.props.value.week() + 1);
+      };
+    }
+    return (
+      <span className={`${titleCls}`}>
+        <span className={`${titleCls}-prev`} onClick={handlePrev} />
+        <span>{title}</span>
+        <span className={`${titleCls}-next`} onClick={handleNext} />
+      </span>
+    );
+  }
+
   render() {
     const {
       value,
@@ -137,6 +183,7 @@ class CalendarHeader extends Component {
 
     return (
       <div className={`${prefixCls}-header`}>
+        {this.renderTitle()}
         { typeSwitcher }
         { monthSelect }
         { yearSelect }
