@@ -98,6 +98,7 @@ class CalendarHeader extends Component {
     let title = null;
     let handlePrev = null;
     let handleNext = null;
+    // todo: 待优化, fish中自定义了head,没用到这块
     if (type === 'month') {
       title = this.props.value.format(`YYYY`);
       handlePrev = () => {
