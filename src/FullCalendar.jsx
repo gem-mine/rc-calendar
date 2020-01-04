@@ -32,15 +32,16 @@ class FullCalendar extends React.Component {
     headerComponents: PropTypes.array,
     headerComponent: PropTypes.object, // The whole header component
     headerRender: PropTypes.func,
+    footerRender: PropTypes.func,
     showHeader: PropTypes.bool,
     disabledDate: PropTypes.func,
     value: PropTypes.object,
     defaultValue: PropTypes.object,
     selectedValue: PropTypes.object,
     defaultSelectedValue: PropTypes.object,
-    firstDayOfWeek: PropTypes.number,
     firstDayOfMonth: PropTypes.number,
     dateCellContentRender: PropTypes.func,
+    yearMode: PropTypes.string,
   }
 
   static defaultProps = {
@@ -50,6 +51,7 @@ class FullCalendar extends React.Component {
     fullscreen: false,
     showTypeSwitch: true,
     showHeader: true,
+    yearMode: 'simple',
     onTypeChange() {
     },
   }
@@ -96,13 +98,13 @@ class FullCalendar extends React.Component {
     return newState;
   }
 
-  setType = (type) => {
+  setType = (mode) => {
     if (!('type' in this.props)) {
       this.setState({
-        type,
+        mode,
       });
     }
-    this.props.onTypeChange(type);
+    this.props.onTypeChange(mode);
   }
 
   renderMonthTable = () => {
@@ -112,14 +114,16 @@ class FullCalendar extends React.Component {
       fullscreen,
       prefixCls,
       disabledDate,
-      firstDayOfWeek,
       firstDayOfMonth,
+      yearMode,
+      mode,
     } = props;
     const { value, selectedValue } = this.state;
-    if (fullscreen) {
+    if (fullscreen && yearMode === 'complex') {
       return (
         <FullCalendarMonthTable
-          mode={props.mode}
+          mode={mode}
+          type={mode === 'year' ? 'month' : 'date'}
           contentRender={props.monthCellContentRender}
           locale={locale}
           onSelect={this.onSelect}
@@ -130,7 +134,6 @@ class FullCalendar extends React.Component {
           selectedValue={selectedValue}
           dateCellContentRender={props.dateCellContentRender}
           disabledDate={disabledDate}
-          firstDayOfWeek={firstDayOfWeek}
           firstDayOfMonth={firstDayOfMonth}
         />
       );
@@ -158,8 +161,8 @@ class FullCalendar extends React.Component {
       headerComponent,
       headerRender,
       disabledDate,
-      firstDayOfWeek,
       firstDayOfMonth,
+      mode,
     } = props;
     const { value, type, selectedValue } = this.state;
 
@@ -185,7 +188,8 @@ class FullCalendar extends React.Component {
 
     const table = type === 'date' ? (
       <DateTable
-        mode={props.mode}
+        mode={mode}
+        type={type}
         dateRender={props.dateCellRender}
         contentRender={props.dateCellContentRender}
         locale={locale}
@@ -194,7 +198,6 @@ class FullCalendar extends React.Component {
         value={value}
         selectedValue={selectedValue} // 用于设定月起始天时 判断是点击还是初始化改变了面板
         disabledDate={disabledDate}
-        firstDayOfWeek={firstDayOfWeek}
         firstDayOfMonth={firstDayOfMonth}
       />
     ) : this.renderMonthTable();
@@ -203,16 +206,17 @@ class FullCalendar extends React.Component {
       header,
       (<div key="calendar-body" className={`${prefixCls}-calendar-body`}>
         { table }
+        {
+          props.footerRender && props.footerRender({ value, mode })
+        }
       </div>),
     ];
-
 
     const className = [`${prefixCls}-full`];
 
     if (fullscreen) {
       className.push(`${prefixCls}-fullscreen`);
     }
-
     return this.renderRoot({
       children,
       className: className.join(' '),

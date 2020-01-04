@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { getMonthName } from '../util';
 
 function noop() {
@@ -22,6 +21,12 @@ class CalendarHeader extends Component {
   onWeekChange(week) {
     const newValue = this.props.value.clone();
     newValue.week(parseInt(week, 10));
+    this.props.onValueChange(newValue);
+  }
+
+  onDayChange(day) {
+    const newValue = this.props.value.clone();
+    newValue.day(parseInt(day, 10));
     this.props.onValueChange(newValue);
   }
 
@@ -92,13 +97,16 @@ class CalendarHeader extends Component {
     this.props.onTypeChange('week');
   }
 
+  changeTypeToDay() {
+    this.props.onTypeChange('day');
+  }
+
   renderTitle() {
     const { type, mode, prefixCls } = this.props;
     const titleCls = `${prefixCls}-header-title`;
     let title = null;
     let handlePrev = null;
     let handleNext = null;
-    // todo: 待优化, fish中自定义了head,没用到这块
     if (type === 'month') {
       title = this.props.value.format(`YYYY`);
       handlePrev = () => {
@@ -107,7 +115,7 @@ class CalendarHeader extends Component {
       handleNext = () => {
         this.onYearChange(this.props.value.year() + 1);
       };
-    } else if (type === 'date' && mode !== 'week') {
+    } else if (type === 'date' && mode === 'date') {
       title = this.props.value.format('YYYY MM');
       handlePrev = () => {
         this.onMonthChange(this.props.value.month() - 1);
@@ -123,7 +131,16 @@ class CalendarHeader extends Component {
       handleNext = () => {
         this.onWeekChange(this.props.value.week() + 1);
       };
+    } else if (type === 'date' && mode === 'day') {
+      title = this.props.value.format('YYYY MM DD');
+      handlePrev = () => {
+        this.onDayChange(this.props.value.day() - 1);
+      };
+      handleNext = () => {
+        this.onDayChange(this.props.value.day() + 1);
+      };
     }
+
     return (
       <span className={`${titleCls}`}>
         <span className={`${titleCls}-prev`} onClick={handlePrev} />
@@ -141,7 +158,6 @@ class CalendarHeader extends Component {
       type,
       showTypeSwitch,
       headerComponents,
-      backToday,
       mode,
     } = this.props;
     const year = value.year();
@@ -160,7 +176,7 @@ class CalendarHeader extends Component {
             {locale.year}
           </span>
         }
-        {(type === 'date' && mode !== 'week') ?
+        {(type === 'date' && mode === 'date') ?
           <span className={`${switchCls}-focus`}>{locale.month}</span> :
           <span
             onClick={this.changeTypeToDate.bind(this)}
@@ -179,6 +195,16 @@ class CalendarHeader extends Component {
             {locale.week}
           </span>
         }
+        {
+          (type === 'date' && mode === 'day') ?
+            <span className={`${switchCls}-focus`}>{locale.day}</span> :
+            <span
+              onClick={this.changeTypeToDay.bind(this)}
+              className={`${switchCls}-normal`}
+            >
+            {locale.day}
+          </span>
+        }
       </span>
     ) : null;
 
@@ -188,14 +214,6 @@ class CalendarHeader extends Component {
         { typeSwitcher }
         { monthSelect }
         { yearSelect }
-        {
-          backToday ? (
-            <button className={`${prefixCls}-header-back-today`} onClick={() => {
-              this.props.onValueChange(moment());
-            }}
-            >{locale.today}</button>
-          ) : null
-        }
         { headerComponents }
       </div>
     );
@@ -212,7 +230,6 @@ CalendarHeader.propTypes = {
   prefixCls: PropTypes.string,
   type: PropTypes.string,
   showTypeSwitch: PropTypes.bool,
-  backToday: PropTypes.bool,
   headerComponents: PropTypes.array,
   mode: PropTypes.string,
 };

@@ -35,11 +35,22 @@ function onSelect(value) {
 class Demo extends React.Component {
   state = {
     type: 'month',
+    mode: 'year',
+    type1: 'month',
+    mode1: 'year',
   };
 
   onTypeChange = (type) => {
     this.setState({
       type,
+      mode: type,
+    });
+  }
+
+  onTypeChange1 = (type) => {
+    this.setState({
+      type1: type,
+      mode1: type,
     });
   }
 
@@ -52,6 +63,10 @@ class Demo extends React.Component {
           fullscreen={false}
           onSelect={onSelect}
           defaultValue={now}
+          type={(this.state.type1 === 'week' || this.state.type1 === 'day') ?
+            'date' : this.state.type1}
+          mode={this.state.mode1}
+          onTypeChange={this.onTypeChange1}
           locale={cn ? zhCN : enUS}
         />
         <FullCalendar
@@ -60,7 +75,9 @@ class Demo extends React.Component {
           fullscreen
           defaultValue={now}
           onSelect={onSelect}
-          type={this.state.type}
+          type={(this.state.type === 'week' || this.state.type === 'day') ?
+            'date' : this.state.type}
+          mode={this.state.mode}
           onTypeChange={this.onTypeChange}
           locale={cn ? zhCN : enUS}
         />

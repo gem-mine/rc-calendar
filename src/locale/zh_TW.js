@@ -9,6 +9,7 @@ export default {
   week: '周',
   month: '月',
   year: '年',
+  day: '日',
   previousMonth: '上個月 (翻頁上鍵)',
   nextMonth: '下個月 (翻頁下鍵)',
   monthSelect: '選擇月份',

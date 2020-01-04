@@ -39,6 +39,7 @@ export interface Props {
   inputMode?: String;
   monthCellRender?: (current: Moment, locale: Object) => string;
   monthCellContentRender?: (current: Moment, locale: Object) => React.ReactNode;
+  firstDayOfMonth?: number;
 }
 
 export default class ReactCalendar extends React.Component<Props> {}

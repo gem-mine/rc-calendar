@@ -17,6 +17,7 @@ import 'moment/locale/zh-cn';
 import 'moment/locale/en-gb';
 
 const format = 'YYYY-MM-DD';
+const firstDayOfMonth = 21;
 const cn = location.search.indexOf('cn') !== -1;
 
 const now = moment();
@@ -36,13 +37,34 @@ function onSelect(value) {
 class Demo extends React.Component {
   state = {
     type: 'month',
+    mode: 'year',
+    type1: 'month',
+    mode1: 'year',
   };
 
   onTypeChange = (type) => {
     this.setState({
       type,
-      mode: type, // todo: 之前的修改是根据mode和type共同判断面板，后续看怎么优化
+      mode: type === 'month' ? 'year' : type,
     });
+  }
+
+  onTypeChange1 = (type) => {
+    this.setState({
+      type1: type,
+      mode1: type === 'month' ? 'year' : type,
+    });
+  }
+
+  footerRender = ({ value, mode }) => {
+    if (mode === 'day') {
+      return (
+        <div style={{ padding: '20px' }}>
+          <h3>{value.format('YYYY年 MM月 DD日 dddd')}</h3>
+          <div>今天也要干活哦</div>
+        </div>
+      );
+    }
   }
 
   render() {
@@ -54,7 +76,12 @@ class Demo extends React.Component {
           fullscreen={false}
           onSelect={onSelect}
           defaultValue={now}
+          type={(this.state.type1 === 'week' || this.state.type1 === 'day') ?
+            'date' : this.state.type1}
+          mode={this.state.mode1}
+          onTypeChange={this.onTypeChange1}
           locale={cn ? zhCN : enUS}
+          firstDayOfMonth={firstDayOfMonth}
           dateCellRender={(current) => (
             <div
               className="rc-calendar-date"
@@ -68,16 +95,19 @@ class Demo extends React.Component {
           )}
         />
         <FullCalendar
-          backToday
           style={{ margin: 10 }}
           Select={Select}
           fullscreen
           defaultValue={now}
           onSelect={onSelect}
-          type={this.state.type === 'week' ? 'date' : this.state.type}
+          type={(this.state.type === 'week' || this.state.type === 'day') ?
+            'date' : this.state.type}
           mode={this.state.mode}
           onTypeChange={this.onTypeChange}
           locale={cn ? zhCN : enUS}
+          footerRender={this.footerRender}
+          firstDayOfMonth={firstDayOfMonth}
+          yearMode={'full'}
           dateCellRender={(current) => {
             return <div className="rc-calendar-date">{current.format('DD')}</div>;
           }}

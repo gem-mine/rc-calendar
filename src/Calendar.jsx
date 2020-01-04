@@ -277,7 +277,7 @@ class Calendar extends React.Component {
       locale, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
       disabledTime, clearIcon, renderFooter, showYear, inputMode,
-      monthCellRender, monthCellContentRender, firstDayOfWeek,
+      monthCellRender, monthCellContentRender, firstDayOfMonth,
     } = props;
     const { value, selectedValue, mode } = state;
     const showTimePicker = mode === 'time';
@@ -366,7 +366,7 @@ class Calendar extends React.Component {
             disabledDate={disabledDate}
             showWeekNumber={props.showWeekNumber}
             showYear={showYear}
-            firstDayOfWeek={firstDayOfWeek}
+            firstDayOfMonth={firstDayOfMonth}
           />
         </div>
 

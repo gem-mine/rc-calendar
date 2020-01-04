@@ -101,7 +101,6 @@ class FullCalendarMonthTable extends Component {
               value={currentValue}
               selectedValue={props.selectedValue} // 区分是否是点击选中的
               disabledDate={props.disabledDate}
-              firstDayOfWeek={props.firstDayOfWeek}
               firstDayOfMonth={props.firstDayOfMonth}
             />
           </div>

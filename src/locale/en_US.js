@@ -7,6 +7,7 @@ export default {
   week: 'Week',
   month: 'Month',
   year: 'Year',
+  day: 'Day',
   timeSelect: 'select time',
   dateSelect: 'select date',
   weekSelect: 'Choose a week',

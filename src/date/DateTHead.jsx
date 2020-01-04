@@ -10,11 +10,13 @@ export default class DateTHead extends React.Component {
     const prefixCls = props.prefixCls;
     const veryShortWeekdays = [];
     const weekDays = [];
-    const firstDayOfWeek = props.firstDayOfWeek === undefined
-      ? localeData.firstDayOfWeek()
-      : props.firstDayOfWeek;
+    const firstDayOfWeek = localeData.firstDayOfWeek();
     let showWeekNumberEl;
     const now = moment();
+    // 如果是日模式，不显示
+    if (props.mode === 'day') {
+      return null;
+    }
     for (let dateColIndex = 0; dateColIndex < DateConstants.DATE_COL_COUNT; dateColIndex++) {
       const index = (firstDayOfWeek + dateColIndex) % DateConstants.DATE_COL_COUNT;
       now.day(index);
