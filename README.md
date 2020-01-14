@@ -249,11 +249,17 @@ http://react-component.github.io/calendar/examples/index.html
           <td></td>
           <td>specific the clear icon.</td>
         </tr>
-         <tr>
+        <tr>
           <td>inputMode</td>
           <td>string</td>
           <td>text</td>
           <td>Change the keyboard in mobile device</td>
+        </tr>
+         <tr>
+          <td>firstDayOfWeek</td>
+          <td>number</td>
+          <td>moment.localeDate().firstDayOfWeek()</td>
+          <td>set the first day of week</td>
         </tr>
     </tbody>
 </table>

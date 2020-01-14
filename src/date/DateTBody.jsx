@@ -3,26 +3,28 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DateConstants from './DateConstants';
 import { getTitleString, getTodayTime, getTitleNoYearString } from '../util/';
+import moment from 'moment';
 
 function isSameDay(one, two) {
   return one && two && one.isSame(two, 'day');
 }
 
-function beforeCurrentMonthYear(current, today) {
-  if (current.year() < today.year()) {
-    return 1;
-  }
-  return current.year() === today.year() &&
-    current.month() < today.month();
-}
-
-function afterCurrentMonthYear(current, today) {
-  if (current.year() > today.year()) {
-    return 1;
-  }
-  return current.year() === today.year() &&
-    current.month() > today.month();
-}
+// function beforeCurrentMonthYear(current, today) {
+//   if (current.year() < today.year()) {
+//     return 1;
+//   }
+//   return current.year() === today.year() &&
+//     current.month() < today.month();
+// }
+//
+// function afterCurrentMonthYear(current, today) {
+//   // 判断比如12月的时候， 1月的部分天数需要置灰的时候
+//   if (current.year() > today.year()) {
+//     return 1;
+//   }
+//   return current.year() === today.year() &&
+//     current.month() > today.month();
+// }
 
 function getIdFromDate(date) {
   return `rc-calendar-${date.year()}-${date.month()}-${date.date()}`;
@@ -40,11 +42,13 @@ export default class DateTBody extends React.Component {
     hoverValue: PropTypes.any,
     showWeekNumber: PropTypes.bool,
     showYear: PropTypes.bool,
+    full: PropTypes.bool, // 是否是在年面板下
   }
 
   static defaultProps = {
     hoverValue: [],
     showYear: true,
+    firstDayOfMonth: 1,
   }
 
   render() {
@@ -53,6 +57,7 @@ export default class DateTBody extends React.Component {
       contentRender, prefixCls, selectedValue, value,
       showWeekNumber, dateRender, disabledDate,
       hoverValue, mode, showYear,
+      firstDayOfMonth,
     } = props;
     let iIndex;
     let jIndex;
@@ -75,16 +80,38 @@ export default class DateTBody extends React.Component {
     const lastDisableClass = `${prefixCls}-disabled-cell-last-of-row`;
     const lastDayOfMonthClass = `${prefixCls}-last-day-of-month`;
     const month1 = value.clone();
+    const firstDayOfWeek = value.localeData().firstDayOfWeek();
     if (mode !== 'week') {
-      month1.date(1);
+      // 有selectedValue表示是点击选中的, 否则则是初始化的时候
+      if (selectedValue && mode !== 'year') {
+        // 大于0的时候 如：firstDayOfMonth为21 如果month1.date大于21 那么就是这个月的21，如果小于21  那么就是上个月的21
+        // 小于0的时候 如：firstDayOfMonth为-10 如果month1.date大于21 就是上个月的21 如果小于21 就是这个月
+        if (firstDayOfMonth >= 0) {
+          const subtractMonth = month1.date() >= firstDayOfMonth ? 0 : 1;
+          month1.subtract(subtractMonth, 'months').date(firstDayOfMonth);
+        } else {
+          const theDate = moment().clone().date(0).add(firstDayOfMonth, 'days').date();
+          month1.subtract(month1.date() >= theDate ? 0 : 1, 'months').date(theDate);
+        }
+      } else {
+        month1.date(firstDayOfMonth);
+      }
     }
+
+    // 定义相对的第一个月的第一天和最后一天  用来对比 置灰日期
+    const firstDay = month1.clone();
+    const lastDay = month1.clone().add(1, 'months').subtract(1, 'days');
     const day = month1.day();
-    const lastMonthDiffDay = (day + 7 - value.localeData().firstDayOfWeek()) % 7;
+    const lastMonthDiffDay = (day + 7 - firstDayOfWeek) % 7;
     // calculate last month
     const lastMonth1 = month1.clone();
     lastMonth1.add(0 - lastMonthDiffDay, 'days');
     let passed = 0;
 
+    // 如果是日模式，不显示
+    if (mode === 'day') {
+      return null;
+    }
     // 如果是week模式，只显示一行
     const rowCount = mode === 'week' ? 1 : DateConstants.DATE_ROW_COUNT;
     for (iIndex = 0; iIndex < rowCount; iIndex++) {
@@ -100,7 +127,6 @@ export default class DateTBody extends React.Component {
     }
     const tableHtml = [];
     passed = 0;
-
     for (iIndex = 0; iIndex < rowCount; iIndex++) {
       let isCurrentWeek;
       let weekNumberCell;
@@ -109,11 +135,11 @@ export default class DateTBody extends React.Component {
       if (showWeekNumber) {
         weekNumberCell = (
           <td
-            key={dateTable[passed].week()}
+            key={dateTable[passed].clone().add(-(firstDayOfMonth - 1), 'days').week()}
             role="gridcell"
             className={weekNumberCellClass}
           >
-            {dateTable[passed].week()}
+            {dateTable[passed].clone().add(-(firstDayOfMonth - 1), 'days').week()}
           </td>
         );
       }
@@ -136,8 +162,11 @@ export default class DateTBody extends React.Component {
           isCurrentWeek = true;
         }
 
-        const isBeforeCurrentMonthYear = beforeCurrentMonthYear(current, value);
-        const isAfterCurrentMonthYear = afterCurrentMonthYear(current, value);
+        const isBeforeCurrentMonthYear = current < firstDay;
+        const isAfterCurrentMonthYear = current > lastDay;
+
+        // const isBeforeCurrentMonthYear = beforeCurrentMonthYear(current, value);
+        // const isAfterCurrentMonthYear = afterCurrentMonthYear(current, value);
 
         if (selectedValue && Array.isArray(selectedValue)) {
           const rangeValue = hoverValue.length ? hoverValue : selectedValue;
@@ -170,20 +199,31 @@ export default class DateTBody extends React.Component {
           }
         } else if (isSameDay(current, value)) {
           // keyboard change value, highlight works
-          selected = true;
-          isActiveWeek = true;
+          // 年面板下 点击选中的不是对应的日期则不是选中的日期
+          // 每个月都已一天能被 isSameDay(current, value) 命中
+          if (current !== selectedValue && props.full) {
+            selected = false;
+          } else {
+            selected = true;
+            isActiveWeek = true;
+          }
         }
-
         if (isSameDay(current, selectedValue)) {
           cls += ` ${selectedDateClass}`;
         }
 
-        if (isBeforeCurrentMonthYear) {
+        if (isBeforeCurrentMonthYear && mode !== 'week') {
           cls += ` ${lastMonthDayClass}`;
+          if (props.full) {
+            cls += ` ${lastMonthDayClass}-hidden`;
+          }
         }
 
-        if (isAfterCurrentMonthYear) {
+        if (isAfterCurrentMonthYear && mode !== 'week') {
           cls += ` ${nextMonthDayClass}`;
+          if (props.full) {
+            cls += ` ${lastMonthDayClass}-hidden`;
+          }
         }
 
         if (current.clone().endOf('month').date() === current.date()) {

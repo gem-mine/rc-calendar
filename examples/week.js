@@ -15,14 +15,17 @@ import 'moment/locale/en-gb';
 
 const format = 'YYYY-Wo';
 const cn = location.search.indexOf('cn') !== -1;
-
+moment.updateLocale('en-gb', {
+  week: {
+    dow: 2, // First day of week is Monday
+  },
+});
 const now = moment();
 if (cn) {
   now.locale('zh-cn').utcOffset(8);
 } else {
   now.locale('en-gb').utcOffset(0);
 }
-
 const style = `
 .week-calendar {
   width: 386px;
@@ -108,6 +111,7 @@ class Demo extends React.Component {
 
   render() {
     const state = this.state;
+    const firstDayOfMonth = 21;
     const calendar = (
       <Calendar
         className="week-calendar"
@@ -120,6 +124,7 @@ class Demo extends React.Component {
         dateInputPlaceholder="please input"
         defaultValue={now}
         showDateInput
+        firstDayOfMonth={firstDayOfMonth}
       />);
     return (<div style={{ width: 400, margin: 20 }}>
       <div style={{

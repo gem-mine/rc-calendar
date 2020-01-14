@@ -119,6 +119,7 @@ export default class CalendarPart extends React.Component {
               onDayHover={props.onDayHover}
               disabledDate={disabledDate}
               showWeekNumber={props.showWeekNumber}
+              firstDayOfMonth={props.firstDayOfMonth}
             />
           </div>
         </div>

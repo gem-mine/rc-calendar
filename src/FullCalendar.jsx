@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { polyfill } from 'react-lifecycles-compat';
 import DateTable from './date/DateTable';
 import MonthTable from './month/MonthTable';
+import FullCalendarMonthTable from './FullMonthTable';
 import {
   calendarMixinWrapper,
   calendarMixinPropTypes,
@@ -15,9 +16,9 @@ import moment from 'moment';
 
 class FullCalendar extends React.Component {
   static propTypes = {
-    mode: PropTypes.string,
     ...calendarMixinPropTypes,
     ...propType,
+    mode: PropTypes.string,
     defaultType: PropTypes.string,
     type: PropTypes.string,
     prefixCls: PropTypes.string,
@@ -31,12 +32,16 @@ class FullCalendar extends React.Component {
     headerComponents: PropTypes.array,
     headerComponent: PropTypes.object, // The whole header component
     headerRender: PropTypes.func,
+    footerRender: PropTypes.func,
     showHeader: PropTypes.bool,
     disabledDate: PropTypes.func,
     value: PropTypes.object,
     defaultValue: PropTypes.object,
     selectedValue: PropTypes.object,
     defaultSelectedValue: PropTypes.object,
+    firstDayOfMonth: PropTypes.number,
+    dateCellContentRender: PropTypes.func,
+    yearMode: PropTypes.string,
   }
 
   static defaultProps = {
@@ -46,6 +51,7 @@ class FullCalendar extends React.Component {
     fullscreen: false,
     showTypeSwitch: true,
     showHeader: true,
+    yearMode: 'simple',
     onTypeChange() {
     },
   }
@@ -92,13 +98,57 @@ class FullCalendar extends React.Component {
     return newState;
   }
 
-  setType = (type) => {
+  setType = (mode) => {
     if (!('type' in this.props)) {
       this.setState({
-        type,
+        mode,
       });
     }
-    this.props.onTypeChange(type);
+    this.props.onTypeChange(mode);
+  }
+
+  renderMonthTable = () => {
+    const props = this.props;
+    const {
+      locale,
+      fullscreen,
+      prefixCls,
+      disabledDate,
+      firstDayOfMonth,
+      yearMode,
+      mode,
+    } = props;
+    const { value, selectedValue } = this.state;
+    if (fullscreen && yearMode === 'complex') {
+      return (
+        <FullCalendarMonthTable
+          mode={mode}
+          type={mode === 'year' ? 'month' : 'date'}
+          contentRender={props.monthCellContentRender}
+          locale={locale}
+          onSelect={this.onSelect}
+          prefixCls={`${prefixCls}-month-panel-full`}
+          dateTablePrefixCls={prefixCls}
+          value={value}
+          dateCellRender={props.dateCellRender}
+          selectedValue={selectedValue}
+          dateCellContentRender={props.dateCellContentRender}
+          disabledDate={disabledDate}
+          firstDayOfMonth={firstDayOfMonth}
+        />
+      );
+    }
+    return (
+      <MonthTable
+        cellRender={props.monthCellRender}
+        contentRender={props.monthCellContentRender}
+        locale={locale}
+        onSelect={this.onMonthSelect}
+        prefixCls={`${prefixCls}-month-panel`}
+        value={value}
+        disabledDate={disabledDate}
+      />
+    );
   }
 
   render() {
@@ -111,8 +161,10 @@ class FullCalendar extends React.Component {
       headerComponent,
       headerRender,
       disabledDate,
+      firstDayOfMonth,
+      mode,
     } = props;
-    const { value, type } = this.state;
+    const { value, type, selectedValue } = this.state;
 
     let header = null;
     if (showHeader) {
@@ -136,41 +188,35 @@ class FullCalendar extends React.Component {
 
     const table = type === 'date' ? (
       <DateTable
-        mode={props.mode}
+        mode={mode}
+        type={type}
         dateRender={props.dateCellRender}
         contentRender={props.dateCellContentRender}
         locale={locale}
         prefixCls={prefixCls}
         onSelect={this.onSelect}
         value={value}
+        selectedValue={selectedValue} // 用于设定月起始天时 判断是点击还是初始化改变了面板
         disabledDate={disabledDate}
+        firstDayOfMonth={firstDayOfMonth}
       />
-    ) : (
-      <MonthTable
-        cellRender={props.monthCellRender}
-        contentRender={props.monthCellContentRender}
-        locale={locale}
-        onSelect={this.onMonthSelect}
-        prefixCls={`${prefixCls}-month-panel`}
-        value={value}
-        disabledDate={disabledDate}
-      />
-    );
+    ) : this.renderMonthTable();
 
     const children = [
       header,
       (<div key="calendar-body" className={`${prefixCls}-calendar-body`}>
         { table }
+        {
+          props.footerRender && props.footerRender({ value, mode })
+        }
       </div>),
     ];
-
 
     const className = [`${prefixCls}-full`];
 
     if (fullscreen) {
       className.push(`${prefixCls}-fullscreen`);
     }
-
     return this.renderRoot({
       children,
       className: className.join(' '),

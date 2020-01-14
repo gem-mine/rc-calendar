@@ -2,17 +2,41 @@
   width: 275px;
   &-header {
     padding: 5px 10px;
-    text-align: center;
     user-select: none;
     -webkit-user-select: none;
     border-bottom: 1px solid #ccc;
     overflow: hidden;
 
+    &-back-today {
+      height: 28px;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      background-color: #fff;
+      float: right;
+      margin-right: 5px;
+      color: #666;
+    }
     &-month-select,
     &-year-select {
       width: 70px;
       float: right;
       margin-right: 5px;
+    }
+
+    &-title {
+      font-size: 18px;
+      &-prev {
+        padding-right: 25px;
+        &:after {
+          content: '‹'
+        }
+      }
+      &-next {
+        padding-left: 25px;
+        &:after {
+          content: '›'
+        }
+      }
     }
 
     &-switcher {
@@ -86,6 +110,37 @@
     &-month-panel-selected-cell .@{prefixClass}-month-panel-month {
       border-top-color: #3FC7FA;
       color: #3FC7FA;
+    }
+    &-month-panel-full {
+      &-cell {
+        display: inline-block;
+        padding: 20px;
+        width: 25%;
+      }
+      height: 270px;
+      width: 250px;
+      &-title {
+        font-size: 18px;
+        text-align: left;
+        padding: 5px;
+      }
+      .@{prefixClass} {
+        &-column-header {
+          padding-right: 6px;
+        }
+        &-cell .@{prefixClass}-date,
+        &-month-panel-cell .@{prefixClass}-month-panel-month {
+          height: auto;
+          text-align: center;
+          padding-right: 0;
+        }
+
+        &-last-month-cell-hidden { // 年面板下不显示上/下个月日期
+          .@{prefixClass}-date {
+            display: none;
+          }
+        }
+      }
     }
   }
 }

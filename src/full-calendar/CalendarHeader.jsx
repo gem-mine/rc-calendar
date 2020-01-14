@@ -18,6 +18,18 @@ class CalendarHeader extends Component {
     this.props.onValueChange(newValue);
   }
 
+  onWeekChange(week) {
+    const newValue = this.props.value.clone();
+    newValue.week(parseInt(week, 10));
+    this.props.onValueChange(newValue);
+  }
+
+  onDayChange(day) {
+    const newValue = this.props.value.clone();
+    newValue.day(parseInt(day, 10));
+    this.props.onValueChange(newValue);
+  }
+
   yearSelectElement(year) {
     const { yearSelectOffset, yearSelectTotal, prefixCls, Select } = this.props;
     const start = year - yearSelectOffset;
@@ -81,8 +93,73 @@ class CalendarHeader extends Component {
     this.props.onTypeChange('month');
   }
 
+  changeTypeToWeek() {
+    this.props.onTypeChange('week');
+  }
+
+  changeTypeToDay() {
+    this.props.onTypeChange('day');
+  }
+
+  renderTitle() {
+    const { type, mode, prefixCls } = this.props;
+    const titleCls = `${prefixCls}-header-title`;
+    let title = null;
+    let handlePrev = null;
+    let handleNext = null;
+    if (type === 'month') {
+      title = this.props.value.format(`YYYY`);
+      handlePrev = () => {
+        this.onYearChange(this.props.value.year() - 1);
+      };
+      handleNext = () => {
+        this.onYearChange(this.props.value.year() + 1);
+      };
+    } else if (type === 'date' && mode === 'date') {
+      title = this.props.value.format('YYYY MM');
+      handlePrev = () => {
+        this.onMonthChange(this.props.value.month() - 1);
+      };
+      handleNext = () => {
+        this.onMonthChange(this.props.value.month() + 1);
+      };
+    } else if (type === 'date' && mode === 'week') {
+      title = this.props.value.format('YYYY wo');
+      handlePrev = () => {
+        this.onWeekChange(this.props.value.week() - 1);
+      };
+      handleNext = () => {
+        this.onWeekChange(this.props.value.week() + 1);
+      };
+    } else if (type === 'date' && mode === 'day') {
+      title = this.props.value.format('YYYY MM DD');
+      handlePrev = () => {
+        this.onDayChange(this.props.value.day() - 1);
+      };
+      handleNext = () => {
+        this.onDayChange(this.props.value.day() + 1);
+      };
+    }
+
+    return (
+      <span className={`${titleCls}`}>
+        <span className={`${titleCls}-prev`} onClick={handlePrev} />
+        <span>{title}</span>
+        <span className={`${titleCls}-next`} onClick={handleNext} />
+      </span>
+    );
+  }
+
   render() {
-    const { value, locale, prefixCls, type, showTypeSwitch, headerComponents } = this.props;
+    const {
+      value,
+      locale,
+      prefixCls,
+      type,
+      showTypeSwitch,
+      headerComponents,
+      mode,
+    } = this.props;
     const year = value.year();
     const month = value.month();
     const yearSelect = this.yearSelectElement(year);
@@ -90,15 +167,6 @@ class CalendarHeader extends Component {
     const switchCls = `${prefixCls}-header-switcher`;
     const typeSwitcher = showTypeSwitch ? (
       <span className={switchCls}>
-        { type === 'date' ?
-          <span className={`${switchCls}-focus`}>{locale.month}</span> :
-          <span
-            onClick={this.changeTypeToDate.bind(this)}
-            className={`${switchCls}-normal`}
-          >
-            {locale.month}
-          </span>
-        }
         { type === 'month' ?
           <span className={`${switchCls}-focus`}>{locale.year}</span> :
           <span
@@ -108,11 +176,41 @@ class CalendarHeader extends Component {
             {locale.year}
           </span>
         }
+        {(type === 'date' && mode === 'date') ?
+          <span className={`${switchCls}-focus`}>{locale.month}</span> :
+          <span
+            onClick={this.changeTypeToDate.bind(this)}
+            className={`${switchCls}-normal`}
+          >
+            {locale.month}
+          </span>
+        }
+        {
+          (type === 'date' && mode === 'week') ?
+            <span className={`${switchCls}-focus`}>{locale.week}</span> :
+            <span
+              onClick={this.changeTypeToWeek.bind(this)}
+              className={`${switchCls}-normal`}
+            >
+            {locale.week}
+          </span>
+        }
+        {
+          (type === 'date' && mode === 'day') ?
+            <span className={`${switchCls}-focus`}>{locale.day}</span> :
+            <span
+              onClick={this.changeTypeToDay.bind(this)}
+              className={`${switchCls}-normal`}
+            >
+            {locale.day}
+          </span>
+        }
       </span>
     ) : null;
 
     return (
       <div className={`${prefixCls}-header`}>
+        {this.renderTitle()}
         { typeSwitcher }
         { monthSelect }
         { yearSelect }
@@ -133,6 +231,7 @@ CalendarHeader.propTypes = {
   type: PropTypes.string,
   showTypeSwitch: PropTypes.bool,
   headerComponents: PropTypes.array,
+  mode: PropTypes.string,
 };
 CalendarHeader.defaultProps = {
   yearSelectOffset: 10,
