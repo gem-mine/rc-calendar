@@ -79,6 +79,9 @@ export default class YearPanel extends React.Component {
       const tds = row.map(yearData => {
         let disabled = false;
         if (props.disabledDate) {
+          disabled = props.disabledDate(value.clone().year(yearData.year));
+        }
+        if (props.disabledDate) {
           const testValue = value.clone();
           testValue.year(yearData.year);
           disabled = props.disabledDate(testValue);

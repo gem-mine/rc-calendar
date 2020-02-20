@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CalendarHeader from '../calendar/CalendarHeader';
 import DateTable from '../date/DateTable';
 import DateInput from '../date/DateInput';
+import MonthTable from '../month/MonthTable';
 import { getTimeConfig } from '../util/index';
 
 export default class CalendarPart extends React.Component {
@@ -103,6 +104,8 @@ export default class CalendarPart extends React.Component {
             onValueChange={props.onValueChange}
             onPanelChange={props.onPanelChange}
             disabledMonth={props.disabledMonth}
+            disabledYear={props.disabledYear}
+            showPanel={props.showPanel}
           />
           {showTimePicker ? <div className={`${prefixCls}-time-picker`}>
             <div className={`${prefixCls}-time-picker-panel`}>
@@ -110,7 +113,7 @@ export default class CalendarPart extends React.Component {
             </div>
           </div> : null}
           <div className={`${prefixCls}-body`}>
-            <DateTable
+            {props.showPanel === 'date' ? <DateTable
               {...newProps}
               hoverValue={hoverValue}
               selectedValue={selectedValue}
@@ -120,7 +123,16 @@ export default class CalendarPart extends React.Component {
               disabledDate={disabledDate}
               showWeekNumber={props.showWeekNumber}
               firstDayOfMonth={props.firstDayOfMonth}
-            />
+            /> : <MonthTable
+              {...newProps}
+              prefixCls={`${prefixCls}-month-panel`}
+              selectedValue={selectedValue}
+              dateRender={props.dateRender}
+              onSelect={props.onSelect}
+              onMonthHover={props.onDayHover}
+              hoverValue={hoverValue}
+              disabledDate={disabledDate}
+            />}
           </div>
         </div>
       </div>);
