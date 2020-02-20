@@ -47,15 +47,15 @@ function getValueFromSelectedValue(selectedValue, showPanel) {
   if (end && (start === undefined || start === null)) {
     start = end.clone().subtract(1, getDefaultUnit(showPanel));
   }
-
   if (start && (end === undefined || end === null)) {
     end = start.clone().add(1, getDefaultUnit(showPanel));
   }
+
+  // 如果选了同一年月份,需要给另一面板加一年
+  end = end && end.isSame(start, getDefaultUnit(showPanel)) ?
+    end.clone().add(1, getDefaultUnit(showPanel)) : end;
+
   return [start, end];
-  // const [start, end] = selectedValue;
-  // const newEnd = end && end.isSame(start, getDefaultUnit(showPanel)) ?
-  //   end.clone().add(1, getDefaultUnit(showPanel)) : end;
-  // return [start, newEnd];
 }
 
 function normalizeAnchor(props, init) {
