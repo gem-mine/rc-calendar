@@ -68,28 +68,46 @@ export default class YearPanel extends React.Component {
   render() {
     const props = this.props;
     const value = this.state.value;
-    const { locale, renderFooter } = props;
+    const { locale, renderFooter, hoverValue, selectedValue } = props;
+    const rangeValue = (hoverValue && hoverValue.length) ? hoverValue : selectedValue;
     const years = this.years();
     const currentYear = value.year();
     const startYear = parseInt(currentYear / 10, 10) * 10;
     const endYear = startYear + 9;
     const prefixCls = this.prefixCls;
-
     const yeasEls = years.map((row, index) => {
       const tds = row.map(yearData => {
         let disabled = false;
+        const testValue = value.clone().year(yearData.year);
         if (props.disabledDate) {
           disabled = props.disabledDate(value.clone().year(yearData.year));
         }
         if (props.disabledDate) {
-          const testValue = value.clone();
-          testValue.year(yearData.year);
           disabled = props.disabledDate(testValue);
         }
+        let isSelected = false;
+        let isInRange = false;
+        if (rangeValue && Array.isArray(rangeValue)) {
+          const startValue = rangeValue[0];
+          const endValue = rangeValue[1];
+
+          if (startValue && endValue) {
+            isSelected = testValue.isSame(startValue, 'year') ||
+              testValue.isSame(endValue, 'year');
+            isInRange = testValue.isAfter(startValue, 'year') &&
+              testValue.isBefore(endValue, 'year');
+          } else {
+            isSelected = testValue.isSame(startValue, 'year');
+          }
+        } else {
+          isSelected = yearData.value === currentYear;
+        }
+
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
+          [`${prefixCls}-in-range-cell`]: isInRange,
           [`${prefixCls}-cell-disabled`]: disabled,
-          [`${prefixCls}-selected-cell`]: yearData.year === currentYear,
+          [`${prefixCls}-selected-cell`]: isSelected,
           [`${prefixCls}-last-decade-cell`]: yearData.year < startYear,
           [`${prefixCls}-next-decade-cell`]: yearData.year > endYear,
         };
@@ -101,6 +119,7 @@ export default class YearPanel extends React.Component {
         } else {
           clickHandler = chooseYear.bind(this, yearData.year);
         }
+        const firstDay = value.clone().year(yearData.year).startOf('day');
         return (
           <td
             role="gridcell"
@@ -108,6 +127,8 @@ export default class YearPanel extends React.Component {
             key={yearData.content}
             onClick={disabled ? null : clickHandler}
             className={classnames(classNameMap)}
+            onMouseEnter={disabled ? undefined :
+              (props.onMonthHover && props.onMonthHover.bind(null, firstDay) || undefined)}
           >
             <a
               className={`${prefixCls}-year`}

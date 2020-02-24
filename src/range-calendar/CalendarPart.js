@@ -4,6 +4,7 @@ import CalendarHeader from '../calendar/CalendarHeader';
 import DateTable from '../date/DateTable';
 import DateInput from '../date/DateInput';
 import MonthTable from '../month/MonthTable';
+import YearPanel from '../year/YearPanel';
 import { getTimeConfig } from '../util/index';
 
 export default class CalendarPart extends React.Component {
@@ -90,6 +91,49 @@ export default class CalendarPart extends React.Component {
         inputMode={inputMode}
       />;
 
+    let body = null;
+    if (props.showPanel === 'month') {
+      body = (
+        <MonthTable
+          {...newProps}
+          prefixCls={`${prefixCls}-month-panel`}
+          selectedValue={selectedValue}
+          dateRender={props.dateRender}
+          onSelect={props.onSelect}
+          onMonthHover={props.onDayHover}
+          hoverValue={hoverValue}
+          disabledDate={disabledDate}
+        />
+      );
+    } else if (props.showPanel === 'year') {
+      body = (
+        <YearPanel
+          {...newProps}
+          // prefixCls={`${prefixCls}-year-panel`}
+          rootPrefixCls={prefixCls}
+          selectedValue={selectedValue}
+          dateRender={props.dateRender}
+          onSelect={props.onSelect}
+          onMonthHover={props.onDayHover}
+          hoverValue={hoverValue}
+          disabledDate={disabledDate}
+        />
+      );
+    } else {
+      body = (
+        <DateTable
+          {...newProps}
+          hoverValue={hoverValue}
+          selectedValue={selectedValue}
+          dateRender={props.dateRender}
+          onSelect={props.onSelect}
+          onDayHover={props.onDayHover}
+          disabledDate={disabledDate}
+          showWeekNumber={props.showWeekNumber}
+        />
+      );
+    }
+
     return (
       <div
         className={`${rangeClassName}-part ${rangeClassName}-${direction}`}
@@ -113,28 +157,10 @@ export default class CalendarPart extends React.Component {
             </div>
           </div> : null}
           <div className={`${prefixCls}-body`}>
-            {props.showPanel === 'date' ? <DateTable
-              {...newProps}
-              hoverValue={hoverValue}
-              selectedValue={selectedValue}
-              dateRender={props.dateRender}
-              onSelect={props.onSelect}
-              onDayHover={props.onDayHover}
-              disabledDate={disabledDate}
-              showWeekNumber={props.showWeekNumber}
-              firstDayOfMonth={props.firstDayOfMonth}
-            /> : <MonthTable
-              {...newProps}
-              prefixCls={`${prefixCls}-month-panel`}
-              selectedValue={selectedValue}
-              dateRender={props.dateRender}
-              onSelect={props.onSelect}
-              onMonthHover={props.onDayHover}
-              hoverValue={hoverValue}
-              disabledDate={disabledDate}
-            />}
+            {body}
           </div>
         </div>
-      </div>);
+      </div>
+    );
   }
 }
