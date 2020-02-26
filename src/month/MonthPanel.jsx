@@ -15,6 +15,7 @@ class MonthPanel extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
     disabledDate: PropTypes.func,
+    disabledMonth: PropTypes.func,
     onSelect: PropTypes.func,
     renderFooter: PropTypes.func,
     rootPrefixCls: PropTypes.string,
@@ -109,6 +110,7 @@ class MonthPanel extends React.Component {
           <div className={`${prefixCls}-body`}>
             <MonthTable
               disabledDate={props.disabledDate}
+              disabledMonth={props.disabledMonth}
               onSelect={this.setAndSelectValue}
               locale={locale}
               value={value}

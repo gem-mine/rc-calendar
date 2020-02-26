@@ -203,6 +203,7 @@ ReactDOM.render(
         onChange={onStandaloneChange}
         onSelect={onStandaloneSelect}
         disabledTime={disabledTime}
+        disabledDate={(value) => value > moment().month(5)}
         renderFooter={() => <span>extra footer</span>}
       />
     </div>
@@ -219,6 +220,7 @@ ReactDOM.render(
         onChange={onStandaloneChange}
         onSelect={onStandaloneSelect}
         disabledTime={disabledTime}
+        disabledDate={(value) => value < moment().year(2025)}
         renderFooter={() => <span>extra footer</span>}
       />
     </div>

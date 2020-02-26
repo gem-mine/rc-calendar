@@ -73,8 +73,15 @@ class MonthTable extends Component {
       const tds = month.map(monthData => {
         let disabled = false;
         const testValue = value.clone().month(monthData.value);
-        if (props.disabledDate) {
-          disabled = props.disabledDate(testValue);
+        if (props.disabledDate || props.disabledMonth) {
+          // disabled = props.disabledDate(testValue);
+          if (props.disabledDate) {
+            disabled = props.disabledDate(testValue);
+          }
+
+          if (props.disabledMonth) {
+            disabled = props.disabledMonth(testValue);
+          }
         }
 
         let isSelected = false;

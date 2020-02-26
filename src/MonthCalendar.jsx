@@ -102,6 +102,7 @@ class MonthCalendar extends React.Component {
             value={value}
             locale={props.locale}
             disabledMonth={props.disabledDate}
+            disabledDate={props.disabledDate}
             monthCellRender={props.monthCellRender}
             monthCellContentRender={props.monthCellContentRender}
             onMonthSelect={this.onSelect}

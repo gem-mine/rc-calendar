@@ -726,6 +726,7 @@ class RangeCalendar extends React.Component {
     return this.props.disabledTime(time, 'end');
   }
 
+  // todo:
   disabledStartMonth = (month) => {
     const { value } = this.state;
     return month.isAfter(value[1], 'month');
