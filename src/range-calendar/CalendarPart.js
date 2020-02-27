@@ -5,6 +5,7 @@ import DateTable from '../date/DateTable';
 import DateInput from '../date/DateInput';
 import MonthTable from '../month/MonthTable';
 import YearPanel from '../year/YearPanel';
+import DecadePanel from '../decade/DecadePanel';
 import { getTimeConfig } from '../util/index';
 
 export default class CalendarPart extends React.Component {
@@ -32,7 +33,13 @@ export default class CalendarPart extends React.Component {
     dateRender: PropTypes.func,
     inputMode: PropTypes.string,
   }
-
+  onDecadeSelect = (value) => {
+    this.props.onPanelChange(value, 'year');
+    this.props.onValueChange(value);
+  }
+  showDecadePanel = () => {
+    this.props.onPanelChange(null, 'decade');
+  }
   render() {
     const props = this.props;
     const {
@@ -106,21 +113,36 @@ export default class CalendarPart extends React.Component {
           disabledDate={disabledDate}
         />
       );
-    } else if (props.showPanel === 'year') {
-      body = (
-        <YearPanel
-          {...newProps}
-          // prefixCls={`${prefixCls}-year-panel`}
-          rootPrefixCls={prefixCls}
-          selectedValue={selectedValue}
-          dateRender={props.dateRender}
-          onSelect={props.onSelect}
-          onMonthHover={props.onDayHover}
-          hoverValue={hoverValue}
-          disabledDate={disabledDate}
-        />
-      );
-    } else {
+    }
+    else if (props.showPanel === 'year') {
+      // todo: 写清为啥要放这里
+      if (mode === 'year') {
+        body = (
+          <YearPanel
+            {...newProps}
+            rootPrefixCls={prefixCls}
+            showPanel={props.showPanel}
+            selectedValue={selectedValue}
+            onDecadePanelShow={this.showDecadePanel}
+            dateRender={props.dateRender}
+            onSelect={props.onSelect}
+            onMonthHover={props.onDayHover}
+            hoverValue={hoverValue}
+            disabledDate={disabledDate}
+          />
+        );
+      } else {
+        body = (
+          <DecadePanel
+            locale={locale}
+            defaultValue={value}
+            rootPrefixCls={prefixCls}
+            onSelect={this.onDecadeSelect}
+          />
+        )
+      }
+    }
+    else {
       body = (
         <DateTable
           {...newProps}

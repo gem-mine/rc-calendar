@@ -747,13 +747,6 @@ class RangeCalendar extends React.Component {
     return year.isSameOrBefore(value[0], 'year');
   }
 
-  dateRender = (current) => {
-    return (
-      <div className="rc-calendar-date">
-        {current.date()}
-      </div>);
-  }
-
   render() {
     const { props, state } = this;
     const {
@@ -856,7 +849,6 @@ class RangeCalendar extends React.Component {
               format={this.getFormat()}
               value={startValue}
               mode={mode[0]}
-              dateRender={this.dateRender}
               placeholder={placeholder1}
               onInputChange={this.onStartInputChange}
               onInputSelect={this.onStartInputSelect}
@@ -881,7 +873,6 @@ class RangeCalendar extends React.Component {
               placeholder={placeholder2}
               value={endValue}
               mode={mode[1]}
-              dateRender={this.dateRender}
               onInputChange={this.onEndInputChange}
               onInputSelect={this.onEndInputSelect}
               onValueChange={this.onEndValueChange}

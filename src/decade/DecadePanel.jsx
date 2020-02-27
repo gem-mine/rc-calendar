@@ -65,8 +65,14 @@ export default class DecadePanel extends React.Component {
         const dEndDecade = decadeData.endDecade;
         const isLast = dStartDecade < startYear;
         const isNext = dEndDecade > endYear;
+        let disabled = false;
+        const testValue = value.clone().year(dStartDecade);
+        if (this.props.disabledDate) {
+          disabled = this.props.disabledDate(testValue);
+        }
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
+          [`${prefixCls}-cell-disabled`]: disabled,
           [`${prefixCls}-selected-cell`]: dStartDecade <= currentYear && currentYear <= dEndDecade,
           [`${prefixCls}-last-century-cell`]: isLast,
           [`${prefixCls}-next-century-cell`]: isNext,

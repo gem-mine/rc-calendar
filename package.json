@@ -25,7 +25,7 @@
   },
   "licenses": "MIT",
   "config": {
-    "port": 8002,
+    "port": 8022,
     "entry": {
       "rc-calendar": [
         "./assets/index.less",
