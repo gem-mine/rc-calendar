@@ -55,6 +55,8 @@ export default class CalendarHeader extends React.Component {
     this.previousMonth = goMonth.bind(this, -1);
     this.nextYear = goYear.bind(this, 1);
     this.previousYear = goYear.bind(this, -1);
+    this.nextDecade = goYear.bind(this, 10);
+    this.previousDecade = goYear.bind(this, -10);
 
     this.state = { yearPanelReferer: null };
   }
@@ -103,7 +105,7 @@ export default class CalendarHeader extends React.Component {
     const monthBeforeYear = locale.monthBeforeYear;
     const selectClassName = `${prefixCls}-${monthBeforeYear ? 'my-select' : 'ym-select'}`;
     const timeClassName = showTimePicker ? ` ${prefixCls}-time-status` : '';
-    const year = showYear ? (<a
+    const year = showYear && showPanel !== 'year' ? (<a
       className={`${prefixCls}-year-select${timeClassName}`}
       role="button"
       onClick={showTimePicker ? null : () => this.showYearPanel('date')}
@@ -122,6 +124,22 @@ export default class CalendarHeader extends React.Component {
         {locale.monthFormat ? value.format(locale.monthFormat) : localeData.monthsShort(value)}
       </a>);
     }
+    let decade;
+    if (showPanel === 'year') {
+      const currentYear = value.year();
+      const startYear = parseInt(currentYear / 10, 10) * 10;
+      const endYear = startYear + 9;
+      decade = (
+        <a
+          className={`${prefixCls}-decade-select${timeClassName}`}
+          role="button"
+          onClick={showTimePicker ? null : this.showDecadePanel}
+          title={showTimePicker ? null : locale.decadeSelect}
+        >
+          {startYear}-{endYear}
+        </a>
+      )
+    }
     let day;
     if (showTimePicker) {
       day = (<a
@@ -133,9 +151,9 @@ export default class CalendarHeader extends React.Component {
     }
     let my = [];
     if (monthBeforeYear) {
-      my = [month, day, year];
+      my = [decade, month, day, year];
     } else {
-      my = [year, month, day];
+      my = [decade, year, month, day];
     }
     return (<span className={selectClassName}>
       {toFragment(my)}
@@ -233,17 +251,23 @@ export default class CalendarHeader extends React.Component {
     const disabledNextMonth = !showYear && parseInt(value.format('M'), 10) === 12;
     const disabledPrevMonthCls = disabledPrevMonth ? `${prefixCls}-month-btn-disabled` : '';
     const disabledNextMonthCls = disabledNextMonth ? `${prefixCls}-month-btn-disabled` : '';
-
     return (<div className={`${prefixCls}-header`}>
       <div style={{ position: 'relative' }}>
-        {showIf(enablePrev && !showTimePicker && showYear,
+        {showIf(showPanel === 'year',
+          <a
+            className={`${prefixCls}-prev-decade-btn`}
+            role="button"
+            onClick={this.previousDecade}
+            title={locale.previousDecade}
+          />)}
+        {showIf((enablePrev && !showTimePicker) || showPanel === 'month',
           <a
             className={`${prefixCls}-prev-year-btn`}
             role="button"
             onClick={this.previousYear}
             title={locale.previousYear}
           />)}
-        {showIf(enablePrev && !showTimePicker && showPanel === 'date',
+        {showIf((enablePrev && !showTimePicker)|| showPanel === 'date',
           <a
             className={`${prefixCls}-prev-month-btn ${disabledPrevMonthCls}`}
             role="button"
@@ -251,17 +275,24 @@ export default class CalendarHeader extends React.Component {
             title={locale.previousMonth}
           />)}
         {this.monthYearElement(showTimePicker)}
-        {showIf(enableNext && !showTimePicker && showPanel === 'date',
+        {showIf((enableNext && !showTimePicker) || showPanel === 'date',
           <a
             className={`${prefixCls}-next-month-btn ${disabledNextMonthCls}`}
             onClick={disabledNextMonth ? null : this.nextMonth}
             title={locale.nextMonth}
           />)}
-        {showIf(enableNext && !showTimePicker && showYear,
+        {showIf((enableNext && !showTimePicker && showYear) || showPanel === 'month',
           <a
             className={`${prefixCls}-next-year-btn`}
             onClick={this.nextYear}
             title={locale.nextYear}
+          />)}
+        {showIf(showPanel === 'year',
+          <a
+            className={`${prefixCls}-next-decade-btn`}
+            role="button"
+            onClick={this.nextDecade}
+            title={locale.nextDecade}
           />)}
       </div>
       {panel}
