@@ -4,10 +4,8 @@ import CalendarHeader from '../calendar/CalendarHeader';
 import DateTable from '../date/DateTable';
 import DateInput from '../date/DateInput';
 import MonthTable from '../month/MonthTable';
-import YearPanel from '../year/YearPanel';
-import DecadePanel from '../decade/DecadePanel';
 import { getTimeConfig } from '../util/index';
-import YearTable from '../year/YearTable'
+import YearTable from '../year/YearTable';
 
 export default class CalendarPart extends React.Component {
   static propTypes = {
@@ -33,13 +31,6 @@ export default class CalendarPart extends React.Component {
     clearIcon: PropTypes.node,
     dateRender: PropTypes.func,
     inputMode: PropTypes.string,
-  }
-  onDecadeSelect = (value) => {
-    this.props.onPanelChange(value, 'year');
-    this.props.onValueChange(value);
-  }
-  showDecadePanel = () => {
-    this.props.onPanelChange(null, 'decade');
   }
   render() {
     const props = this.props;
@@ -114,15 +105,13 @@ export default class CalendarPart extends React.Component {
           disabledDate={disabledDate}
         />
       );
-    }
-    else if (props.picker === 'year') {
+    } else if (props.picker === 'year') {
       body = (
         <YearTable
           {...newProps}
           prefixCls={`${prefixCls}-year-panel`}
           picker={props.picker}
           selectedValue={selectedValue}
-          onDecadePanelShow={this.showDecadePanel}
           dateRender={props.dateRender}
           onSelect={props.onSelect}
           onMonthHover={props.onDayHover}
@@ -130,8 +119,7 @@ export default class CalendarPart extends React.Component {
           disabledDate={disabledDate}
         />
       );
-    }
-    else {
+    } else {
       body = (
         <DateTable
           {...newProps}

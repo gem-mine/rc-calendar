@@ -138,7 +138,7 @@ export default class CalendarHeader extends React.Component {
         >
           {startYear}-{endYear}
         </a>
-      )
+      );
     }
     let day;
     if (showTimePicker) {
@@ -254,19 +254,19 @@ export default class CalendarHeader extends React.Component {
       <div style={{ position: 'relative' }}>
         {showIf(picker === 'year',
           <a
-            className={`${prefixCls}-prev-decade-btn`}
+            className={`${prefixCls}-year-panel-prev-decade-btn`}
             role="button"
             onClick={this.previousDecade}
             title={locale.previousDecade}
           />)}
-        {showIf((enablePrev && !showTimePicker) || picker === 'month',
+        {showIf(picker ? picker === 'month' : (enablePrev && !showTimePicker),
           <a
             className={`${prefixCls}-prev-year-btn`}
             role="button"
             onClick={this.previousYear}
             title={locale.previousYear}
           />)}
-        {showIf((enablePrev && !showTimePicker)|| picker === 'date',
+        {showIf(picker ? picker === 'date' : (enablePrev && !showTimePicker),
           <a
             className={`${prefixCls}-prev-month-btn ${disabledPrevMonthCls}`}
             role="button"
@@ -274,13 +274,13 @@ export default class CalendarHeader extends React.Component {
             title={locale.previousMonth}
           />)}
         {this.monthYearElement(showTimePicker)}
-        {showIf((enableNext && !showTimePicker) || picker === 'date',
+        {showIf(picker ? picker === 'date' : (enableNext && !showTimePicker),
           <a
             className={`${prefixCls}-next-month-btn ${disabledNextMonthCls}`}
             onClick={disabledNextMonth ? null : this.nextMonth}
             title={locale.nextMonth}
           />)}
-        {showIf((enableNext && !showTimePicker && showYear) || picker === 'month',
+        {showIf(picker ? picker === 'month' : (enableNext && !showTimePicker && showYear),
           <a
             className={`${prefixCls}-next-year-btn`}
             onClick={this.nextYear}
@@ -288,7 +288,7 @@ export default class CalendarHeader extends React.Component {
           />)}
         {showIf(picker === 'year',
           <a
-            className={`${prefixCls}-next-decade-btn`}
+            className={`${prefixCls}-year-panel-next-decade-btn`}
             role="button"
             onClick={this.nextDecade}
             title={locale.nextDecade}

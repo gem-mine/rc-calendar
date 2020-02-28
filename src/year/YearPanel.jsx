@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import YearTable from './YearTable'
+import YearTable from './YearTable';
 const ROW = 4;
 const COL = 3;
 

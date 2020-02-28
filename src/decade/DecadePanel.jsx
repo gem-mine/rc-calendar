@@ -144,6 +144,7 @@ DecadePanel.propTypes = {
   defaultValue: PropTypes.object,
   rootPrefixCls: PropTypes.string,
   renderFooter: PropTypes.func,
+  disabledDate: PropTypes.func,
 };
 
 DecadePanel.defaultProps = {
