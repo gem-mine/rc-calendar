@@ -9,7 +9,7 @@ import TodayButton from './calendar/TodayButton';
 import OkButton from './calendar/OkButton';
 import TimePickerButton from './calendar/TimePickerButton';
 import { commonMixinWrapper, propType, defaultProp } from './mixin/CommonMixin';
-import { syncTime, getTodayTime, isAllowedDate } from './util';
+import { syncTime, getTodayTime, isAllowedDate, isSameDecade } from './util';
 import {
   goTime, goStartMonth,
   goEndMonth, includesTime,
@@ -42,11 +42,6 @@ function getDefaultUnit(picker) {
     year: 'years',
   };
   return unitMap[picker] || 'months';
-}
-
-// 判断两个年份是否在同一个decade上
-function isSameDecade(startYear, endYear) {
-  return parseInt(startYear / 10, 10) * 10 === parseInt(endYear / 10, 10) * 10;
 }
 
 // startValue和endValue是用户选择的时间

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { isSameDecade } from './../util';
 const ROW = 4;
 const COL = 3;
 
@@ -84,22 +85,25 @@ export default class YearTable extends React.Component {
         if (props.disabledDate) {
           disabled = props.disabledDate(testValue);
         }
+        // todo: 在same decade 才可以selected
         let isSelected = false;
         let isInRange = false;
         if (rangeValue && Array.isArray(rangeValue)) {
-          const startValue = rangeValue[0];
-          const endValue = rangeValue[1];
+          if (isSameDecade(yearData.year, value.year())) {
+            const startValue = rangeValue[0];
+            const endValue = rangeValue[1];
 
-          if (startValue && endValue) {
-            isSelected = testValue.isSame(startValue, 'year') ||
-              testValue.isSame(endValue, 'year');
-            isInRange = testValue.isAfter(startValue, 'year') &&
-              testValue.isBefore(endValue, 'year');
-          } else {
-            isSelected = testValue.isSame(startValue, 'year');
+            if (startValue && endValue) {
+              isSelected = testValue.isSame(startValue, 'year') ||
+                testValue.isSame(endValue, 'year');
+              isInRange = testValue.isAfter(startValue, 'year') &&
+                testValue.isBefore(endValue, 'year');
+            } else {
+              isSelected = testValue.isSame(startValue, 'year');
+            }
           }
         } else {
-          isSelected = yearData.value === currentYear;
+          isSelected = yearData.year === currentYear;
         }
 
         const classNameMap = {
@@ -110,14 +114,15 @@ export default class YearTable extends React.Component {
           [`${prefixCls}-last-decade-cell`]: yearData.year < startYear,
           [`${prefixCls}-next-decade-cell`]: yearData.year > endYear,
         };
-        let clickHandler;
-        if (yearData.year < startYear) {
-          clickHandler = this.previousDecade;
-        } else if (yearData.year > endYear) {
-          clickHandler = this.nextDecade;
-        } else {
-          clickHandler = chooseYear.bind(this, yearData.year);
-        }
+        // let clickHandler;
+        // if (yearData.year < startYear) {
+        //   clickHandler = this.previousDecade;
+        // } else if (yearData.year > endYear) {
+        //   clickHandler = this.nextDecade;
+        // } else {
+        //   clickHandler = chooseYear.bind(this, yearData.year);
+        // }
+        const clickHandler = chooseYear.bind(this, yearData.year);
         const firstDay = value.clone().year(yearData.year).startOf('day');
         return (
           <td
@@ -142,7 +147,7 @@ export default class YearTable extends React.Component {
     return (
       <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
         <tbody className={`${prefixCls}-tbody`}>
-        {yeasEls}
+          {yeasEls}
         </tbody>
       </table>
     );
