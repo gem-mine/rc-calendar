@@ -264,7 +264,6 @@ class Calendar extends React.Component {
     this.onPanelChange(null, 'date');
   }
 
-
   goTime = (direction, unit) => {
     this.setValue(
       goTime(this.state.value, direction, unit),

@@ -164,7 +164,7 @@ class DateInput extends React.Component {
 
   saveDateInput = (dateInput) => {
     // 使用nd-input包了一层后，取ref也需要多一层
-    this.dateInputInstance = dateInput && dateInput.inputRef;
+    dateInputInstance = dateInput && dateInput.inputRef;
   }
 
   render() {
