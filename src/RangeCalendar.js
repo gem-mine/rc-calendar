@@ -35,13 +35,13 @@ function isArraysEqual(a, b) {
 }
 
 // moment没有decade这个参数，所以需要做处理
-function getDefaultUnit(showPanel) {
+function getDefaultUnit(picker) {
   const unitMap = {
     date: 'months',
     month: 'years',
     year: 'years',
   };
-  return unitMap[showPanel] || 'months';
+  return unitMap[picker] || 'months';
 }
 
 // 判断两个年份是否在同一个decade上
@@ -51,21 +51,21 @@ function isSameDecade(startYear, endYear) {
 
 // startValue和endValue是用户选择的时间
 // start, end是控制左右面板显示的时间的
-function getValueFromSelectedValue(selectedValue, showPanel) {
+function getValueFromSelectedValue(selectedValue, picker) {
   let [start, end] = selectedValue;
   if (end && (start === undefined || start === null)) {
     start = end.clone().subtract(
-      showPanel === 'year' ? 10 : 1, getDefaultUnit(showPanel));
+      picker === 'year' ? 10 : 1, getDefaultUnit(picker));
   }
   if (start && (end === undefined || end === null)) {
-    end = start.clone().add(showPanel === 'year' ? 10 : 1, getDefaultUnit(showPanel));
+    end = start.clone().add(picker === 'year' ? 10 : 1, getDefaultUnit(picker));
   }
   if (end) {
     // todo: 这段逻辑有问题
     // 如果选了同一年月份,需要给另一面板加一年
-    if (showPanel === 'month' && end.isSame(start, getDefaultUnit(showPanel))) {
-      end = end.clone().add(1, getDefaultUnit(showPanel));
-    } else if (showPanel === 'year' && isSameDecade(start.year(), end.year())) {
+    if (picker === 'month' && end.isSame(start, getDefaultUnit(picker))) {
+      end = end.clone().add(1, getDefaultUnit(picker));
+    } else if (picker === 'year' && isSameDecade(start.year(), end.year())) {
       // 如果是年周期， 需要给另一个面板加10年
       end = end.clone().add(10, 'years');
     }
@@ -77,12 +77,12 @@ function normalizeAnchor(props, init) {
   const selectedValue = props.selectedValue || init && props.defaultSelectedValue;
   const value = props.value || init && props.defaultValue;
   const normalizedValue = value ?
-    getValueFromSelectedValue(value, props.showPanel) :
-    getValueFromSelectedValue(selectedValue, props.showPanel);
-  const addUnit = getDefaultUnit(props.showPanel);
+    getValueFromSelectedValue(value, props.picker) :
+    getValueFromSelectedValue(selectedValue, props.picker);
+  const addUnit = getDefaultUnit(props.picker);
   return !isEmptyArray(normalizedValue) ?
     normalizedValue : init && [moment(), moment().add(
-      props.showPanel === 'year' ? 10 : 1, addUnit)];
+      props.picker === 'year' ? 10 : 1, addUnit)];
 }
 
 function generateOptions(length, extraOptionGen) {
@@ -141,7 +141,7 @@ class RangeCalendar extends React.Component {
     disabledTime: PropTypes.func,
     clearIcon: PropTypes.node,
     onKeyDown: PropTypes.func,
-    showPanel: PropTypes.oneOf(['date', 'month', 'year']),
+    picker: PropTypes.oneOf(['date', 'month', 'year']),
   }
 
   static defaultProps = {
@@ -156,7 +156,7 @@ class RangeCalendar extends React.Component {
     onInputSelect: noop,
     showToday: true,
     showDateInput: true,
-    showPanel: 'date',
+    picker: 'date',
   }
 
   constructor(props) {
@@ -164,8 +164,8 @@ class RangeCalendar extends React.Component {
     const selectedValue = props.selectedValue || props.defaultSelectedValue;
     const value = normalizeAnchor(props, 1);
     let defaultMode;
-    if (props.showPanel) {
-      defaultMode = [props.showPanel, props.showPanel];
+    if (props.picker) {
+      defaultMode = [props.picker, props.picker];
     } else {
       defaultMode = ['date', 'date'];
     }
@@ -240,7 +240,7 @@ class RangeCalendar extends React.Component {
       selectedValue, hoverValue, firstSelectedValue,
       value, // Value is used for `CalendarPart` current page
     } = this.state;
-    const { onKeyDown, disabledDate, showPanel } = this.props;
+    const { onKeyDown, disabledDate, picker } = this.props;
 
     // Update last time of the picker
     const updateHoverPoint = (func) => {
@@ -269,23 +269,23 @@ class RangeCalendar extends React.Component {
 
       // Find origin hover time on value index
       if (nextHoverValue.length >= 2) {
-        const miss = nextHoverValue.some(ht => !includesTime(value, ht, getDefaultUnit(showPanel)));
+        const miss = nextHoverValue.some(ht => !includesTime(value, ht, getDefaultUnit(picker)));
         if (miss) {
           const newValue = nextHoverValue.slice()
             .sort((t1, t2) => t1.valueOf() - t2.valueOf());
-          if (newValue[0].isSame(newValue[1], getDefaultUnit(showPanel))) {
-            newValue[1] = newValue[0].clone().add(1, getDefaultUnit(showPanel));
+          if (newValue[0].isSame(newValue[1], getDefaultUnit(picker))) {
+            newValue[1] = newValue[0].clone().add(1, getDefaultUnit(picker));
           }
           this.fireValueChange(newValue);
         }
       } else if (nextHoverValue.length === 1) {
         // If only one value, let's keep the origin panel
         let oriValueIndex = value.findIndex(time => {
-          time.isSame(currentHoverTime, getDefaultUnit(showPanel));
+          time.isSame(currentHoverTime, getDefaultUnit(picker));
         });
         if (oriValueIndex === -1) oriValueIndex = 0;
 
-        if (value.every(time => !time.isSame(nextHoverTime, getDefaultUnit(showPanel)))) {
+        if (value.every(time => !time.isSame(nextHoverTime, getDefaultUnit(picker)))) {
           const newValue = value.slice();
           newValue[oriValueIndex] = nextHoverTime.clone();
           this.fireValueChange(newValue);
@@ -297,18 +297,18 @@ class RangeCalendar extends React.Component {
       return nextHoverTime;
     };
 
-    // todo: showPanel="year" 下的 key 操作待完善
+    // todo: picker="year" 下的 key 操作待完善
     switch (keyCode) {
       case KeyCode.DOWN:
-        if (showPanel === 'month' || showPanel === 'year') {
-          updateHoverPoint((time) => goTime(time, 3, showPanel));
+        if (picker === 'month' || picker === 'year') {
+          updateHoverPoint((time) => goTime(time, 3, picker));
         } else {
           updateHoverPoint((time) => goTime(time, 1, 'weeks'));
         }
         return;
       case KeyCode.UP:
-        if (showPanel === 'month' || showPanel === 'year') {
-          updateHoverPoint((time) => goTime(time, -3, showPanel));
+        if (picker === 'month' || picker === 'year') {
+          updateHoverPoint((time) => goTime(time, -3, picker));
         } else {
           updateHoverPoint((time) => goTime(time, -1, 'weeks'));
         }
@@ -317,8 +317,8 @@ class RangeCalendar extends React.Component {
         if (ctrlKey) {
           updateHoverPoint((time) => goTime(time, -1, 'years'));
         } else {
-          if (showPanel === 'month' || showPanel === 'year') {
-            updateHoverPoint((time) => goTime(time, -1, showPanel));
+          if (picker === 'month' || picker === 'year') {
+            updateHoverPoint((time) => goTime(time, -1, picker));
           } else {
             updateHoverPoint((time) => goTime(time, -1, 'days'));
           }
@@ -328,36 +328,36 @@ class RangeCalendar extends React.Component {
         if (ctrlKey) {
           updateHoverPoint((time) => goTime(time, 1, 'years'));
         } else {
-          if (showPanel === 'month' || showPanel === 'year') {
-            updateHoverPoint((time) => goTime(time, 1, showPanel));
+          if (picker === 'month' || picker === 'year') {
+            updateHoverPoint((time) => goTime(time, 1, picker));
           } else {
             updateHoverPoint((time) => goTime(time, 1, 'days'));
           }
         }
         return;
       case KeyCode.HOME:
-        if (showPanel === 'month') {
+        if (picker === 'month') {
           updateHoverPoint((time) => goStartYear(time));
         } else {
           updateHoverPoint((time) => goStartMonth(time));
         }
         return;
       case KeyCode.END:
-        if (showPanel === 'month') {
+        if (picker === 'month') {
           updateHoverPoint((time) => goEndYear(time));
         } else {
           updateHoverPoint((time) => goEndMonth(time));
         }
         return;
       case KeyCode.PAGE_DOWN:
-        if (showPanel === 'month') {
+        if (picker === 'month') {
           updateHoverPoint((time) => goTime(time, 1, 'year'));
         } else {
           updateHoverPoint((time) => goTime(time, 1, 'month'));
         }
         return;
       case KeyCode.PAGE_UP:
-        if (showPanel === 'month') {
+        if (picker === 'month') {
           updateHoverPoint((time) => goTime(time, -1, 'year'));
         } else {
           updateHoverPoint((time) => goTime(time, -1, 'month'));
@@ -545,7 +545,7 @@ class RangeCalendar extends React.Component {
     const { value, selectedValue, showTimePicker, mode, panelTriggerSource } = this.state;
     let endValue = value[1] ? value[1].clone() :
       value[0].clone().add(
-        this.props.showPanel === 'year' ? 10 : 1, getDefaultUnit(this.props.showPanel));
+        this.props.picker === 'year' ? 10 : 1, getDefaultUnit(this.props.picker));
     // keep selectedTime when select date
     if (selectedValue[1] && this.props.timePicker) {
       syncTime(selectedValue[1], endValue);
@@ -563,7 +563,7 @@ class RangeCalendar extends React.Component {
       endValue.isSame(value[0], 'month')
     ) {
       endValue = endValue.clone().add(
-        this.props.showPanel === 'year' ? 10 : 1, getDefaultUnit(this.props.showPanel));
+        this.props.picker === 'year' ? 10 : 1, getDefaultUnit(this.props.picker));
     }
 
     return endValue;
@@ -613,12 +613,12 @@ class RangeCalendar extends React.Component {
       isAllowedDate(selectedValue[1], this.props.disabledDate, this.disabledEndTime);
   }
 
-  isMonthYearPanelShow = (mode, showPanel) => {
-    if (showPanel === 'month') {
+  isMonthYearPanelShow = (mode, picker) => {
+    if (picker === 'month') {
       return ['year', 'decade'].indexOf(mode) > -1;
     }
     // todo: 待验证和优化
-    if (showPanel === 'year') {
+    if (picker === 'year') {
       return ['decade'].indexOf(mode) > -1;
     }
     return ['month', 'year', 'decade'].indexOf(mode) > -1;
@@ -660,12 +660,12 @@ class RangeCalendar extends React.Component {
       const startValue = selectedValue[0] || moment();
       const endValue = selectedValue[1] ||
         startValue.clone().add(
-          this.props.showPanel === 'year' ? 10 : 1,
-          getDefaultUnit(this.props.showPanel)
+          this.props.picker === 'year' ? 10 : 1,
+          getDefaultUnit(this.props.picker)
         );
       this.setState({
         selectedValue,
-        value: getValueFromSelectedValue([startValue, endValue], this.props.showPanel),
+        value: getValueFromSelectedValue([startValue, endValue], this.props.picker),
       });
     }
 
@@ -689,12 +689,12 @@ class RangeCalendar extends React.Component {
     if (!('value' in props)) {
       if (value[0] && value[1]) {
         // 月选择器年份不能相同，由于十年选择器没有限制，会返回年份段第一个年份，需要判断后加一年
-        if (props.showPanel === 'month' && value[1].isSame(value[0], 'year')) {
+        if (props.picker === 'month' && value[1].isSame(value[0], 'year')) {
           value[1].add(1, 'year');
         }
         // todo: 何时触发到
         // 同上；年选择器decade不能相同，判断后加10年
-        if (props.showPanel === 'year' && isSameDecade(value[0], value[1])) {
+        if (props.picker === 'year' && isSameDecade(value[0], value[1])) {
           value[1].add(10, 'year');
         }
       }
@@ -752,7 +752,7 @@ class RangeCalendar extends React.Component {
     const {
       prefixCls, dateInputPlaceholder, seperator,
       timePicker, showOk, locale, showClear,
-      showToday, type, clearIcon, showPanel,
+      showToday, type, clearIcon, picker,
     } = props;
     const {
       hoverValue,
@@ -804,12 +804,12 @@ class RangeCalendar extends React.Component {
       endValue.year() === thisYear && endValue.month() === thisMonth;
 
     const nextMonthOfStart = startValue.clone().add(
-      showPanel === 'year' ? 10 : 1, getDefaultUnit(showPanel));
+      picker === 'year' ? 10 : 1, getDefaultUnit(picker));
     let isClosestMonths = false;
-    if (showPanel === 'date') {
+    if (picker === 'date') {
       isClosestMonths = nextMonthOfStart.year() === endValue.year() &&
         nextMonthOfStart.month() === endValue.month();
-    } else if (showPanel === 'month') {
+    } else if (picker === 'month') {
       isClosestMonths = nextMonthOfStart.year() === endValue.year();
     }
 
@@ -845,7 +845,7 @@ class RangeCalendar extends React.Component {
               direction="left"
               disabledTime={this.disabledStartTime}
               disabledMonth={this.disabledStartMonth}
-              disabledYear={showPanel === 'month' ? this.disabledStartYear : null}
+              disabledYear={picker === 'month' ? this.disabledStartYear : null}
               format={this.getFormat()}
               value={startValue}
               mode={mode[0]}
@@ -858,9 +858,9 @@ class RangeCalendar extends React.Component {
               timePicker={timePicker}
               showTimePicker={showTimePicker || mode[0] === 'time'}
               enablePrev
-              enableNext={!isClosestMonths || this.isMonthYearPanelShow(mode[1], showPanel)}
+              enableNext={!isClosestMonths || this.isMonthYearPanelShow(mode[1], picker)}
               clearIcon={clearIcon}
-              showPanel={showPanel}
+              picker={picker}
             />
             <span className={`${prefixCls}-range-middle`}>{seperator}</span>
             <CalendarPart
@@ -882,11 +882,11 @@ class RangeCalendar extends React.Component {
               showTimePicker={showTimePicker || mode[1] === 'time'}
               disabledTime={this.disabledEndTime}
               disabledMonth={this.disabledEndMonth}
-              disabledYear={showPanel === 'month' ? this.disabledEndYear : null}
-              enablePrev={!isClosestMonths || this.isMonthYearPanelShow(mode[0], showPanel)}
+              disabledYear={picker === 'month' ? this.disabledEndYear : null}
+              enablePrev={!isClosestMonths || this.isMonthYearPanelShow(mode[0], picker)}
               enableNext
               clearIcon={clearIcon}
-              showPanel={showPanel}
+              picker={picker}
             />
           </div>
           <div className={cls}>

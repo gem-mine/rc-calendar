@@ -29,7 +29,14 @@ export default class YearPanel extends React.Component {
       });
     }
   }
-  setAndSelectValue(value) {
+  setValue = (value) => {
+    if ('value' in this.props) {
+      this.setState({
+        value,
+      });
+    }
+  }
+  setAndSelectValue = (value) => {
     this.setValue(value);
     this.props.onSelect(value);
   }

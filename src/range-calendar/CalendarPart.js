@@ -101,7 +101,7 @@ export default class CalendarPart extends React.Component {
       />;
 
     let body = null;
-    if (props.showPanel === 'month') {
+    if (props.picker === 'month') {
       body = (
         <MonthTable
           {...newProps}
@@ -115,12 +115,12 @@ export default class CalendarPart extends React.Component {
         />
       );
     }
-    else if (props.showPanel === 'year') {
+    else if (props.picker === 'year') {
       body = (
         <YearTable
           {...newProps}
           prefixCls={`${prefixCls}-year-panel`}
-          showPanel={props.showPanel}
+          picker={props.picker}
           selectedValue={selectedValue}
           onDecadePanelShow={this.showDecadePanel}
           dateRender={props.dateRender}
@@ -163,7 +163,7 @@ export default class CalendarPart extends React.Component {
             disabledDate={disabledDate}
             disabledMonth={disabledMonth}
             disabledYear={props.disabledYear}
-            showPanel={props.showPanel}
+            picker={props.picker}
           />
           {showTimePicker ? <div className={`${prefixCls}-time-picker`}>
             <div className={`${prefixCls}-time-picker-panel`}>

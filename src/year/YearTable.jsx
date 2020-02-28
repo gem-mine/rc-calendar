@@ -68,7 +68,7 @@ export default class YearTable extends React.Component {
   render() {
     const props = this.props;
     const value = this.state.value;
-    const { prefixCls, locale, renderFooter, hoverValue, selectedValue } = props;
+    const { prefixCls, hoverValue, selectedValue } = props;
     const rangeValue = (hoverValue && hoverValue.length) ? hoverValue : selectedValue;
     const years = this.years();
     const currentYear = value.year();
@@ -138,8 +138,6 @@ export default class YearTable extends React.Component {
       });
       return (<tr key={index} role="row">{tds}</tr>);
     });
-
-    const footer = renderFooter && renderFooter('year');
 
     return (
       <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
