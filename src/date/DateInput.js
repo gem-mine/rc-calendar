@@ -51,7 +51,9 @@ class DateInput extends React.Component {
     this.setState({
       str: '',
     });
-    this.props.onClear(null);
+    if (this.props.onClear) {
+      this.props.onClear(null);
+    }
   }
 
   onInputChange = (event) => {
