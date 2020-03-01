@@ -218,7 +218,6 @@ export default class CalendarHeader extends React.Component {
       );
     }
     // 同上; 不能用CalendarHeader内的，含有默认逻辑
-    // todo: 添加显示decade的逻辑
     if (mode === 'year' && picker !== 'year') {
       panel = (
         <YearPanel

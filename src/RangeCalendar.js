@@ -61,7 +61,6 @@ function getValueFromSelectedValue(selectedValue, picker) {
     end = start.clone().add(picker === 'year' ? 10 : 1, getDefaultUnit(picker));
   }
   if (end) {
-    // todo: 这段逻辑有问题
     // 如果选了同一年月份,需要给另一面板加一年
     if (picker === 'month' && end.isSame(start, getDefaultUnit(picker))) {
       end = end.clone().add(1, getDefaultUnit(picker));
@@ -297,7 +296,6 @@ class RangeCalendar extends React.Component {
       return nextHoverTime;
     };
 
-    // todo: picker="year" 下的 key 操作待完善
     switch (keyCode) {
       case KeyCode.DOWN:
         if (picker === 'month' || picker === 'year') {
@@ -617,7 +615,6 @@ class RangeCalendar extends React.Component {
     if (picker === 'month') {
       return ['year', 'decade'].indexOf(mode) > -1;
     }
-    // todo: 待验证和优化
     if (picker === 'year') {
       return ['decade'].indexOf(mode) > -1;
     }
@@ -692,7 +689,6 @@ class RangeCalendar extends React.Component {
         if (props.picker === 'month' && value[1].isSame(value[0], 'year')) {
           value[1].add(1, 'year');
         }
-        // todo: 何时触发到
         // 同上；年选择器decade不能相同，判断后加10年
         if (props.picker === 'year' && isSameDecade(value[0], value[1])) {
           value[1].add(10, 'year');
@@ -726,7 +722,6 @@ class RangeCalendar extends React.Component {
     return this.props.disabledTime(time, 'end');
   }
 
-  // todo:
   disabledStartMonth = (month) => {
     const { value } = this.state;
     return month.isAfter(value[1], 'month');
