@@ -607,11 +607,11 @@ class RangeCalendar extends React.Component {
   }
 
   isMonthYearPanelShow = (mode, picker) => {
-    if (picker === 'month') {
-      return ['year', 'decade'].indexOf(mode) > -1;
-    }
     if (picker === 'year') {
       return ['decade'].indexOf(mode) > -1;
+    }
+    if (picker === 'month') {
+      return ['year', 'decade'].indexOf(mode) > -1;
     }
     return ['month', 'year', 'decade'].indexOf(mode) > -1;
   }
@@ -801,6 +801,8 @@ class RangeCalendar extends React.Component {
         nextMonthOfStart.month() === endValue.month();
     } else if (picker === 'month') {
       isClosestMonths = nextMonthOfStart.year() === endValue.year();
+    } else if (picker === 'year') {
+      isClosestMonths = isSameDecade(nextMonthOfStart.year(), endValue.year());
     }
 
     const extraFooter = props.renderFooter();
