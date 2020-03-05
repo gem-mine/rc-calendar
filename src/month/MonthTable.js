@@ -95,7 +95,7 @@ class MonthTable extends Component {
               testValue.isSame(endValue, 'month');
             isInRange = testValue.isAfter(startValue, 'month') &&
               testValue.isBefore(endValue, 'month');
-          } else {
+          } else if (startValue) {
             isSelected = testValue.isSame(startValue, 'month');
           }
         } else {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { isSameDecade } from './../util';
+import { getTodayTime, isSameDecade } from './../util';
 const ROW = 4;
 const COL = 3;
 
@@ -69,6 +69,7 @@ export default class YearTable extends React.Component {
   render() {
     const props = this.props;
     const value = this.state.value;
+    const today = getTodayTime(value);
     const { prefixCls, hoverValue, selectedValue } = props;
     const rangeValue = (hoverValue && hoverValue.length) ? hoverValue : selectedValue;
     const years = this.years();
@@ -92,13 +93,12 @@ export default class YearTable extends React.Component {
           if (isSameDecade(yearData.year, value.year())) {
             const startValue = rangeValue[0];
             const endValue = rangeValue[1];
-
             if (startValue && endValue) {
               isSelected = testValue.isSame(startValue, 'year') ||
                 testValue.isSame(endValue, 'year');
               isInRange = testValue.isAfter(startValue, 'year') &&
                 testValue.isBefore(endValue, 'year');
-            } else {
+            } else if (startValue) {
               isSelected = testValue.isSame(startValue, 'year');
             }
           }
@@ -113,6 +113,7 @@ export default class YearTable extends React.Component {
           [`${prefixCls}-selected-cell`]: isSelected,
           [`${prefixCls}-last-decade-cell`]: yearData.year < startYear,
           [`${prefixCls}-next-decade-cell`]: yearData.year > endYear,
+          [`${prefixCls}-current-cell`]: today.year() === yearData.year,
         };
         // let clickHandler;
         // if (yearData.year < startYear) {
