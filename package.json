@@ -1,6 +1,6 @@
 {
   "name": "@gem-mine/rc-calendar",
-  "version": "5.4.0",
+  "version": "5.5.0",
   "description": "React Calendar",
   "keywords": [
     "react",
@@ -25,7 +25,7 @@
   },
   "licenses": "MIT",
   "config": {
-    "port": 8022,
+    "port": 8002,
     "entry": {
       "rc-calendar": [
         "./assets/index.less",
