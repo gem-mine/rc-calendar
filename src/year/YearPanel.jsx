@@ -105,7 +105,7 @@ export default class YearPanel extends React.Component {
           <div className={`${prefixCls}-body`}>
             <YearTable
               disabledDate={props.disabledDate}
-              disabledMonth={props.disabledMonth}
+              disabledYear={props.disabledYear}
               onSelect={this.setAndSelectValue}
               locale={locale}
               value={value}

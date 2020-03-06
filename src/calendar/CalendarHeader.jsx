@@ -228,7 +228,8 @@ export default class CalendarHeader extends React.Component {
           onSelect={this.onYearSelect}
           onDecadePanelShow={this.showDecadePanel}
           renderFooter={renderFooter}
-          disabledDate={disabledYear}
+          disabledDate={disabledDate}
+          disabledYear={disabledYear}
           cellRender={yearCellRender}
           contentRender={yearCellContentRender}
         />

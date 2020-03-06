@@ -80,13 +80,15 @@ export default class YearTable extends React.Component {
       const tds = row.map(yearData => {
         let disabled = false;
         const testValue = value.clone().year(yearData.year);
-        if (props.disabledDate) {
-          disabled = props.disabledDate(value.clone().year(yearData.year));
+        if (props.disabledDate || props.disabledYear) {
+          if (props.disabledDate) {
+            disabled = props.disabledDate(testValue);
+          }
+
+          if (props.disabledYear) {
+            disabled = props.disabledYear(testValue);
+          }
         }
-        if (props.disabledDate) {
-          disabled = props.disabledDate(testValue);
-        }
-        // todo: 在same decade 才可以selected
         let isSelected = false;
         let isInRange = false;
         if (rangeValue && Array.isArray(rangeValue)) {
