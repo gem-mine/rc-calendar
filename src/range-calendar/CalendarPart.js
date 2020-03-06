@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import CalendarHeader from '../calendar/CalendarHeader';
 import DateTable from '../date/DateTable';
 import DateInput from '../date/DateInput';
+import MonthTable from '../month/MonthTable';
 import { getTimeConfig } from '../util/index';
+import YearTable from '../year/YearTable';
 
 export default class CalendarPart extends React.Component {
   static propTypes = {
@@ -18,6 +20,7 @@ export default class CalendarPart extends React.Component {
     format: PropTypes.any,
     placeholder: PropTypes.any,
     disabledDate: PropTypes.any,
+    disabledMonth: PropTypes.any,
     timePicker: PropTypes.any,
     disabledTime: PropTypes.any,
     onInputChange: PropTypes.func,
@@ -29,7 +32,6 @@ export default class CalendarPart extends React.Component {
     dateRender: PropTypes.func,
     inputMode: PropTypes.string,
   }
-
   render() {
     const props = this.props;
     const {
@@ -40,7 +42,7 @@ export default class CalendarPart extends React.Component {
       mode,
       direction,
       locale, format, placeholder,
-      disabledDate, timePicker, disabledTime,
+      disabledDate, timePicker, disabledTime, disabledMonth,
       timePickerDisabledTime, showTimePicker,
       onInputChange, onInputSelect, enablePrev, enableNext,
       clearIcon,
@@ -89,6 +91,50 @@ export default class CalendarPart extends React.Component {
         inputMode={inputMode}
       />;
 
+    let body = null;
+    if (props.picker === 'month') {
+      body = (
+        <MonthTable
+          {...newProps}
+          prefixCls={`${prefixCls}-month-panel`}
+          selectedValue={selectedValue}
+          dateRender={props.dateRender}
+          onSelect={props.onSelect}
+          onMonthHover={props.onDayHover}
+          hoverValue={hoverValue}
+          disabledDate={disabledDate}
+        />
+      );
+    } else if (props.picker === 'year') {
+      body = (
+        <YearTable
+          {...newProps}
+          prefixCls={`${prefixCls}-year-panel`}
+          picker={props.picker}
+          selectedValue={selectedValue}
+          dateRender={props.dateRender}
+          onSelect={props.onSelect}
+          onMonthHover={props.onDayHover}
+          hoverValue={hoverValue}
+          disabledDate={disabledDate}
+        />
+      );
+    } else {
+      body = (
+        <DateTable
+          {...newProps}
+          hoverValue={hoverValue}
+          selectedValue={selectedValue}
+          dateRender={props.dateRender}
+          onSelect={props.onSelect}
+          onDayHover={props.onDayHover}
+          disabledDate={disabledDate}
+          disabledMonth={disabledMonth}
+          showWeekNumber={props.showWeekNumber}
+        />
+      );
+    }
+
     return (
       <div
         className={`${rangeClassName}-part ${rangeClassName}-${direction}`}
@@ -102,7 +148,10 @@ export default class CalendarPart extends React.Component {
             enablePrev={enablePrev}
             onValueChange={props.onValueChange}
             onPanelChange={props.onPanelChange}
-            disabledMonth={props.disabledMonth}
+            disabledDate={disabledDate}
+            disabledMonth={disabledMonth}
+            disabledYear={props.disabledYear}
+            picker={props.picker}
           />
           {showTimePicker ? <div className={`${prefixCls}-time-picker`}>
             <div className={`${prefixCls}-time-picker-panel`}>
@@ -110,19 +159,10 @@ export default class CalendarPart extends React.Component {
             </div>
           </div> : null}
           <div className={`${prefixCls}-body`}>
-            <DateTable
-              {...newProps}
-              hoverValue={hoverValue}
-              selectedValue={selectedValue}
-              dateRender={props.dateRender}
-              onSelect={props.onSelect}
-              onDayHover={props.onDayHover}
-              disabledDate={disabledDate}
-              showWeekNumber={props.showWeekNumber}
-              firstDayOfMonth={props.firstDayOfMonth}
-            />
+            {body}
           </div>
         </div>
-      </div>);
+      </div>
+    );
   }
 }

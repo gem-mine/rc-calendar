@@ -134,6 +134,7 @@ class Demo extends React.Component {
     const state = this.state;
     const calendar = (
       <RangeCalendar
+        picker="year"
         hoverValue={state.hoverValue}
         onHoverChange={this.onHoverChange}
         showWeekNumber={false}
@@ -190,7 +191,38 @@ ReactDOM.render(
       />
     </div>
     <br />
-
+    <h2>calendar month</h2>
+    <div style={{ margin: 10 }}>
+      <RangeCalendar
+        picker="month"
+        showTime={false}
+        showToday={false}
+        locale={cn ? zhCN : enUS}
+        showOk={false}
+        showClear
+        onChange={onStandaloneChange}
+        onSelect={onStandaloneSelect}
+        disabledDate={(value) => value > moment().month(5)}
+        renderFooter={() => <span>extra footer</span>}
+      />
+    </div>
+    <h2>calendar year</h2>
+    <div style={{ margin: 10 }}>
+      <RangeCalendar
+        picker="year"
+        showTime={false}
+        showToday={false}
+        locale={cn ? zhCN : enUS}
+        showOk={false}
+        showClear
+        format={formatStr}
+        onChange={onStandaloneChange}
+        onSelect={onStandaloneSelect}
+        disabledTime={disabledTime}
+        disabledDate={(value) => value < moment().year(2025)}
+        renderFooter={() => <span>extra footer</span>}
+      />
+    </div>
     <div style={{ margin: 20 }}>
       <Demo />
     </div>

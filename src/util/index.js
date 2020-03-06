@@ -100,6 +100,11 @@ export function isAllowedDate(value, disabledDate, disabledTime) {
   return true;
 }
 
+// 判断两个年份是否在同一个decade上
+export function isSameDecade(startYear, endYear) {
+  return parseInt(startYear / 10, 10) * 10 === parseInt(endYear / 10, 10) * 10;
+}
+
 export function formatDate(value, format) {
   if (!value) {
     return '';

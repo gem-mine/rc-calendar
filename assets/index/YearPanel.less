@@ -43,17 +43,20 @@
   }
 }
 
-.@{prefixClass}-year-panel-prev-decade-btn, .@{prefixClass}-year-panel-next-decade-btn {
+.@{prefixClass}-year-panel-prev-decade-btn, .@{prefixClass}-year-panel-next-decade-btn,
+.@{prefixClass}-prev-decade-btn, .@{prefixClass}-next-decade-btn {
   position: absolute;
   top: 0;
 }
 
-.@{prefixClass}-year-panel-next-decade-btn {
+.@{prefixClass}-year-panel-next-decade-btn,
+.@{prefixClass}-next-decade-btn {
   &:after {
     content: '»'
   }
 }
 
+.@{prefixClass}-prev-decade-btn,
 .@{prefixClass}-year-panel-prev-decade-btn {
   user-select: none;
   left: 0;
@@ -71,7 +74,8 @@
   display: none;
 }
 
-.@{prefixClass}-year-panel-next-decade-btn {
+.@{prefixClass}-year-panel-next-decade-btn,
+.@{prefixClass}-next-decade-btn {
   user-select: none;
   right: 0;
 }
@@ -125,6 +129,19 @@
   }
 }
 
+.@{prefixClass}-year-panel-cell-disabled {
+  .@{prefixClass}-year-panel-year{
+    user-select: none;
+    -webkit-user-select: none;
+    color: rgba(0, 0, 0, 0.25);
+    &:hover {
+      background: white;
+      color: rgba(0, 0, 0, 0.25);
+      cursor: not-allowed;
+    }
+  }
+}
+
 .@{prefixClass}-year-panel-selected-cell .@{prefixClass}-year-panel-year {
   background: #3fc7fa;
   color: #fff;
@@ -140,6 +157,26 @@
     user-select: none;
     -webkit-user-select: none;
     color: rgba(0, 0, 0, 0.25);
+  }
+}
+.@{prefixClass}-year-panel-cell-disabled {
+  .@{prefixClass}-year-panel-year{
+    user-select: none;
+    -webkit-user-select: none;
+    color: rgba(0, 0, 0, 0.25);
+    &:hover {
+      background: white;
+      color: rgba(0, 0, 0, 0.25);
+      cursor: not-allowed;
+    }
+  }
+}
+
+.@{prefixClass}-year-panel-in-range-cell .@{prefixClass}-year-panel-year {
+  background: #ebf4f8;
+
+  &:hover {
+    background: #ebf4f8;
   }
 }
 

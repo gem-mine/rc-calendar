@@ -264,7 +264,6 @@ class Calendar extends React.Component {
     this.onPanelChange(null, 'date');
   }
 
-
   goTime = (direction, unit) => {
     this.setValue(
       goTime(this.state.value, direction, unit),
@@ -347,6 +346,7 @@ class Calendar extends React.Component {
           prefixCls={prefixCls}
           monthCellRender={monthCellRender}
           monthCellContentRender={monthCellContentRender}
+          disabledDate={disabledDate}
         />
         {timePicker && showTimePicker ?
           (<div className={`${prefixCls}-time-picker`}>
