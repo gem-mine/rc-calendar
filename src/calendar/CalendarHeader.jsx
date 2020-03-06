@@ -255,7 +255,7 @@ export default class CalendarHeader extends React.Component {
       <div style={{ position: 'relative' }}>
         {showIf(enablePrev && !showTimePicker && picker === 'year',
           <a
-            className={`${prefixCls}-year-panel-prev-decade-btn`}
+            className={`${prefixCls}-prev-decade-btn`}
             role="button"
             onClick={this.previousDecade}
             title={locale.previousDecade}
@@ -295,7 +295,7 @@ export default class CalendarHeader extends React.Component {
           />)}
         {showIf(enableNext && !showTimePicker && picker === 'year',
           <a
-            className={`${prefixCls}-year-panel-next-decade-btn`}
+            className={`${prefixCls}-next-decade-btn`}
             role="button"
             onClick={this.nextDecade}
             title={locale.nextDecade}
