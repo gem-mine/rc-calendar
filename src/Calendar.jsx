@@ -62,6 +62,7 @@ class Calendar extends React.Component {
     clearIcon: PropTypes.node,
     focusablePanel: PropTypes.bool,
     inputMode: PropTypes.string,
+    inputReadOnly: PropTypes.bool,
     onBlur: PropTypes.func,
   }
 
@@ -275,7 +276,7 @@ class Calendar extends React.Component {
     const {
       locale, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
-      disabledTime, clearIcon, renderFooter, showYear, inputMode,
+      disabledTime, clearIcon, renderFooter, showYear, inputMode, inputReadOnly,
       monthCellRender, monthCellContentRender, firstDayOfMonth,
     } = props;
     const { value, selectedValue, mode } = state;
@@ -321,6 +322,7 @@ class Calendar extends React.Component {
         onSelect={this.onDateInputSelect}
         clearIcon={clearIcon}
         inputMode={inputMode}
+        inputReadOnly={inputReadOnly}
       />
     ) : null;
 

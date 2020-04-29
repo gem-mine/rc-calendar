@@ -255,10 +255,16 @@ http://react-component.github.io/calendar/examples/index.html
           <td>text</td>
           <td>Change the keyboard in mobile device</td>
         </tr>
-         <tr>
+        <tr>
           <td>firstDayOfWeek</td>
           <td>number</td>
           <td>moment.localeDate().firstDayOfWeek()</td>
+          <td>set the first day of week</td>
+        </tr>
+        <tr>
+          <td>inputReadOnly</td>
+          <td>boolean</td>
+          <td>false</td>
           <td>set the first day of week</td>
         </tr>
     </tbody>
@@ -450,6 +456,18 @@ http://react-component.github.io/calendar/examples/index.html
           <td>ReactNode</td>
           <td></td>
           <td>specific the clear icon.</td>
+        </tr>
+        <tr>
+          <td>firstDayOfWeek</td>
+          <td>number</td>
+          <td>moment.localeDate().firstDayOfWeek()</td>
+          <td>set the first day of week</td>
+        </tr>
+        <tr>
+          <td>inputReadOnly</td>
+          <td>boolean</td>
+          <td>false</td>
+          <td>set the first day of week</td>
         </tr>
     </tbody>
 </table>

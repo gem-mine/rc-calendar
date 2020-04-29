@@ -21,6 +21,7 @@ export const defaultProp = {
   visible: true,
   prefixCls: 'rc-calendar',
   className: '',
+  inputReadOnly: false,
   onSelect: noop,
   onChange: noop,
   onClear: noop,

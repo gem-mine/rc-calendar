@@ -5,7 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { polyfill } from 'react-lifecycles-compat';
 import moment from 'moment';
 import { formatDate } from '../util';
-import NdInput from '@gem-mine/rc-input/lib/index';
+import RcInput from '@gem-mine/rc-input/lib/index';
 
 let cachedSelectionStart;
 let cachedSelectionEnd;
@@ -27,6 +27,7 @@ class DateInput extends React.Component {
     selectedValue: PropTypes.object,
     clearIcon: PropTypes.node,
     inputMode: PropTypes.string,
+    inputReadOnly: PropTypes.bool,
   }
 
   constructor(props) {
@@ -172,12 +173,12 @@ class DateInput extends React.Component {
   render() {
     const props = this.props;
     const { invalid, str } = this.state;
-    const { locale, prefixCls, placeholder, clearIcon, inputMode } = props;
+    const { locale, prefixCls, placeholder, clearIcon, inputMode, inputReadOnly } = props;
     const invalidClass = invalid ? `${prefixCls}-input-invalid` : '';
     return (
       <div className={`${prefixCls}-input-wrap`}>
         <div className={`${prefixCls}-date-input-wrap`}>
-          <NdInput
+          <RcInput
             ref={this.saveDateInput}
             prefixCls={`${prefixCls}`}
             className={`${prefixCls}-input ${invalidClass}`}
@@ -189,6 +190,7 @@ class DateInput extends React.Component {
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             inputMode={inputMode}
+            readOnly={inputReadOnly}
           />
         </div>
         {props.showClear ? (
