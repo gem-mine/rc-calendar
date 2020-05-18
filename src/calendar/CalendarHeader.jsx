@@ -201,6 +201,7 @@ export default class CalendarHeader extends React.Component {
     if (mode === 'month' && picker !== 'month') {
       panel = (
         <MonthPanel
+          mode={mode}
           locale={locale}
           value={value}
           showYear={showYear}
@@ -221,6 +222,7 @@ export default class CalendarHeader extends React.Component {
     if (mode === 'year' && picker !== 'year') {
       panel = (
         <YearPanel
+          mode={mode}
           locale={locale}
           showYear={showYear}
           defaultValue={value}

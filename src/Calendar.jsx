@@ -111,7 +111,7 @@ class Calendar extends React.Component {
     const keyCode = event.keyCode;
     // mac
     const ctrlKey = event.ctrlKey || event.metaKey;
-    const { disabledDate } = this.props;
+    const { disabledDate, mode } = this.props;
     const { value } = this.state;
     switch (keyCode) {
       case KeyCode.DOWN:
@@ -159,7 +159,7 @@ class Calendar extends React.Component {
         event.preventDefault();
         return 1;
       case KeyCode.ENTER:
-        if (!disabledDate || !disabledDate(value)) {
+        if (!disabledDate || !disabledDate(value, mode)) {
           this.onSelect(value, {
             source: 'keyboard',
           });
@@ -322,6 +322,7 @@ class Calendar extends React.Component {
         onSelect={this.onDateInputSelect}
         clearIcon={clearIcon}
         inputMode={inputMode}
+        mode={mode}
         inputReadOnly={inputReadOnly}
       />
     ) : null;
@@ -361,6 +362,7 @@ class Calendar extends React.Component {
           <DateTable
             locale={locale}
             value={value}
+            mode={mode}
             selectedValue={selectedValue}
             prefixCls={prefixCls}
             dateRender={props.dateRender}

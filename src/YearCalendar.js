@@ -22,6 +22,7 @@ class YearCalendar extends React.Component {
     selectedValue: PropTypes.object,
     defaultSelectedValue: PropTypes.object,
     disabledDate: PropTypes.func,
+    mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
   }
 
   static defaultProps = Object.assign({}, defaultProp, calendarMixinDefaultProps);
@@ -38,7 +39,7 @@ class YearCalendar extends React.Component {
   onKeyDown = (event) => {
     const keyCode = event.keyCode;
     const stateValue = this.state.value;
-    const { disabledDate } = this.props;
+    const { disabledDate, mode } = this.props;
     let value = stateValue;
     switch (keyCode) {
       case KeyCode.DOWN:
@@ -58,7 +59,7 @@ class YearCalendar extends React.Component {
         value.add(1, 'years');
         break;
       case KeyCode.ENTER:
-        if (!disabledDate || !disabledDate(stateValue)) {
+        if (!disabledDate || !disabledDate(stateValue, mode)) {
           this.onSelect(stateValue);
         }
         event.preventDefault();

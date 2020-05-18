@@ -76,7 +76,7 @@ function normalizeAnchor(props, init) {
   const addUnit = getDefaultUnit(props.picker);
   return !isEmptyArray(normalizedValue) ?
     normalizedValue : init && [moment(), moment().add(
-      props.picker === 'year' ? 10 : 1, addUnit)];
+    props.picker === 'year' ? 10 : 1, addUnit)];
 }
 
 function generateOptions(length, extraOptionGen) {
@@ -234,7 +234,7 @@ class RangeCalendar extends React.Component {
       selectedValue, hoverValue, firstSelectedValue,
       value, // Value is used for `CalendarPart` current page
     } = this.state;
-    const { onKeyDown, disabledDate, picker } = this.props;
+    const { onKeyDown, disabledDate, picker, mode } = this.props;
 
     // Update last time of the picker
     const updateHoverPoint = (func) => {
@@ -366,7 +366,7 @@ class RangeCalendar extends React.Component {
           lastValue = hoverValue[0].isSame(firstSelectedValue, 'day') ?
             hoverValue[1] : hoverValue[0];
         }
-        if (lastValue && (!disabledDate || !disabledDate(lastValue))) {
+        if (lastValue && (!disabledDate || !disabledDate(lastValue, mode))) {
           this.onSelect(lastValue);
         }
         event.preventDefault();
@@ -602,8 +602,19 @@ class RangeCalendar extends React.Component {
   }
 
   isAllowedDateAndTime = (selectedValue) => {
-    return isAllowedDate(selectedValue[0], this.props.disabledDate, this.disabledStartTime) &&
-      isAllowedDate(selectedValue[1], this.props.disabledDate, this.disabledEndTime);
+    return (
+      isAllowedDate(
+        selectedValue[0],
+        this.props.disabledDate,
+        this.disabledStartTime,
+        this.props.mode
+      ) && isAllowedDate(
+        selectedValue[1],
+        this.props.disabledDate,
+        this.disabledEndTime,
+        this.props.mode
+      )
+    );
   }
 
   isMonthYearPanelShow = (mode, picker) => {
@@ -763,7 +774,7 @@ class RangeCalendar extends React.Component {
       selectedValue: state.selectedValue,
       onSelect: this.onSelect,
       onDayHover: type === 'start' && selectedValue[1] ||
-        type === 'end' && selectedValue[0] || !!hoverValue.length ?
+      type === 'end' && selectedValue[0] || !!hoverValue.length ?
         this.onDayHover : undefined,
     };
 
@@ -907,7 +918,7 @@ class RangeCalendar extends React.Component {
                     {...props}
                     onOk={this.onOk}
                     okDisabled={!this.isAllowedDateAndTime(selectedValue) ||
-                      !this.hasSelectedValue() || hoverValue.length
+                    !this.hasSelectedValue() || hoverValue.length
                     }
                   /> : null}
               </div>

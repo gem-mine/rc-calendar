@@ -91,6 +91,7 @@ export default class CalendarPart extends React.Component {
         onSelect={onInputSelect}
         clearIcon={clearIcon}
         inputMode={inputMode}
+        mode={mode}
         inputReadOnly={inputReadOnly}
       />;
 
@@ -99,6 +100,7 @@ export default class CalendarPart extends React.Component {
       body = (
         <MonthTable
           {...newProps}
+          mode={mode}
           prefixCls={`${prefixCls}-month-panel`}
           selectedValue={selectedValue}
           dateRender={props.dateRender}

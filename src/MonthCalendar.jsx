@@ -22,6 +22,7 @@ class MonthCalendar extends React.Component {
     selectedValue: PropTypes.object,
     defaultSelectedValue: PropTypes.object,
     disabledDate: PropTypes.func,
+    mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
   }
 
   static defaultProps = Object.assign({}, defaultProp, calendarMixinDefaultProps);
@@ -40,7 +41,7 @@ class MonthCalendar extends React.Component {
     const keyCode = event.keyCode;
     const ctrlKey = event.ctrlKey || event.metaKey;
     const stateValue = this.state.value;
-    const { disabledDate } = this.props;
+    const { disabledDate, mode } = this.props;
     let value = stateValue;
     switch (keyCode) {
       case KeyCode.DOWN:
@@ -68,7 +69,7 @@ class MonthCalendar extends React.Component {
         }
         break;
       case KeyCode.ENTER:
-        if (!disabledDate || !disabledDate(stateValue)) {
+        if (!disabledDate || !disabledDate(stateValue, mode)) {
           this.onSelect(stateValue);
         }
         event.preventDefault();

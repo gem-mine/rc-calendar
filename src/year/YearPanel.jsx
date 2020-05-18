@@ -106,6 +106,7 @@ export default class YearPanel extends React.Component {
             <YearTable
               disabledDate={props.disabledDate}
               disabledYear={props.disabledYear}
+              mode={props.mode}
               onSelect={this.setAndSelectValue}
               locale={locale}
               value={value}

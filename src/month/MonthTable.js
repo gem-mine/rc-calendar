@@ -67,7 +67,7 @@ class MonthTable extends Component {
     const today = getTodayTime(value);
     const months = this.months();
     const currentMonth = value.month();
-    const { prefixCls, locale, contentRender, cellRender, hoverValue, selectedValue } = props;
+    const { prefixCls, locale, contentRender, cellRender, hoverValue, selectedValue, mode } = props;
     const rangeValue = (hoverValue && hoverValue.length) ? hoverValue : selectedValue;
     const monthsEls = months.map((month, index) => {
       const tds = month.map(monthData => {
@@ -76,7 +76,7 @@ class MonthTable extends Component {
         if (props.disabledDate || props.disabledMonth) {
           // disabled = props.disabledDate(testValue);
           if (props.disabledDate) {
-            disabled = props.disabledDate(testValue);
+            disabled = props.disabledDate(testValue, mode);
           }
 
           if (props.disabledMonth) {

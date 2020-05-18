@@ -32,7 +32,7 @@ function getIdFromDate(date) {
 
 export default class DateTBody extends React.Component {
   static propTypes = {
-    mode: PropTypes.string,
+    mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
     contentRender: PropTypes.func,
     dateRender: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -233,23 +233,23 @@ export default class DateTBody extends React.Component {
 
         if (disabledDate || disabledMonth) {
           if (
-            (disabledDate && disabledDate(current, value))
+            (disabledDate && disabledDate(current, mode))
             || (disabledMonth && disabledMonth(value))
           ) {
             disabled = true;
 
             if (
               !last
-              || (disabledDate && !disabledDate(last, value))
-              || (disabledMonth && disabledMonth(last))
+              || (disabledDate && !disabledDate(last, mode))
+              || (disabledMonth && disabledMonth(last, mode))
             ) {
               cls += ` ${firstDisableClass}`;
             }
 
             if (
               !next
-              || (disabledDate && !disabledDate(next, value))
-              || (disabledMonth && disabledMonth(next))
+              || (disabledDate && !disabledDate(next, mode))
+              || (disabledMonth && disabledMonth(next, mode))
             ) {
               cls += ` ${lastDisableClass}`;
             }

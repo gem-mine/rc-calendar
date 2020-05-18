@@ -35,7 +35,7 @@ export default class DecadePanel extends React.Component {
 
   render() {
     const value = this.state.value;
-    const { locale, renderFooter } = this.props;
+    const { locale, renderFooter, mode } = this.props;
     const currentYear = value.year();
     const startYear = parseInt(currentYear / 100, 10) * 100;
     const preYear = startYear - 10;
@@ -68,7 +68,7 @@ export default class DecadePanel extends React.Component {
         let disabled = false;
         const testValue = value.clone().year(dStartDecade);
         if (this.props.disabledDate) {
-          disabled = this.props.disabledDate(testValue);
+          disabled = this.props.disabledDate(testValue, mode);
         }
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
@@ -145,6 +145,7 @@ DecadePanel.propTypes = {
   rootPrefixCls: PropTypes.string,
   renderFooter: PropTypes.func,
   disabledDate: PropTypes.func,
+  mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
 };
 
 DecadePanel.defaultProps = {

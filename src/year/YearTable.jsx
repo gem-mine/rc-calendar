@@ -70,7 +70,7 @@ export default class YearTable extends React.Component {
     const props = this.props;
     const value = this.state.value;
     const today = getTodayTime(value);
-    const { prefixCls, hoverValue, selectedValue } = props;
+    const { prefixCls, hoverValue, selectedValue, mode } = props;
     const rangeValue = (hoverValue && hoverValue.length) ? hoverValue : selectedValue;
     const years = this.years();
     const currentYear = value.year();
@@ -82,7 +82,7 @@ export default class YearTable extends React.Component {
         const testValue = value.clone().year(yearData.year);
         if (props.disabledDate || props.disabledYear) {
           if (props.disabledDate) {
-            disabled = props.disabledDate(testValue);
+            disabled = props.disabledDate(testValue, mode);
           }
 
           if (props.disabledYear) {

@@ -20,7 +20,7 @@ export default class CalendarFooter extends React.Component {
     value: PropTypes.object,
     renderFooter: PropTypes.func,
     defaultValue: PropTypes.object,
-    mode: PropTypes.string,
+    mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
   }
 
   onSelect(value) {

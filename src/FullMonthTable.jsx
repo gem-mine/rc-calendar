@@ -69,7 +69,7 @@ class FullCalendarMonthTable extends Component {
         if (props.disabledDate) {
           const testValue = value.clone();
           testValue.month(monthData.value);
-          disabled = props.disabledDate(testValue);
+          disabled = props.disabledDate(testValue, props.mode);
         }
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,

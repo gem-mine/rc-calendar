@@ -231,7 +231,7 @@ CalendarHeader.propTypes = {
   type: PropTypes.string,
   showTypeSwitch: PropTypes.bool,
   headerComponents: PropTypes.array,
-  mode: PropTypes.string,
+  mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
 };
 CalendarHeader.defaultProps = {
   yearSelectOffset: 10,

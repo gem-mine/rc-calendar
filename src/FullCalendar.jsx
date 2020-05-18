@@ -18,7 +18,7 @@ class FullCalendar extends React.Component {
   static propTypes = {
     ...calendarMixinPropTypes,
     ...propType,
-    mode: PropTypes.string,
+    mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
     defaultType: PropTypes.string,
     type: PropTypes.string,
     prefixCls: PropTypes.string,
@@ -140,6 +140,7 @@ class FullCalendar extends React.Component {
     }
     return (
       <MonthTable
+        mode={mode}
         cellRender={props.monthCellRender}
         contentRender={props.monthCellContentRender}
         locale={locale}

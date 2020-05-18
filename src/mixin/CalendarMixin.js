@@ -21,6 +21,7 @@ export const calendarMixinPropTypes = {
   value: PropTypes.object,
   defaultValue: PropTypes.object,
   onKeyDown: PropTypes.func,
+  mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
 };
 
 export const calendarMixinDefaultProps = {
@@ -115,6 +116,7 @@ export const calendarMixinWrapper = ComposeComponent => class extends ComposeCom
   isAllowedDate = (value) => {
     const disabledDate = this.props.disabledDate;
     const disabledTime = this.props.disabledTime;
-    return isAllowedDate(value, disabledDate, disabledTime);
+    const mode = this.props.mode;
+    return isAllowedDate(value, disabledDate, disabledTime, mode);
   }
 };

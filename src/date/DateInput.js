@@ -28,6 +28,7 @@ class DateInput extends React.Component {
     clearIcon: PropTypes.node,
     inputMode: PropTypes.string,
     inputReadOnly: PropTypes.bool,
+    mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
   }
 
   constructor(props) {
@@ -59,7 +60,7 @@ class DateInput extends React.Component {
 
   onInputChange = (event) => {
     const str = event.target.value;
-    const { disabledDate, format, onChange, selectedValue } = this.props;
+    const { disabledDate, format, onChange, selectedValue, mode } = this.props;
 
     // 没有内容，合法并直接退出
     if (!str) {
@@ -90,7 +91,7 @@ class DateInput extends React.Component {
       .minute(parsed.minute())
       .second(parsed.second());
 
-    if (!value || (disabledDate && disabledDate(value))) {
+    if (!value || (disabledDate && disabledDate(value, mode))) {
       this.setState({
         invalid: true,
         str,
@@ -122,9 +123,9 @@ class DateInput extends React.Component {
 
   onKeyDown = (event) => {
     const { keyCode } = event;
-    const { onSelect, value, disabledDate } = this.props;
+    const { onSelect, value, disabledDate, mode } = this.props;
     if (keyCode === KeyCode.ENTER && onSelect) {
-      const validateDate = !disabledDate || !disabledDate(value);
+      const validateDate = !disabledDate || !disabledDate(value, mode);
       if (validateDate) {
         onSelect(value.clone());
       }

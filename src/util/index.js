@@ -86,9 +86,9 @@ export function isTimeValid(value, disabledTime) {
   return isTimeValidByConfig(value, disabledTimeConfig);
 }
 
-export function isAllowedDate(value, disabledDate, disabledTime) {
+export function isAllowedDate(value, disabledDate, disabledTime, mode) {
   if (disabledDate) {
-    if (disabledDate(value)) {
+    if (disabledDate(value, mode)) {
       return false;
     }
   }

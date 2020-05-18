@@ -109,6 +109,7 @@ class MonthPanel extends React.Component {
           </div>
           <div className={`${prefixCls}-body`}>
             <MonthTable
+              mode={props.mode}
               disabledDate={props.disabledDate}
               disabledMonth={props.disabledMonth}
               onSelect={this.setAndSelectValue}
