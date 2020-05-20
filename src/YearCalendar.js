@@ -23,6 +23,7 @@ class YearCalendar extends React.Component {
     defaultSelectedValue: PropTypes.object,
     disabledDate: PropTypes.func,
     mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
+    onPanelChange: PropTypes.func,
   }
 
   static defaultProps = Object.assign({}, defaultProp, calendarMixinDefaultProps);
@@ -73,9 +74,14 @@ class YearCalendar extends React.Component {
       return 1;
     }
   }
-  handlePanelChange = (_, mode) => {
-    if (mode !== 'month') {
-      this.setState({ mode });
+  handlePanelChange = (value, mode) => {
+    const { props, state } = this;
+    if (mode === 'month') {
+      return;
+    }
+    this.setState({ mode });
+    if (props.onPanelChange) {
+      props.onPanelChange(value || state.value, mode);
     }
   }
   render() {

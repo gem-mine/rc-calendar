@@ -23,6 +23,7 @@ class MonthCalendar extends React.Component {
     defaultSelectedValue: PropTypes.object,
     disabledDate: PropTypes.func,
     mode: PropTypes.oneOf(['time', 'date', 'month', 'year', 'decade']),
+    onPanelChange: PropTypes.func,
   }
 
   static defaultProps = Object.assign({}, defaultProp, calendarMixinDefaultProps);
@@ -84,9 +85,14 @@ class MonthCalendar extends React.Component {
     }
   }
 
-  handlePanelChange = (_, mode) => {
-    if (mode !== 'date') {
-      this.setState({ mode });
+  handlePanelChange = (value, mode) => {
+    const { props, state } = this;
+    if (mode === 'date') {
+      return;
+    }
+    this.setState({ mode });
+    if (props.onPanelChange) {
+      props.onPanelChange(value || state.value, mode);
     }
   }
 
