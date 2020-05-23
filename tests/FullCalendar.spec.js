@@ -76,7 +76,7 @@ describe('FullCalendar', () => {
           Select={Select}
         />
       );
-      wrapper.find('.rc-calendar-full-header-switcher-normal').simulate('click');
+      wrapper.find('.rc-calendar-full-header-switcher-normal').at(0).simulate('click');
       expect(handleTypeChange).toHaveBeenCalledWith('month');
     });
   });

@@ -33,13 +33,6 @@ export default class YearTable extends React.Component {
     this.nextDecade = goYear.bind(this, 10);
     this.previousDecade = goYear.bind(this, -10);
   }
-  componentWillReceiveProps(nextProps) {
-    if ('value' in nextProps) {
-      this.setState({
-        value: nextProps.value,
-      });
-    }
-  }
   setAndSelectValue(value) {
     this.setValue(value);
     this.props.onSelect(value);

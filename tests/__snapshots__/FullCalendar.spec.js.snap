@@ -693,17 +693,38 @@ exports[`FullCalendar renders date mode correctly 1`] = `
     class="rc-calendar-full-header"
   >
     <span
+      class="rc-calendar-full-header-title"
+    >
+      <span
+        class="rc-calendar-full-header-title-prev"
+      />
+      <span />
+      <span
+        class="rc-calendar-full-header-title-next"
+      />
+    </span>
+    <span
       class="rc-calendar-full-header-switcher"
     >
       <span
-        class="rc-calendar-full-header-switcher-focus"
+        class="rc-calendar-full-header-switcher-normal"
+      >
+        Year
+      </span>
+      <span
+        class="rc-calendar-full-header-switcher-normal"
       >
         Month
       </span>
       <span
         class="rc-calendar-full-header-switcher-normal"
       >
-        Year
+        Week
+      </span>
+      <span
+        class="rc-calendar-full-header-switcher-normal"
+      >
+        Day
       </span>
     </span>
     <div
@@ -1462,17 +1483,38 @@ exports[`FullCalendar renders fullscreen correctly 1`] = `
     class="rc-calendar-full-header"
   >
     <span
+      class="rc-calendar-full-header-title"
+    >
+      <span
+        class="rc-calendar-full-header-title-prev"
+      />
+      <span />
+      <span
+        class="rc-calendar-full-header-title-next"
+      />
+    </span>
+    <span
       class="rc-calendar-full-header-switcher"
     >
       <span
-        class="rc-calendar-full-header-switcher-focus"
+        class="rc-calendar-full-header-switcher-normal"
+      >
+        Year
+      </span>
+      <span
+        class="rc-calendar-full-header-switcher-normal"
       >
         Month
       </span>
       <span
         class="rc-calendar-full-header-switcher-normal"
       >
-        Year
+        Week
+      </span>
+      <span
+        class="rc-calendar-full-header-switcher-normal"
+      >
+        Day
       </span>
     </span>
     <div
@@ -2231,17 +2273,40 @@ exports[`FullCalendar renders month mode correctly 1`] = `
     class="rc-calendar-full-header"
   >
     <span
+      class="rc-calendar-full-header-title"
+    >
+      <span
+        class="rc-calendar-full-header-title-prev"
+      />
+      <span>
+        2017
+      </span>
+      <span
+        class="rc-calendar-full-header-title-next"
+      />
+    </span>
+    <span
       class="rc-calendar-full-header-switcher"
     >
+      <span
+        class="rc-calendar-full-header-switcher-focus"
+      >
+        Year
+      </span>
       <span
         class="rc-calendar-full-header-switcher-normal"
       >
         Month
       </span>
       <span
-        class="rc-calendar-full-header-switcher-focus"
+        class="rc-calendar-full-header-switcher-normal"
       >
-        Year
+        Week
+      </span>
+      <span
+        class="rc-calendar-full-header-switcher-normal"
+      >
+        Day
       </span>
     </span>
     <div
@@ -2454,17 +2519,38 @@ exports[`FullCalendar type renders defaultType correctly 1`] = `
     class="rc-calendar-full-header"
   >
     <span
+      class="rc-calendar-full-header-title"
+    >
+      <span
+        class="rc-calendar-full-header-title-prev"
+      />
+      <span />
+      <span
+        class="rc-calendar-full-header-title-next"
+      />
+    </span>
+    <span
       class="rc-calendar-full-header-switcher"
     >
       <span
-        class="rc-calendar-full-header-switcher-focus"
+        class="rc-calendar-full-header-switcher-normal"
+      >
+        Year
+      </span>
+      <span
+        class="rc-calendar-full-header-switcher-normal"
       >
         Month
       </span>
       <span
         class="rc-calendar-full-header-switcher-normal"
       >
-        Year
+        Week
+      </span>
+      <span
+        class="rc-calendar-full-header-switcher-normal"
+      >
+        Day
       </span>
     </span>
     <div
