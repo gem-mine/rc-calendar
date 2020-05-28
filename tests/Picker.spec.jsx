@@ -198,7 +198,7 @@ describe('DatePicker', () => {
     it('close on enter', () => {
       const picker = renderPicker({ value: moment() });
       picker.find('.rc-calendar-picker-input').simulate('click');
-      picker.find('.rc-calendar-input').simulate('keyDown', {
+      picker.find('.rc-calendar-input > input').simulate('keyDown', {
         keyCode: keyCode.ENTER,
       });
       expect(picker.state().open).toBe(false);
@@ -207,7 +207,7 @@ describe('DatePicker', () => {
     it('not close on enter if disabled date', () => {
       const picker = renderPicker({ value: moment() }, { disabledDate: () => true });
       picker.find('.rc-calendar-picker-input').simulate('click');
-      picker.find('.rc-calendar-input').simulate('keyDown', {
+      picker.find('.rc-calendar-input > input').simulate('keyDown', {
         keyCode: keyCode.ENTER,
       });
       expect(picker.state().open).toBe(true);
@@ -291,7 +291,7 @@ describe('DatePicker', () => {
     picker.find('.rc-calendar-picker-input').simulate('click');
     jest.runAllTimers();
     expect(document.activeElement).toBeDefined();
-    expect(document.activeElement.classList).toContain('rc-calendar-input');
+    expect(document.activeElement.parentElement.classList).toContain('rc-calendar-input');
   });
 
   it('auto focuses the calendar div when date input is not shown', () => {

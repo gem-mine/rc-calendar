@@ -26,10 +26,10 @@ exports[`RangeCalendar can hide date inputs with showDateInput={false} 1`] = `
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -764,12 +764,12 @@ exports[`RangeCalendar can hide date inputs with showDateInput={false} 1`] = `
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
           </div>
@@ -1458,7 +1458,7 @@ exports[`RangeCalendar can hide date inputs with showDateInput={false} 1`] = `
         <a
           class="rc-calendar-today-btn rc-calendar-today-btn-disabled"
           role="button"
-          title="March 29, 2017"
+          title="3-29"
         >
           Back to today
         </a>
@@ -1488,10 +1488,14 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value=""
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value=""
+              />
+            </div>
           </div>
         </div>
         <div
@@ -1506,10 +1510,10 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -1532,12 +1536,12 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
             <div
@@ -1548,12 +1552,12 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
                   class="rc-calendar-month-panel-header"
                 >
                   <a
-                    class="rc-calendar-month-panel-prev-year-btn"
+                    class="rc-calendar-month-panel-prev-year-btn "
                     role="button"
-                    title="Last year (Control + left)"
+                    title="Last year"
                   />
                   <a
-                    class="rc-calendar-month-panel-year-select"
+                    class="rc-calendar-month-panel-year-select "
                     role="button"
                     title="Choose a year"
                   >
@@ -1569,9 +1573,9 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
                     </span>
                   </a>
                   <a
-                    class="rc-calendar-month-panel-next-year-btn"
+                    class="rc-calendar-month-panel-next-year-btn "
                     role="button"
-                    title="Next year (Control + right)"
+                    title="Next year"
                   />
                 </div>
                 <div
@@ -2428,10 +2432,14 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value=""
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value=""
+              />
+            </div>
           </div>
         </div>
         <div
@@ -2446,10 +2454,10 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -2472,12 +2480,12 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
             <div
@@ -2488,12 +2496,12 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
                   class="rc-calendar-month-panel-header"
                 >
                   <a
-                    class="rc-calendar-month-panel-prev-year-btn"
+                    class="rc-calendar-month-panel-prev-year-btn "
                     role="button"
-                    title="Last year (Control + left)"
+                    title="Last year"
                   />
                   <a
-                    class="rc-calendar-month-panel-year-select"
+                    class="rc-calendar-month-panel-year-select "
                     role="button"
                     title="Choose a year"
                   >
@@ -2509,9 +2517,9 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
                     </span>
                   </a>
                   <a
-                    class="rc-calendar-month-panel-next-year-btn"
+                    class="rc-calendar-month-panel-next-year-btn "
                     role="button"
-                    title="Next year (Control + right)"
+                    title="Next year"
                   />
                 </div>
                 <div
@@ -3364,7 +3372,7 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 1`] 
         <a
           class="rc-calendar-today-btn rc-calendar-today-btn-disabled"
           role="button"
-          title="March 29, 2017"
+          title="3-29"
         >
           Back to today
         </a>
@@ -3394,10 +3402,14 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value=""
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value=""
+              />
+            </div>
           </div>
         </div>
         <div
@@ -3412,10 +3424,10 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -3438,12 +3450,12 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
             <div
@@ -3591,7 +3603,7 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
                           </a>
                         </td>
                         <td
-                          class="rc-calendar-year-panel-cell rc-calendar-year-panel-selected-cell"
+                          class="rc-calendar-year-panel-cell rc-calendar-year-panel-selected-cell rc-calendar-year-panel-current-cell"
                           role="gridcell"
                           title="2017"
                         >
@@ -4334,10 +4346,14 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value=""
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value=""
+              />
+            </div>
           </div>
         </div>
         <div
@@ -4352,10 +4368,10 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -4378,12 +4394,12 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
             <div
@@ -4531,7 +4547,7 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
                           </a>
                         </td>
                         <td
-                          class="rc-calendar-year-panel-cell rc-calendar-year-panel-selected-cell"
+                          class="rc-calendar-year-panel-cell rc-calendar-year-panel-selected-cell rc-calendar-year-panel-current-cell"
                           role="gridcell"
                           title="2017"
                         >
@@ -5270,7 +5286,7 @@ exports[`RangeCalendar controlled panels render controlled panels correctly 2`] 
         <a
           class="rc-calendar-today-btn rc-calendar-today-btn-disabled"
           role="button"
-          title="March 29, 2017"
+          title="3-29"
         >
           Back to today
         </a>
@@ -5300,10 +5316,14 @@ exports[`RangeCalendar key control 1`] = `
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value="9/3/2000"
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value="9/3/2000"
+              />
+            </div>
           </div>
         </div>
         <div
@@ -5318,10 +5338,10 @@ exports[`RangeCalendar key control 1`] = `
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -5344,12 +5364,12 @@ exports[`RangeCalendar key control 1`] = `
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
           </div>
@@ -6042,10 +6062,14 @@ exports[`RangeCalendar key control 1`] = `
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value="11/28/2000"
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value="11/28/2000"
+              />
+            </div>
           </div>
         </div>
         <div
@@ -6060,10 +6084,10 @@ exports[`RangeCalendar key control 1`] = `
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -6086,12 +6110,12 @@ exports[`RangeCalendar key control 1`] = `
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
           </div>
@@ -6780,7 +6804,7 @@ exports[`RangeCalendar key control 1`] = `
         <a
           class="rc-calendar-today-btn "
           role="button"
-          title="March 29, 2017"
+          title="3-29"
         >
           Back to today
         </a>
@@ -6810,10 +6834,14 @@ exports[`RangeCalendar render hoverValue correctly 1`] = `
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value=""
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value=""
+              />
+            </div>
           </div>
         </div>
         <div
@@ -6828,10 +6856,10 @@ exports[`RangeCalendar render hoverValue correctly 1`] = `
               <a
                 class="rc-calendar-prev-year-btn"
                 role="button"
-                title="Last year (Control + left)"
+                title="Last year"
               />
               <a
-                class="rc-calendar-prev-month-btn"
+                class="rc-calendar-prev-month-btn "
                 role="button"
                 title="Previous month (PageUp)"
               />
@@ -7544,10 +7572,14 @@ exports[`RangeCalendar render hoverValue correctly 1`] = `
           <div
             class="rc-calendar-date-input-wrap"
           >
-            <input
-              class="rc-calendar-input "
-              value=""
-            />
+            <div
+              class="rc-calendar-wrapper rc-calendar-input "
+            >
+              <input
+                type="text"
+                value=""
+              />
+            </div>
           </div>
         </div>
         <div
@@ -7578,12 +7610,12 @@ exports[`RangeCalendar render hoverValue correctly 1`] = `
                 </a>
               </span>
               <a
-                class="rc-calendar-next-month-btn"
+                class="rc-calendar-next-month-btn "
                 title="Next month (PageDown)"
               />
               <a
                 class="rc-calendar-next-year-btn"
-                title="Next year (Control + right)"
+                title="Next year"
               />
             </div>
           </div>
@@ -8272,7 +8304,7 @@ exports[`RangeCalendar render hoverValue correctly 1`] = `
         <a
           class="rc-calendar-today-btn rc-calendar-today-btn-disabled"
           role="button"
-          title="March 29, 2017"
+          title="3-29"
         >
           Back to today
         </a>

@@ -76,20 +76,20 @@ describe('Calendar', () => {
       wrapper.find('.rc-calendar-today').simulate('click');
       // use timePicker's defaultValue if users haven't select a time
       expect(
-        wrapper.find('.rc-calendar-input').at(0).getDOMNode().value
+        wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value
       ).toBe('3/29/2017 00:00:00');
 
       wrapper.find('.rc-calendar-time-picker-btn').simulate('click');
       wrapper.find('.rc-time-picker-panel-select ul').at(0).find('li').at(6).simulate('click');
       // update time to timePicker's time
       expect(
-        wrapper.find('.rc-calendar-input').at(0).getDOMNode().value
+        wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value
       ).toBe('3/29/2017 06:00:00');
 
       wrapper.find('.rc-calendar-cell').at(10).simulate('click');
       // still use timePicker's time
       expect(
-        wrapper.find('.rc-calendar-input').at(0).getDOMNode().value
+        wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value
       ).toBe('3/8/2017 06:00:00');
     });
     it('timePicker date have no changes when hover', () => {
@@ -180,7 +180,7 @@ describe('Calendar', () => {
     let input;
     beforeEach(() => {
       calendar = mount(<Calendar showToday showWeekNumber/>);
-      input = calendar.find('.rc-calendar-input').hostNodes().at(0);
+      input = calendar.find('.rc-calendar-input > input').hostNodes().at(0);
     });
 
     describe('keyboard works', () => {
@@ -430,7 +430,7 @@ describe('Calendar', () => {
       day = calendar.find('.rc-calendar-date').hostNodes().at(5);
       day.simulate('click');
 
-      input = calendar.find('.rc-calendar-input').hostNodes().at(0);
+      input = calendar.find('.rc-calendar-input > input').hostNodes().at(0);
 
       expect(input.getDOMNode().value).toBe(calendar.state().value.format(format));
       expect(onSelect.mock.calls[0][0].date()).toBe(parseInt(day.text(), 10));
@@ -482,7 +482,7 @@ describe('Calendar', () => {
 
     it('numeric keyboard works', () => {
       const newCalendar = mount(<Calendar inputMode="numeric" />);
-      expect(newCalendar.find('.rc-calendar-input').props().inputMode).toBe('numeric');
+      expect(newCalendar.find('.rc-calendar-input > input').props().inputMode).toBe('numeric');
     });
 
     it('extra footer works', () => {
@@ -532,7 +532,7 @@ describe('Calendar', () => {
         onSelect={onSelect}
         onChange={onChange}
       />);
-      const input = calendar.find('.rc-calendar-input').hostNodes().at(0);
+      const input = calendar.find('.rc-calendar-input > input').hostNodes().at(0);
       input.simulate('change', { target: { value: expected } });
 
       expect(onSelect.mock.calls[0][0].format(format)).toBe(expected);
@@ -552,7 +552,7 @@ describe('Calendar', () => {
         onSelect={onSelect}
         onChange={onChange}
       />);
-      const input = calendar.find('.rc-calendar-input').hostNodes().at(0);
+      const input = calendar.find('.rc-calendar-input > input').hostNodes().at(0);
       input.simulate('change', { target: { value } });
 
       expect(onSelect.mock.calls[0][0].format('DD/MM/YYYY')).toBe(expected);
@@ -572,16 +572,16 @@ describe('Calendar', () => {
         onChange={onChange}
       />);
 
-      const input = calendar.find('.rc-calendar-input').hostNodes().at(0);
+      const input = calendar.find('.rc-calendar-input > input').hostNodes().at(0);
       input.simulate('focus');
       input.simulate('change', { target: { value } });
 
-      let inputValue = calendar.find('.rc-calendar-input').props().value;
+      let inputValue = calendar.find('.rc-calendar-input > input').props().value;
       expect(inputValue).toBe('21/01/17');
 
       input.simulate('blur');
 
-      inputValue = calendar.find('.rc-calendar-input').props().value;
+      inputValue = calendar.find('.rc-calendar-input > input').props().value;
       expect(inputValue).toBe('21/01/2017');
     });
   });

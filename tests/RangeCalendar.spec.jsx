@@ -158,9 +158,9 @@ describe('RangeCalendar', () => {
       />
     );
     wrapper.find('.rc-calendar-range-left .rc-calendar-date').at(5).simulate('click'); // 9.4
-    expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('2015-09-04');
+    expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('2015-09-04');
     wrapper.find('.rc-calendar-range-right .rc-calendar-date').at(5).simulate('click'); // 10.2
-    expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('2015-10-02');
+    expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('2015-10-02');
   });
 
   it('onSelect works reversely', () => {
@@ -181,11 +181,11 @@ describe('RangeCalendar', () => {
     );
 
     wrapper.find('.rc-calendar-range-left .rc-calendar-date').at(15).simulate('click'); // 9.14
-    expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('2015-09-14');
+    expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('2015-09-14');
 
     wrapper.find('.rc-calendar-range-left .rc-calendar-date').at(5).simulate('click'); // 9.4
-    expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('2015-09-04');
-    expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('2015-09-14');
+    expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('2015-09-04');
+    expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('2015-09-14');
   });
 
   it('onHoverChange works', () => {
@@ -229,23 +229,23 @@ describe('RangeCalendar', () => {
 
       wrapper.find('.rc-calendar-today').at(0).simulate('click').simulate('click');
       // use timePicker's defaultValue if users haven't select a time
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 00:00:00');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 23:59:59');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 00:00:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 23:59:59');
 
       wrapper.find('.rc-calendar-time-picker-btn').simulate('click');
 
       // update time to timePicker's time
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(0).find('li').at(6).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 06:00:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 06:00:00');
 
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(0).find('li').at(6).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 06:59:59');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 06:59:59');
 
       wrapper.find('.rc-calendar-range-left .rc-calendar-cell').at(10).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/8/2017 06:00:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/8/2017 06:00:00');
 
       wrapper.find('.rc-calendar-range-left .rc-calendar-cell').at(20).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/18/2017 06:59:59');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/18/2017 06:59:59');
     });
 
     it('should combine disabledTime', () => {
@@ -302,21 +302,21 @@ describe('RangeCalendar', () => {
       wrapper.find('.rc-calendar-today').at(0).simulate('click').simulate('click');
       wrapper.find('.rc-calendar-today').at(0).simulate('click').simulate('click');
       // use timePicker's defaultValue if users haven't select a time
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 00:00:00');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 23:59:59');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 00:00:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 23:59:59');
 
       wrapper.find('.rc-calendar-time-picker-btn').simulate('click');
 
       // update time to timePicker's time
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(0).find('li').at(23).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 23:00:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 23:00:00');
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(1).find('li').at(25).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 23:25:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 23:25:00');
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(2).find('li').at(3).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 23:25:03');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 23:25:03');
 
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(1).find('li').at(25).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 23:25:59');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 23:25:59');
 
       const disabledTimeElements = wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(2).find('.rc-time-picker-panel-select-option-disabled');
       const disabledTimeValus = disabledTimeElements.map(item => item.text());
@@ -332,8 +332,8 @@ describe('RangeCalendar', () => {
       // It can only be re-produced at second time.
       wrapper.find('.rc-calendar-cell').at(20).simulate('click');
       wrapper.find('.rc-calendar-cell').at(10).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/8/2017 00:00:00');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/18/2017 23:59:59');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/8/2017 00:00:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/18/2017 23:59:59');
     });
 
     it('disabledTime when same day and different hour or different minute', () => {
@@ -376,38 +376,38 @@ describe('RangeCalendar', () => {
       // update same day
       wrapper.find('.rc-calendar-today').at(0).simulate('click').simulate('click');
       wrapper.find('.rc-calendar-today').at(0).simulate('click').simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 00:00:00');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 23:59:59');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 00:00:00');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 23:59:59');
       wrapper.find('.rc-calendar-time-picker-btn').simulate('click');
       // update same hour
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(0).find('li').at(11).simulate('click');
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(1).find('li').at(4).simulate('click');
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(2).find('li').at(4).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(0).getDOMNode().value).toBe('3/29/2017 11:04:04');
+      expect(wrapper.find('.rc-calendar-input > input').at(0).getDOMNode().value).toBe('3/29/2017 11:04:04');
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(0).find('li').at(11).simulate('click');
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(1).find('li').at(4).simulate('click');
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(2).find('li').at(5).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
       // disabled early seconds
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(2).find('li').at(2).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
       // disabledSeconds
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(2).find('li').at(55).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
       // disabled early minutes
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(1).find('li').at(1).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
       // disabledMinutes
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(1).find('li').at(35).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
       // different minutes for disabledSeconds
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(1).find('li').at(3).simulate('click');
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(2).find('li').at(55).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
       // different hour for disabledMinutes
       wrapper.find('.rc-calendar-range-left .rc-time-picker-panel-select ul').at(0).find('li').at(10).simulate('click');
       wrapper.find('.rc-calendar-range-right .rc-time-picker-panel-select ul').at(1).find('li').at(35).simulate('click');
-      expect(wrapper.find('.rc-calendar-input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
+      expect(wrapper.find('.rc-calendar-input > input').at(1).getDOMNode().value).toBe('3/29/2017 11:04:05');
     });
   });
 

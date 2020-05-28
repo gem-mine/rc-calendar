@@ -151,7 +151,6 @@ export default class CalendarPart extends React.Component {
             enablePrev={enablePrev}
             onValueChange={props.onValueChange}
             onPanelChange={props.onPanelChange}
-            disabledDate={disabledDate}
             disabledMonth={disabledMonth}
             disabledYear={props.disabledYear}
             picker={props.picker}
