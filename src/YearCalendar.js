@@ -79,7 +79,7 @@ class YearCalendar extends React.Component {
   }
   render() {
     const { props, state } = this;
-    const { mode, value } = state;
+    const { mode, value, selectedValue } = state;
     const children = [props.renderSidebar(),
       <div className={`${props.prefixCls}-year-calendar-content`} key={'panel'}>
         <div className={`${props.prefixCls}-year-header-wrap`}>
@@ -94,6 +94,7 @@ class YearCalendar extends React.Component {
             onYearSelect={this.onSelect}
             onValueChange={this.setValue}
             onPanelChange={this.handlePanelChange}
+            selectedValue={selectedValue}
           />
         </div>
         <CalendarFooter

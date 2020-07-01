@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 const ROW = 4;
 const COL = 3;
 import classnames from 'classnames';
+import { getTodayTime } from '../util';
 
 function goYear(direction) {
   const next = this.state.value.clone();
@@ -35,8 +36,9 @@ export default class DecadePanel extends React.Component {
 
   render() {
     const value = this.state.value;
-    const { locale, renderFooter } = this.props;
+    const { locale, renderFooter, selectedValue } = this.props;
     const currentYear = value.year();
+    const today = getTodayTime(value);
     const startYear = parseInt(currentYear / 100, 10) * 100;
     const preYear = startYear - 10;
     const endYear = startYear + 99;
@@ -73,7 +75,9 @@ export default class DecadePanel extends React.Component {
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
           [`${prefixCls}-cell-disabled`]: disabled,
-          [`${prefixCls}-selected-cell`]: dStartDecade <= currentYear && currentYear <= dEndDecade,
+          [`${prefixCls}-selected-cell`]:
+            selectedValue && (dStartDecade <= currentYear && currentYear <= dEndDecade),
+          [`${prefixCls}-current-cell`]: dStartDecade <= today.year() && today.year() <= dEndDecade,
           [`${prefixCls}-last-century-cell`]: isLast,
           [`${prefixCls}-next-century-cell`]: isNext,
         };
@@ -142,6 +146,7 @@ DecadePanel.propTypes = {
   locale: PropTypes.object,
   value: PropTypes.object,
   defaultValue: PropTypes.object,
+  selectedValue: PropTypes.object,
   rootPrefixCls: PropTypes.string,
   renderFooter: PropTypes.func,
   disabledDate: PropTypes.func,

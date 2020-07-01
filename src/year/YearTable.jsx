@@ -26,7 +26,6 @@ function chooseYear(year) {
 export default class YearTable extends React.Component {
   constructor(props) {
     super(props);
-    this.prefixCls = `${props.rootPrefixCls}-year-panel`;
     this.state = {
       value: props.value || props.defaultValue,
     };
@@ -104,7 +103,7 @@ export default class YearTable extends React.Component {
               isSelected = testValue.isSame(startValue, 'year');
             }
           }
-        } else {
+        } else if (selectedValue) {
           isSelected = yearData.year === currentYear;
         }
 

@@ -91,7 +91,7 @@ class MonthCalendar extends React.Component {
 
   render() {
     const { props, state } = this;
-    const { mode, value } = state;
+    const { mode, value, selectedValue } = state;
     const children = [
       props.renderSidebar(),
       <div className={`${props.prefixCls}-month-calendar-content`} key={'panel'}>
@@ -107,6 +107,7 @@ class MonthCalendar extends React.Component {
             onMonthSelect={this.onSelect}
             onValueChange={this.setValue}
             onPanelChange={this.handlePanelChange}
+            selectedValue={selectedValue}
           />
         </div>
         <CalendarFooter

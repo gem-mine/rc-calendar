@@ -70,7 +70,7 @@ class MonthPanel extends React.Component {
   render() {
     const props = this.props;
     const value = this.state.value;
-    const { locale, cellRender, contentRender, renderFooter, showYear } = props;
+    const { locale, cellRender, contentRender, renderFooter, showYear, selectedValue } = props;
     const year = value.year();
     const prefixCls = this.prefixCls;
 
@@ -117,6 +117,7 @@ class MonthPanel extends React.Component {
               cellRender={cellRender}
               contentRender={contentRender}
               prefixCls={prefixCls}
+              selectedValue={selectedValue}
             />
           </div>
           {footer && (

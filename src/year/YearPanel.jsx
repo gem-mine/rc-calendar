@@ -58,7 +58,7 @@ export default class YearPanel extends React.Component {
   render() {
     const props = this.props;
     const value = this.state.value;
-    const { locale, renderFooter } = props;
+    const { locale, renderFooter, selectedValue } = props;
     const currentYear = value.year();
     const startYear = parseInt(currentYear / 10, 10) * 10;
     const endYear = startYear + 9;
@@ -103,6 +103,7 @@ export default class YearPanel extends React.Component {
               locale={locale}
               value={value}
               prefixCls={prefixCls}
+              selectedValue={selectedValue}
             />
           </div>
 

@@ -194,6 +194,7 @@ export default class CalendarHeader extends React.Component {
       yearCellRender,
       yearCellContentRender,
       picker,
+      selectedValue,
     } = props;
 
     let panel = null;
@@ -214,6 +215,7 @@ export default class CalendarHeader extends React.Component {
           contentRender={monthCellContentRender}
           renderFooter={renderFooter}
           changeYear={this.changeYear}
+          selectedValue={selectedValue}
         />
       );
     }
@@ -222,6 +224,7 @@ export default class CalendarHeader extends React.Component {
       panel = (
         <YearPanel
           locale={locale}
+          value={value}
           showYear={showYear}
           defaultValue={value}
           rootPrefixCls={prefixCls}
@@ -232,6 +235,7 @@ export default class CalendarHeader extends React.Component {
           disabledYear={disabledYear}
           cellRender={yearCellRender}
           contentRender={yearCellContentRender}
+          selectedValue={selectedValue}
         />
       );
     }
@@ -243,6 +247,7 @@ export default class CalendarHeader extends React.Component {
           rootPrefixCls={prefixCls}
           onSelect={this.onDecadeSelect}
           renderFooter={renderFooter}
+          selectedValue={selectedValue}
         />
       );
     }

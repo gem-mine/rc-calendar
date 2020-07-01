@@ -98,7 +98,7 @@ class MonthTable extends Component {
           } else if (startValue) {
             isSelected = testValue.isSame(startValue, 'month');
           }
-        } else {
+        } else if (selectedValue) {
           isSelected = monthData.value === currentMonth;
         }
 
