@@ -156,11 +156,11 @@ describe('Calendar', () => {
       wrapper.find('.rc-calendar-year-panel-decade-select').simulate('click');
       expect(wrapper.find('.rc-calendar-decade-panel').length).toBe(1);
       expect(value.isSame(moment(), 'day'));
-      wrapper.find('.rc-calendar-decade-panel-selected-cell').simulate('click');
+      wrapper.find('.rc-calendar-decade-panel-current-cell').simulate('click');
       expect(wrapper.find('.rc-calendar-decade-panel').length).toBe(0);
-      wrapper.find('.rc-calendar-year-panel-selected-cell').simulate('click');
+      wrapper.find('.rc-calendar-year-panel-current-cell').simulate('click');
       expect(wrapper.find('.rc-calendar-year-panel').length).toBe(0);
-      wrapper.find('.rc-calendar-month-panel-selected-cell').simulate('click');
+      wrapper.find('.rc-calendar-month-panel-current-cell').simulate('click');
       expect(wrapper.find('.rc-calendar-month-panel').length).toBe(0);
       expect(value.isSame(moment('2010-03-29'), 'day'));
 
@@ -168,9 +168,9 @@ describe('Calendar', () => {
       expect(wrapper.find('.rc-calendar-year-panel').length).toBe(1);
       wrapper.find('.rc-calendar-year-panel-decade-select').simulate('click');
       expect(wrapper.find('.rc-calendar-decade-panel').length).toBe(1);
-      wrapper.find('.rc-calendar-decade-panel-selected-cell').simulate('click');
+      wrapper.find('.rc-calendar-decade-panel-current-cell').simulate('click');
       expect(wrapper.find('.rc-calendar-decade-panel').length).toBe(0);
-      wrapper.find('.rc-calendar-year-panel-selected-cell').simulate('click');
+      wrapper.find('.rc-calendar-year-panel-current-cell').simulate('click');
       expect(wrapper.find('.rc-calendar-year-panel').length).toBe(0);
     });
   });

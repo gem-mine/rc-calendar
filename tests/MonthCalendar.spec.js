@@ -11,10 +11,10 @@ describe('MonthCalendar', () => {
     const wrapper = mount(<MonthCalendar />);
     wrapper.find('.rc-calendar-month-panel-year-select').simulate('click');
     wrapper.find('.rc-calendar-year-panel-decade-select').simulate('click');
-    wrapper.find('.rc-calendar-decade-panel-selected-cell').simulate('click');
-    wrapper.find('.rc-calendar-year-panel-selected-cell').simulate('click');
-    wrapper.find('.rc-calendar-month-panel-selected-cell').simulate('click');
-    expect(wrapper.state('selectedValue').format(format)).toBe('2010-03');
+    wrapper.find('.rc-calendar-decade-panel-current-cell').simulate('click');
+    wrapper.find('.rc-calendar-year-panel-current-cell').simulate('click');
+    wrapper.find('.rc-calendar-month-panel-current-cell').simulate('click');
+    expect(wrapper.state('selectedValue').format(format)).toBe('2017-03');
   });
   describe('keyboard', () => {
     let wrapper;

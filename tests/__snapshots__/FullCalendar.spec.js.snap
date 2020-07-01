@@ -2382,7 +2382,7 @@ exports[`FullCalendar renders month mode correctly 1`] = `
             </a>
           </td>
           <td
-            class="rc-calendar-month-panel-cell rc-calendar-month-panel-selected-cell rc-calendar-month-panel-current-cell"
+            class="rc-calendar-month-panel-cell rc-calendar-month-panel-current-cell"
             role="gridcell"
             title="Mar"
           >
