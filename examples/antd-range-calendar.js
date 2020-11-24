@@ -12,14 +12,14 @@ import 'rc-time-picker/assets/index.css';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import 'moment/locale/en-gb';
+import 'moment/locale/ar';
 
 const cn = location.search.indexOf('cn') !== -1;
 
 if (cn) {
   moment.locale('zh-cn');
 } else {
-  moment.locale('en-gb');
+  moment.locale('ar');
 }
 
 const now = moment();

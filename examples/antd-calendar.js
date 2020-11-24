@@ -13,7 +13,7 @@ import TimePickerPanel from 'rc-time-picker/lib/Panel';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import 'moment/locale/en-gb';
+import 'moment/locale/ar';
 
 const format = 'YYYY-MM-DD HH:mm:ss';
 const cn = location.search.indexOf('cn') !== -1;
@@ -22,7 +22,7 @@ const now = moment();
 if (cn) {
   now.locale('zh-cn').utcOffset(8);
 } else {
-  now.locale('en-gb').utcOffset(0);
+  now.locale('ar').utcOffset(0);
 }
 
 function getFormat(time) {
