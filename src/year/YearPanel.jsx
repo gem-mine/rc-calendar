@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import YearTable from './YearTable';
 const ROW = 4;
@@ -83,7 +84,7 @@ export default class YearPanel extends React.Component {
               title={locale.decadeSelect}
             >
               <span className={`${prefixCls}-decade-select-content`}>
-                {startYear}-{endYear}
+                {moment(startYear).format('YYYY')}-{moment(endYear).format('YYYY')}
               </span>
               <span className={`${prefixCls}-decade-select-arrow`}>x</span>
             </a>

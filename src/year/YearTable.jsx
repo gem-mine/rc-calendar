@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { getTodayTime, isSameDecade } from './../util';
+import moment from 'moment';
 const ROW = 4;
 const COL = 3;
 
@@ -139,7 +140,7 @@ export default class YearTable extends React.Component {
             <a
               className={`${prefixCls}-year`}
             >
-              {yearData.content}
+              {moment(yearData.content).format('YYYY')}
             </a>
           </td>);
       });

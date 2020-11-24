@@ -268,7 +268,7 @@ export default class DateTBody extends React.Component {
         if (dateRender) {
           dateHtml = dateRender(current, value);
         } else {
-          const content = contentRender ? contentRender(current, value) : current.date();
+          const content = contentRender ? contentRender(current, value) : current.format('D');
           dateHtml = (
             <div
               key={getIdFromDate(current)}
