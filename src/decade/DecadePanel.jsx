@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const ROW = 4;
-const COL = 3;
+import moment from 'moment';
 import classnames from 'classnames';
 import { getTodayTime } from '../util';
+
+const ROW = 4;
+const COL = 3;
 
 function goYear(direction) {
   const next = this.state.value.clone();
@@ -76,12 +78,14 @@ export default class DecadePanel extends React.Component {
           [`${prefixCls}-cell`]: 1,
           [`${prefixCls}-cell-disabled`]: disabled,
           [`${prefixCls}-selected-cell`]:
-            selectedValue && (dStartDecade <= currentYear && currentYear <= dEndDecade),
+          selectedValue && (dStartDecade <= currentYear && currentYear <= dEndDecade),
           [`${prefixCls}-current-cell`]: dStartDecade <= today.year() && today.year() <= dEndDecade,
           [`${prefixCls}-last-century-cell`]: isLast,
           [`${prefixCls}-next-century-cell`]: isNext,
         };
-        const content = `${dStartDecade}-${dEndDecade}`;
+        const tStartDecade = moment(`${dStartDecade}`).format('YYYY');
+        const tEndDecade = moment(`${dEndDecade}`).format('YYYY');
+        const content = `${tStartDecade}-${tEndDecade}`;
         let clickHandler;
         if (isLast) {
           clickHandler = this.previousCentury;
@@ -117,7 +121,7 @@ export default class DecadePanel extends React.Component {
           />
 
           <div className={`${prefixCls}-century`}>
-            {startYear}-{endYear}
+            {moment(startYear).format('YYYY')}-{moment(endYear).format('YYYY')}
           </div>
           <a
             className={`${prefixCls}-next-century-btn`}
@@ -129,7 +133,7 @@ export default class DecadePanel extends React.Component {
         <div className={`${prefixCls}-body`}>
           <table className={`${prefixCls}-table`} cellSpacing="0" role="grid">
             <tbody className={`${prefixCls}-tbody`}>
-              {decadesEls}
+            {decadesEls}
             </tbody>
           </table>
         </div>

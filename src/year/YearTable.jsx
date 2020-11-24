@@ -127,10 +127,11 @@ export default class YearTable extends React.Component {
         // }
         const clickHandler = chooseYear.bind(this, yearData.year);
         const firstDay = value.clone().year(yearData.year).startOf('day');
+        const contentYear = moment(`${yearData.content}`).format('YYYY');
         return (
           <td
             role="gridcell"
-            title={yearData.title}
+            title={contentYear}
             key={yearData.content}
             onClick={disabled ? null : clickHandler}
             className={classnames(classNameMap)}
@@ -140,7 +141,7 @@ export default class YearTable extends React.Component {
             <a
               className={`${prefixCls}-year`}
             >
-              {moment(yearData.content).format('YYYY')}
+              {contentYear}
             </a>
           </td>);
       });

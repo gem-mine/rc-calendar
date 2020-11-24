@@ -67,6 +67,9 @@ export default class YearPanel extends React.Component {
 
     const footer = renderFooter && renderFooter('year');
 
+    const tStartYear = moment(`${startYear}`).format('YYYY');
+    const tEndYear = moment(`${endYear}`).format('YYYY');
+
     return (
       <div className={this.prefixCls}>
         <div>
@@ -84,7 +87,7 @@ export default class YearPanel extends React.Component {
               title={locale.decadeSelect}
             >
               <span className={`${prefixCls}-decade-select-content`}>
-                {moment(startYear).format('YYYY')}-{moment(endYear).format('YYYY')}
+                {tStartYear}-{tEndYear}
               </span>
               <span className={`${prefixCls}-decade-select-arrow`}>x</span>
             </a>
