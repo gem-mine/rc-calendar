@@ -22,6 +22,7 @@ class MonthCalendar extends React.Component {
     selectedValue: PropTypes.object,
     defaultSelectedValue: PropTypes.object,
     disabledDate: PropTypes.func,
+    hideDecade: PropTypes.bool,
   }
 
   static defaultProps = Object.assign({}, defaultProp, calendarMixinDefaultProps);
@@ -92,6 +93,7 @@ class MonthCalendar extends React.Component {
   render() {
     const { props, state } = this;
     const { mode, value, selectedValue } = state;
+    const { hideDecade } = props;
     const children = [
       props.renderSidebar(),
       <div className={`${props.prefixCls}-month-calendar-content`} key={'panel'}>
@@ -108,6 +110,7 @@ class MonthCalendar extends React.Component {
             onValueChange={this.setValue}
             onPanelChange={this.handlePanelChange}
             selectedValue={selectedValue}
+            hideDecade={hideDecade}
           />
         </div>
         <CalendarFooter

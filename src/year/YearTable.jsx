@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { getTodayTime, isSameDecade } from './../util';
+import wareki from 'wareki';
+import { getTodayTime, isJapanese, isSameDecade } from './../util';
+
 const ROW = 4;
 const COL = 3;
 
@@ -69,7 +71,7 @@ export default class YearTable extends React.Component {
     const props = this.props;
     const value = this.state.value;
     const today = getTodayTime(value);
-    const { prefixCls, hoverValue, selectedValue } = props;
+    const { prefixCls, hoverValue, selectedValue, locale } = props;
     const rangeValue = (hoverValue && hoverValue.length) ? hoverValue : selectedValue;
     const years = this.years();
     const currentYear = value.year();
@@ -124,6 +126,7 @@ export default class YearTable extends React.Component {
         // } else {
         //   clickHandler = chooseYear.bind(this, yearData.year);
         // }
+        const isJp = isJapanese(locale.clear);
         const clickHandler = chooseYear.bind(this, yearData.year);
         const firstDay = value.clone().year(yearData.year).startOf('day');
         return (
@@ -139,7 +142,7 @@ export default class YearTable extends React.Component {
             <a
               className={`${prefixCls}-year`}
             >
-              {yearData.content}
+              {isJp ? wareki(`${yearData.content}`, { unit: true }) : yearData.content}
             </a>
           </td>);
       });
@@ -163,6 +166,7 @@ YearTable.propTypes = {
   renderFooter: PropTypes.func,
   disabledDate: PropTypes.func,
   onSelect: PropTypes.func,
+  hideDecade: PropTypes.bool,
 };
 
 YearTable.defaultProps = {

@@ -64,6 +64,7 @@ class Calendar extends React.Component {
     inputMode: PropTypes.string,
     inputReadOnly: PropTypes.bool,
     onBlur: PropTypes.func,
+    hideDecade: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -76,6 +77,7 @@ class Calendar extends React.Component {
     onOk: noop,
     onPanelChange: noop,
     focusablePanel: true,
+    hideDecade: false,
   }
 
   constructor(props) {
@@ -277,7 +279,7 @@ class Calendar extends React.Component {
       locale, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
       disabledTime, clearIcon, renderFooter, showYear, inputMode, inputReadOnly,
-      monthCellRender, monthCellContentRender, firstDayOfMonth,
+      monthCellRender, monthCellContentRender, firstDayOfMonth, hideDecade,
     } = props;
     const { value, selectedValue, mode } = state;
     const showTimePicker = mode === 'time';
@@ -348,6 +350,7 @@ class Calendar extends React.Component {
           prefixCls={prefixCls}
           monthCellRender={monthCellRender}
           monthCellContentRender={monthCellContentRender}
+          hideDecade={hideDecade}
         />
         {timePicker && showTimePicker ?
           (<div className={`${prefixCls}-time-picker`}>
