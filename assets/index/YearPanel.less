@@ -66,8 +66,13 @@
   }
 }
 
-.@{prefixClass}-year-panel .@{prefixClass}-year-panel-decade-select {
-  width: 180px;
+.@{prefixClass}-year-panel {
+  .@{prefixClass}-year-panel-decade-select {
+    width: 180px;
+  }
+  .@{prefixClass}-year-panel-decade-disabled {
+    pointer-events: none;
+  }
 }
 
 .@{prefixClass}-year-panel-decade-select-arrow {
@@ -113,7 +118,10 @@
 
 .@{prefixClass}-year-panel-year {
   display: block;
-  width: 46px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 50px;
   margin: 0 auto;
   color: #666;
   border-radius: 4px 4px;

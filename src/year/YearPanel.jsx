@@ -1,6 +1,10 @@
 import React from 'react';
+import wareki from 'wareki';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import YearTable from './YearTable';
+import { isJapanese } from '../util';
+
 const ROW = 4;
 const COL = 3;
 
@@ -58,13 +62,15 @@ export default class YearPanel extends React.Component {
   render() {
     const props = this.props;
     const value = this.state.value;
-    const { locale, renderFooter, selectedValue } = props;
+    const { locale, renderFooter, selectedValue, hideDecade } = props;
     const currentYear = value.year();
     const startYear = parseInt(currentYear / 10, 10) * 10;
     const endYear = startYear + 9;
     const prefixCls = this.prefixCls;
 
     const footer = renderFooter && renderFooter('year');
+
+    const isJp = isJapanese(locale.clear);
 
     return (
       <div className={this.prefixCls}>
@@ -77,13 +83,20 @@ export default class YearPanel extends React.Component {
               title={locale.previousDecade}
             />
             <a
-              className={`${prefixCls}-decade-select`}
+              className={classnames(
+                `${prefixCls}-decade-select`,
+                {
+                  [`${prefixCls}-decade-disabled`]: hideDecade,
+                }
+              )}
               role="button"
               onClick={props.onDecadePanelShow}
               title={locale.decadeSelect}
             >
               <span className={`${prefixCls}-decade-select-content`}>
-                {startYear}-{endYear}
+                {isJp ? wareki(`${startYear}`, { unit: true }) : startYear}
+                -
+                {isJp ? wareki(`${endYear}`, { unit: true }) : endYear}
               </span>
               <span className={`${prefixCls}-decade-select-arrow`}>x</span>
             </a>
@@ -123,6 +136,7 @@ YearPanel.propTypes = {
   renderFooter: PropTypes.func,
   disabledDate: PropTypes.func,
   onSelect: PropTypes.func,
+  hideDecade: PropTypes.bool,
 };
 
 YearPanel.defaultProps = {

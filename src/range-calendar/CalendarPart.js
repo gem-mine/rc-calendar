@@ -32,6 +32,7 @@ export default class CalendarPart extends React.Component {
     dateRender: PropTypes.func,
     inputMode: PropTypes.string,
     inputReadOnly: PropTypes.bool,
+    hideDecade: PropTypes.bool,
   }
   render() {
     const props = this.props;
@@ -50,6 +51,7 @@ export default class CalendarPart extends React.Component {
       showClear,
       inputMode,
       inputReadOnly,
+      hideDecade,
     } = props;
     const shouldShowTimePicker = showTimePicker && timePicker;
     const disabledTimeConfig = shouldShowTimePicker && disabledTime ?
@@ -154,6 +156,7 @@ export default class CalendarPart extends React.Component {
             disabledMonth={disabledMonth}
             disabledYear={props.disabledYear}
             picker={props.picker}
+            hideDecade={hideDecade}
           />
           {showTimePicker ? <div className={`${prefixCls}-time-picker`}>
             <div className={`${prefixCls}-time-picker-panel`}>

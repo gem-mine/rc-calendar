@@ -37,6 +37,7 @@ export default class CalendarHeader extends React.Component {
     renderFooter: PropTypes.func,
     onMonthSelect: PropTypes.func,
     onYearSelect: PropTypes.func,
+    hideDecade: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -195,6 +196,7 @@ export default class CalendarHeader extends React.Component {
       yearCellContentRender,
       picker,
       selectedValue,
+      hideDecade,
     } = props;
 
     let panel = null;
@@ -236,6 +238,7 @@ export default class CalendarHeader extends React.Component {
           cellRender={yearCellRender}
           contentRender={yearCellContentRender}
           selectedValue={selectedValue}
+          hideDecade={hideDecade}
         />
       );
     }

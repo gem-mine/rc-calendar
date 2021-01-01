@@ -91,7 +91,8 @@
     "prop-types": "^15.5.8",
     "rc-trigger": "^2.2.0",
     "rc-util": "^4.1.1",
-    "react-lifecycles-compat": "^3.0.4"
+    "react-lifecycles-compat": "^3.0.4",
+    "wareki": "^1.0.0"
   },
   "types": "index.d.ts"
 }
