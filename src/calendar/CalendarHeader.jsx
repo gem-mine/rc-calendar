@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import wareki from 'wareki';
 import toFragment from 'rc-util/lib/Children/mapSelf';
 import MonthPanel from '../month/MonthPanel';
 import YearPanel from '../year/YearPanel';
@@ -107,13 +108,16 @@ export default class CalendarHeader extends React.Component {
     const monthBeforeYear = locale.monthBeforeYear;
     const selectClassName = `${prefixCls}-${monthBeforeYear ? 'my-select' : 'ym-select'}`;
     const timeClassName = showTimePicker ? ` ${prefixCls}-time-status` : '';
+    const isJapanese = props.localeCode === 'ja';
     const year = showYear && picker !== 'year' ? (<a
       className={`${prefixCls}-year-select${timeClassName}`}
       role="button"
       onClick={showTimePicker ? null : () => this.showYearPanel('date')}
       title={showTimePicker ? null : locale.yearSelect}
     >
-      {value.format(locale.yearFormat)}
+      {isJapanese ?
+        wareki(value.year().toString(), { unit: true }) :
+        value.format(locale.yearFormat)}
     </a>) : null;
     let month;
     if (picker === 'date') {
