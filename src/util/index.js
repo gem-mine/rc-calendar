@@ -116,7 +116,3 @@ export function formatDate(value, format) {
 
   return value.format(format);
 }
-
-export function isJapanese(lang) {
-  return /[\u0800-\u4e00]+/.test(lang);
-}

@@ -248,6 +248,8 @@ ReactDOM.render((<div
       <Calendar
         showWeekNumber={false}
         locale={cn ? zhCN : enUS}
+        localeCode="ja" // 设置为 ja 的时候年份显示为 令和x年
+        hideDecade // 无法点击进入十年选择器， 使用 pointer-events 属性处理的
         defaultValue={now}
         disabledTime={disabledTime}
         showToday

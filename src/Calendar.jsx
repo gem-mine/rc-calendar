@@ -65,6 +65,7 @@ class Calendar extends React.Component {
     inputReadOnly: PropTypes.bool,
     onBlur: PropTypes.func,
     hideDecade: PropTypes.bool,
+    localeCode: PropTypes.string,
   }
 
   static defaultProps = {
@@ -276,7 +277,7 @@ class Calendar extends React.Component {
   render() {
     const { props, state } = this;
     const {
-      locale, prefixCls, disabledDate,
+      locale, localeCode, prefixCls, disabledDate,
       dateInputPlaceholder, timePicker,
       disabledTime, clearIcon, renderFooter, showYear, inputMode, inputReadOnly,
       monthCellRender, monthCellContentRender, firstDayOfMonth, hideDecade,
@@ -340,6 +341,7 @@ class Calendar extends React.Component {
       >
         <CalendarHeader
           locale={locale}
+          localeCode={localeCode}
           mode={mode}
           value={value}
           onValueChange={this.setValue}

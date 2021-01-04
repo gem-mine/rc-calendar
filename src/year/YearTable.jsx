@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import wareki from 'wareki';
-import { getTodayTime, isJapanese, isSameDecade } from './../util';
+import { getTodayTime, isSameDecade } from './../util';
 
 const ROW = 4;
 const COL = 3;
@@ -71,7 +71,7 @@ export default class YearTable extends React.Component {
     const props = this.props;
     const value = this.state.value;
     const today = getTodayTime(value);
-    const { prefixCls, hoverValue, selectedValue, locale } = props;
+    const { localeCode, prefixCls, hoverValue, selectedValue } = props;
     const rangeValue = (hoverValue && hoverValue.length) ? hoverValue : selectedValue;
     const years = this.years();
     const currentYear = value.year();
@@ -126,7 +126,7 @@ export default class YearTable extends React.Component {
         // } else {
         //   clickHandler = chooseYear.bind(this, yearData.year);
         // }
-        const isJp = isJapanese(locale.clear);
+        const isJp = localeCode === 'ja';
         const clickHandler = chooseYear.bind(this, yearData.year);
         const firstDay = value.clone().year(yearData.year).startOf('day');
         return (

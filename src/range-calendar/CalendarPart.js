@@ -15,6 +15,7 @@ export default class CalendarPart extends React.Component {
     selectedValue: PropTypes.any,
     direction: PropTypes.any,
     locale: PropTypes.any,
+    localeCode: PropTypes.string,
     showDateInput: PropTypes.bool,
     showTimePicker: PropTypes.bool,
     format: PropTypes.any,
@@ -43,7 +44,7 @@ export default class CalendarPart extends React.Component {
       selectedValue,
       mode,
       direction,
-      locale, format, placeholder,
+      locale, localeCode, format, placeholder,
       disabledDate, timePicker, disabledTime, disabledMonth,
       timePickerDisabledTime, showTimePicker,
       onInputChange, onInputSelect, enablePrev, enableNext,
@@ -157,6 +158,7 @@ export default class CalendarPart extends React.Component {
             disabledYear={props.disabledYear}
             picker={props.picker}
             hideDecade={hideDecade}
+            localeCode={localeCode}
           />
           {showTimePicker ? <div className={`${prefixCls}-time-picker`}>
             <div className={`${prefixCls}-time-picker-panel`}>
