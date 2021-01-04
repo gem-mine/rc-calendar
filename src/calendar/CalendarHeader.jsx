@@ -30,6 +30,7 @@ export default class CalendarHeader extends React.Component {
     showYear: PropTypes.bool,
     onPanelChange: PropTypes.func,
     locale: PropTypes.object,
+    localeCode: PropTypes.string,
     enablePrev: PropTypes.any,
     enableNext: PropTypes.any,
     disabledDate: PropTypes.func,
@@ -180,6 +181,7 @@ export default class CalendarHeader extends React.Component {
     const {
       prefixCls,
       locale,
+      localeCode,
       mode,
       value,
       showTimePicker,
@@ -226,6 +228,7 @@ export default class CalendarHeader extends React.Component {
       panel = (
         <YearPanel
           locale={locale}
+          localeCode={localeCode}
           value={value}
           showYear={showYear}
           defaultValue={value}
